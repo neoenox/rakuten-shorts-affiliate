@@ -14,6 +14,8 @@
 | 3 | [`docs/research/20261116_rakuten_api_and_terms.md`](docs/research/20261116_rakuten_api_and_terms.md) | 楽天アフィリエイト規約 / 楽天ウェブサービスAPI の一次資料調査 |
 | 4 | [`docs/research/20261116_ad_rules_and_platform_policy.md`](docs/research/20261116_ad_rules_and_platform_policy.md) | 景表法・ステマ規制・薬機法・著作権・YouTubeポリシー |
 | 5 | [`docs/research/20261116_shorts_genre_scan.md`](docs/research/20261116_shorts_genre_scan.md) | 商品画像なしで成立するジャンルの実測 |
+| 6 | [`docs/RENDER_PIPELINE.md`](docs/RENDER_PIPELINE.md) | 台本から MP4 を作る工程（PR・種別ラベルの焼き込み） |
+| 7 | [`docs/PRODUCTION_LOG.md`](docs/PRODUCTION_LOG.md) | 作ったもの・確認したこと・残っていること |
 
 ## この企画の要点（迷ったらここに戻る）
 
@@ -28,8 +30,9 @@
 ```
 docs/            設計メモと調査（一次資料の引用つき）
 shorts-standard/ 台本の制作標準（JSONスキーマと検査器）
-scripts/         shorts_standard.py（検査・変換）
-shorts/          作品ごとの台本（brief.yaml / result.json）
+scripts/         shorts_standard.py（検査・変換）／render_short.py（描画）
+shorts/          作品ごとの台本（brief.yaml / result.json / render.json / art/）
+out/             完成物（下書きは out/draft/。.gitignore 済み）
 ```
 
 ## 台本の作り方
@@ -45,13 +48,27 @@ python scripts/shorts_standard.py check shorts/<slug>/result.json
 `check` は `validate.py`（形式）＋追加規則。ERROR 0 が合格。
 **`status: ready` は人の原文照合が済んでから。** `needs_research` が残っている間は `ready` にできない（`to-spec` も通らない）。
 
+## 動画の作り方（描画）
+
+```powershell
+python scripts/render_short.py <slug> --plan   # 音声を合成し、実測尺を result.json に書き戻す
+python scripts/shorts_standard.py check shorts/<slug>/result.json   # 尺が変わったので検査し直す
+python scripts/render_short.py <slug>          # MP4・SRT・説明欄・固定コメント・サムネを作る
+```
+
+- `status` が `ready` 以外なら **`out/draft/` にしか書かない**（公開用の `out/` には出さない）。
+- 「PR」・「イメージ（AI生成）」・「模式図」・出典は描画時に焼き込む。詳しくは [`docs/RENDER_PIPELINE.md`](docs/RENDER_PIPELINE.md)。
+
 ## 必要なもの
 
 - Python 3（`pip install -r requirements.txt`）
 - 台本の検査だけならこれで足りる。描画するなら VOICEVOX（`127.0.0.1:50021`）と FFmpeg が別途必要。
 
-## 現在の状態（2026-11-16）
+## 現在の状態（2026-11-17）
 
-- 調査・設計は完了。台本 `shorts/kaito_plate`（解凍プレート）が `needs_review`。
-- **未着手**: 描画、新チャンネル作成、楽天アフィリエイトへのサイト登録、楽天ウェブサービスAPIキーの取得（管理画面が 2026-11-09 から停止中）。
+- 調査・設計は完了。台本 `shorts/kaito_plate`（解凍プレート）は `needs_review` のまま。
+- **描画パイプラインを追加し、下書き1本目を書き出した**（`out/draft/kaito_plate_DRAFT.mp4` / 34.34秒）。
+  PR全編・種別ラベル・キャプション・出典の焼き込みは実装済み（[`docs/PRODUCTION_LOG.md`](docs/PRODUCTION_LOG.md)）。
+- **未着手**: 新チャンネル作成、楽天アフィリエイトへのサイト登録、楽天のAPIキー取得（管理画面が 2026-11-09 から停止中）。
+- 公開のブロッカー: 楽天ROOMのURLが無い（動画の最後で「プロフィールの楽天ルームにまとめています」と言っている）。
 - `shorts/kaito_plate` は「キッチン時短」＝実写必須と判定されたジャンルの題材なので、**画像なしの不利を確かめるテストケース**という位置づけ。
