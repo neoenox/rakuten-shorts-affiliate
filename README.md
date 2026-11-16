@@ -73,5 +73,5 @@ python scripts/render_short.py <slug>          # MP4・SRT・説明欄・固定�
 - **描画パイプラインを追加し、下書き1本目を書き出した**（`out/draft/kaito_plate_DRAFT.mp4` / 34.34秒）。
   PR全編・種別ラベル・キャプション・出典の焼き込みは実装済み（[`docs/PRODUCTION_LOG.md`](docs/PRODUCTION_LOG.md)）。
 - **未着手**: 新チャンネル作成、楽天アフィリエイトへのサイト登録、楽天のAPIキー取得（管理画面が 2026-11-09 から停止中）。
-- 公開のブロッカー: 楽天ROOMのURLが無い（動画の最後で「プロフィールの楽天ルームにまとめています」と言っている）。
+- 公開のブロッカー: 商品ページのアフィリエイトリンク（プロフィールに置く）がまだ無い。ROOMは使わない方針に変更（[`docs/RAKUTEN_AFFILIATE_PIPELINE.md`](docs/RAKUTEN_AFFILIATE_PIPELINE.md) §3.4.2）。
 - `shorts/kaito_plate` は「キッチン時短」＝実写必須と判定されたジャンルの題材なので、**画像なしの不利を確かめるテストケース**という位置づけ。

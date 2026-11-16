@@ -83,5 +83,5 @@ python scripts/gen_freevideo.py shorts/<slug>/clips.json --slug <slug>
 
 ## 既知の制約
 
-- Shorts の説明欄 URL はクリックできない。導線はチャンネルプロフィールのリンク（楽天ROOM）に限る。
+- Shorts の説明欄 URL はクリックできない。導線は**チャンネルプロフィールのリンク**（商品ページのアフィリエイトリンクを直置き）に限る。ROOM を挟まない。
 - `kaito_plate` の台本は「キッチン時短」＝実写必須と判定されたジャンルの題材で、画像なしの不利を確かめるテストケース。

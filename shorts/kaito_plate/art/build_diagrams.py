@@ -111,9 +111,9 @@ def scene_05():
 
 
 def scene_06():
-    """プロフィール欄のリンク（楽天ROOM）に商品をまとめている、という案内の模式図。"""
+    """プロフィール欄に商品ページのリンクを置いている、という案内の模式図。"""
     im, d = base()
-    heading(d, '商品名の置き場所')
+    heading(d, '商品ページの置き場所')
 
     px, py, pw, ph = 300, 452, 480, 600
     d.rounded_rectangle((px, py, px + pw, py + ph), 44, fill=(16, 24, 32), outline=(70, 86, 100), width=6)
@@ -129,9 +129,9 @@ def scene_06():
     ix, iy = px + 72, py + 300
     d.rounded_rectangle((ix - 20, iy - 20, ix + 20, iy + 20), 10, outline=GOLD, width=3)
     d.text((ix, iy - 2), '↗', font=font(28, 700), fill=GOLD, anchor='mm')
-    d.text((px + 118, py + 300), '楽天ROOM', font=font(34, 700), fill=WHITE, anchor='lm')
-    d.text((px + 66, py + 344), '「解凍プレート」で検索', font=font(24, 500), fill=DIM, anchor='lm')
-    d.text((px + 48, py + 430), '動画の説明欄のURLは', font=font(24, 500), fill=(140, 152, 164), anchor='lm')
+    d.text((px + 118, py + 300), '商品ページ', font=font(34, 700), fill=WHITE, anchor='lm')
+    d.text((px + 66, py + 344), '価格とレビューを確認', font=font(24, 500), fill=DIM, anchor='lm')
+    d.text((px + 48, py + 430), '説明欄のURLは', font=font(24, 500), fill=(140, 152, 164), anchor='lm')
     d.text((px + 48, py + 466), 'タップできないため', font=font(24, 500), fill=(140, 152, 164), anchor='lm')
 
     # 誘導矢印
