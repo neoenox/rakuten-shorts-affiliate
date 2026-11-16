@@ -7,3 +7,7 @@ out/
 cache/
 *.mp4
 *.wav
+# シーン背景のクリップは再生成に時間がかかるので残す（成果物の out/ は除外のまま）
+!shorts/*/art/clip_*.mp4
+# 魔王魂の音源は二次配布が禁止なので、リポジトリには入れない（取得方法は assets/bgm/README.md）
+assets/bgm/*.mp3

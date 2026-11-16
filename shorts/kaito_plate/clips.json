@@ -1,0 +1,25 @@
+{
+  "note": "FreeVideo(MiniMax H3)で背景クリップを作る指示。台本 result.json の visual に対応。文字・ロゴ・実在商品を描かせない。BGMはVOICEVOXのナレーションと別に入れるので、ここでは音楽を頼まない（music_request が starter の score を N/A にする）。",
+  "clips": [
+    {
+      "name": "scene1",
+      "seconds": 7.0,
+      "prompt": "Top-down close-up of a thick frozen steak on a light wooden cutting board in a home kitchen. One edge of the meat looks pale and thawed while the center is still covered with white frost and ice crystals. Cold bluish daylight from a window, fine condensation haze, shallow depth of field, the camera slowly pushes in and drifts slightly. Cinematic realistic food photography, no hands, no people, no text, no letters, no labels, no logos, no packaging, no background music, quiet kitchen room tone only."
+    },
+    {
+      "name": "scene1b",
+      "seconds": 7.0,
+      "prompt": "Seen from directly above, a flat frozen beef steak lies on a light wooden cutting board on a kitchen counter. A thin layer of white frost and ice crystals covers the meat, and one edge is slightly pale as if starting to thaw. Cold blue daylight, no steam, no smoke, no fire, no heat, no cooked marks. The camera very slowly pushes in. Realistic food photography, no hands, no people, no text, no letters, no labels, no logos, no packaging, no background music, quiet room tone only."
+    },
+    {
+      "name": "scene2",
+      "seconds": 7.0,
+      "prompt": "Close-up in a warm home kitchen: a hand in frame sets a frozen steak onto a plain matte black metal plate on a wooden counter. Fine water droplets condense on the dark metal surface around the meat as it settles. The camera slowly drifts sideways and slightly pushes in, soft indoor light, shallow depth of field. Cinematic realistic look, natural hands, no faces, no people, no text, no letters, no labels, no logos, no packaging, no background music, quiet room tone only."
+    },
+    {
+      "name": "scene4",
+      "seconds": 7.0,
+      "prompt": "Early morning home kitchen by a window: a freshly cooked Japanese-style bento lunch box, still steaming, sits on a plain metal plate on a wooden table. Steam curls upward in the soft morning light, gentle shadows, the camera slowly pushes in with a slight upward drift. Cinematic realistic lifestyle photography, warm and tidy mood, no hands, no people, no text, no letters, no labels, no logos, no packaging, no background music, quiet morning ambience only."
+    }
+  ]
+}

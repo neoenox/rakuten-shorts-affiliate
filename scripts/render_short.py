@@ -73,6 +73,14 @@ def font(size, weight=600):
     return _fonts[key]
 
 
+def ffprobe_bin(ff):
+    if Path(ff).name.lower() == 'ffmpeg.exe':
+        p = Path(ff).with_name('ffprobe.exe')
+        if p.exists():
+            return str(p)
+    return shutil.which('ffprobe') or ff
+
+
 def ffmpeg_bin():
     cands = [os.environ.get('FFMPEG'), shutil.which('ffmpeg'),
              r'E:\rekishikaisetu-honnoji\tools\ffmpeg\bin\ffmpeg.exe']
@@ -316,8 +324,49 @@ def build_audio(segs, starts, total, work):
     return p
 
 
-def render_frames(data, bases, kinds, conf, total, work, out_mp4, ff):
+def prepare_clip_frames(slug_dir, conf, data, work, ff):
+    """シーン背景の動画（art/clip_*.mp4）を、シーン尺ぶんの連番JPEGに展開する。
+
+    clip がシーンより長ければ頭から切り、短ければ尺に合わせて遅くする（等速のまま尺が足りない場合のみ）。
+    返り値: {シーン番号(0始まり): (ディレクトリ, フレーム数)}
+    """
+    clips = conf.get('clips') or {}
+    out = {}
+    for i, sc in enumerate(data['scenes']):
+        name = clips.get(str(i + 1))
+        if not name:
+            continue
+        src = slug_dir / 'art' / ('clip_%s.mp4' % name)
+        if not src.exists():
+            print('[warn] クリップが無いので静止画で描く: %s（シーン%d）' % (src.name, i + 1))
+            continue
+        dur = sc['end'] - sc['start']
+        nfast = max(1, int(round(dur * FPS)))
+        d = work / 'clipframes' / name
+        if d.exists() and len(list(d.glob('f_*.jpg'))) == nfast:
+            out[i] = (d, nfast)
+            continue
+        d.mkdir(parents=True, exist_ok=True)
+        for old in d.glob('f_*.jpg'):
+            old.unlink()
+        clip_dur = float(subprocess.run([ffprobe_bin(ff), '-v', 'error',
+                                         '-show_entries', 'format=duration', '-of', 'csv=p=0', str(src)],
+                                        capture_output=True, text=True).stdout.strip() or 7.0)
+        rate = clip_dur / dur if clip_dur < dur else 1.0
+        vf = ('scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d' % (W, H, W, H))
+        if rate < 0.999:
+            vf += ',setpts=PTS/%.6f' % rate
+        vf += ',fps=%d,unsharp=5:5:0.6' % FPS      # 544x960 を 1080x1920 に伸ばすので、軽く輪郭を戻す
+        subprocess.run([ff, '-y', '-v', 'error', '-i', str(src), '-vf', vf, '-frames:v', str(nfast),
+                        '-q:v', '3', str(d / 'f_%05d.jpg')], check=True)
+        out[i] = (d, nfast)
+        print('クリップ %s: %.2fs のシーンへ %d フレーム（元 %.2fs）' % (name, dur, nfast, clip_dur))
+    return out
+
+
+def render_frames(data, bases, kinds, conf, total, work, out_mp4, ff, clipf=None):
     scenes = data['scenes']
+    clipf = clipf or {}
     proc = subprocess.Popen([ff, '-y', '-v', 'warning', '-f', 'rawvideo', '-pix_fmt', 'rgb24',
                              '-s', '%dx%d' % (W, H), '-r', str(FPS), '-i', 'pipe:0',
                              '-c:v', 'libx264', '-preset', 'medium', '-crf', '18',
@@ -327,12 +376,18 @@ def render_frames(data, bases, kinds, conf, total, work, out_mp4, ff):
         t = fi / FPS
         si = 0
         for i, sc in enumerate(scenes):
-            if sc['start'] <= t < sc['end'] or i == len(scenes) - 1:
-                si = i if sc['start'] <= t < sc['end'] else si
+            if sc['start'] <= t < sc['end']:
+                si = i
         sc = scenes[si]
         dur = max(0.01, sc['end'] - sc['start'])
         k = max(0.0, min(1.0, (t - sc['start']) / dur))
-        im = bottom_shade(kenburns(bases[si], k))
+        if si in clipf:                      # 動画背景（FreeVideo）。静止画の寄り引きはしない
+            d, n = clipf[si]
+            idx = min(n, max(1, int((t - sc['start']) * FPS) + 1))
+            im = Image.open(d / ('f_%05d.jpg' % idx)).convert('RGB')
+        else:
+            im = kenburns(bases[si], k)
+        im = bottom_shade(im)
         # シーン頭の 0.22 秒でキャプションをフェードイン
         alpha = min(1.0, (t - sc['start']) / 0.22)
         im = draw_chrome(im, data, sc, conf, si, kinds[si], alpha=alpha)
@@ -343,10 +398,34 @@ def render_frames(data, bases, kinds, conf, total, work, out_mp4, ff):
         raise SystemExit('ffmpeg の映像エンコードに失敗')
 
 
-def mux(ff, raw_mp4, narration, total, final):
-    subprocess.run([ff, '-y', '-v', 'warning', '-i', str(raw_mp4), '-i', str(narration),
-                    '-filter_complex', '[1:a]aresample=48000,loudnorm=I=-14:TP=-1.5:LRA=7[a]',
-                    '-map', '0:v', '-map', '[a]', '-t', '%.2f' % total,
+def mux(ff, raw_mp4, narration, total, final, bgm=None):
+    """ナレーションに BGM を敷き、-14 LUFS にそろえて mux する。
+
+    bgm: {"file": 相対パス, "gain_db": -21, "start": 8.0, "fade_in": 1.0, "fade_out": 2.0}
+    BGM は sidechaincompress でナレーションの間だけ自動的に下げる。
+    """
+    if not bgm:
+        subprocess.run([ff, '-y', '-v', 'warning', '-i', str(raw_mp4), '-i', str(narration),
+                        '-filter_complex', '[1:a]aresample=48000,loudnorm=I=-14:TP=-1.5:LRA=7[a]',
+                        '-map', '0:v', '-map', '[a]', '-t', '%.2f' % total,
+                        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
+                        '-movflags', '+faststart', str(final)], check=True)
+        return
+    path = ROOT / bgm['file']
+    if not path.exists():
+        raise SystemExit('BGM が無い: %s' % path)
+    gain = 10 ** (float(bgm.get('gain_db', -21)) / 20)
+    fin = float(bgm.get('fade_in', 1.0))
+    fout = float(bgm.get('fade_out', 2.0))
+    fc = ('[1:a]aresample=48000,atrim=start=%.3f,asetpts=N/SR/TB,volume=%.4f,'
+          'afade=t=in:d=%.2f,afade=t=out:st=%.2f:d=%.2f[b];'
+          '[2:a]aresample=48000,asplit=2[n1][n2];'
+          '[b][n1]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=400[bd];'
+          '[bd][n2]amix=inputs=2:duration=first:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=7[a]'
+          % (float(bgm.get('start', 0.0)), gain, fin, max(0.0, total - fout), fout))
+    subprocess.run([ff, '-y', '-v', 'warning', '-i', str(raw_mp4), '-stream_loop', '-1',
+                    '-i', str(path), '-i', str(narration),
+                    '-filter_complex', fc, '-map', '0:v', '-map', '[a]', '-t', '%.2f' % total,
                     '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
                     '-movflags', '+faststart', str(final)], check=True)
 
@@ -389,6 +468,10 @@ def description(data, conf):
     claims = data.get('claims') or []
     refs = '\n'.join('・%s\n  %s' % (c['statement'], c.get('source_url') or '（AIアシスタントの回答）')
                      for c in claims)
+    music = ''
+    if conf.get('bgm'):
+        credit = conf['bgm'].get('credit') or '魔王魂'
+        music = '\n・音楽：%s' % credit
     return f"""【PR】この動画は楽天アフィリエイト（アフィリエイト広告）を含みます。
 
 {data['title']}
@@ -400,7 +483,7 @@ def description(data, conf):
 
 ■ 映像と音声について
 ・映像はすべてAI生成のイメージと、こちらで作成した模式図です。実在の商品・店舗・ロゴではありません。
-・音声：VOICEVOX:{conf.get('speaker', '青山龍星')}
+・音声：VOICEVOX:{conf.get('speaker', '青山龍星')}{music}
 ・商品名・価格・仕様は、必ず販売元の商品ページでご確認ください。
 
 ■ 商品の探し方
@@ -475,12 +558,13 @@ def main():
     ff = ffmpeg_bin()
     work = ROOT / 'cache' / ('render_' + args.slug)
     work.mkdir(parents=True, exist_ok=True)
+    clipf = prepare_clip_frames(slug_dir, conf, data, work, ff)
 
     narration = build_audio(segs, starts, total, work)
     raw = work / 'raw.mp4'
     print('映像を書き出し中…（%d フレーム）' % int(round(total * FPS)))
-    render_frames(data, bases, kinds, conf, total, work, raw, ff)
-    mux(ff, raw, narration, total, mp4)
+    render_frames(data, bases, kinds, conf, total, work, raw, ff, clipf=clipf)
+    mux(ff, raw, narration, total, mp4, bgm=conf.get('bgm'))
     write_srt(out_dir / (stem + '_subtitles.srt'), data)
     (out_dir / (stem + '_description.md')).write_text(description(data, conf), encoding='utf-8')
     (out_dir / (stem + '_fixed_comment.md')).write_text(fixed_comment(data, conf), encoding='utf-8')
@@ -490,7 +574,13 @@ def main():
     si = next(i for i, sc in enumerate(data['scenes']) if sc['start'] <= thumb_t < sc['end'])
     sc = data['scenes'][si]
     k = (thumb_t - sc['start']) / max(0.01, sc['end'] - sc['start'])
-    im = bottom_shade(kenburns(bases[si], k))
+    if si in clipf:
+        d, n = clipf[si]
+        idx = min(n, max(1, int((thumb_t - sc['start']) * FPS) + 1))
+        im = Image.open(d / ('f_%05d.jpg' % idx)).convert('RGB')
+    else:
+        im = kenburns(bases[si], k)
+    im = bottom_shade(im)
     im = draw_chrome(im, data, sc, conf, si, kinds[si])
     im.save(out_dir / (stem + '_thumb.jpg'), quality=92)
 

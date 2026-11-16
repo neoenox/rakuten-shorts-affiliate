@@ -56,8 +56,32 @@ python scripts/render_short.py <slug>
 - 1回だけ「コンテンツポリシー違反の可能性」で拒否された（朝のキッチン＋弁当のプロンプト）。同じ趣旨を言い換えたら通った。
 - 生成サイズは 941x1672（≒9:16）。9:16 を指定すると比率は概ね守られる。
 
+### 動画背景（FreeVideo / ローカル ComfyUI）
+
+静止画の寄り引きの代わりに、**短い動画クリップ**を背景にできる。動きが出るぶん Shorts 向き。
+
+```powershell
+# 1. クリップを作る（FreeVideo のランチャーで 8188 番を起動しておく）
+python scripts/gen_freevideo.py shorts/<slug>/clips.json --slug <slug>
+# 2. render.json の "clips" にシーン番号→クリップ名を書く（例: {"1": "scene1", "2": "scene2"}）
+# 3. 描画（art/clip_<name>.mp4 があれば自動で使う。無ければ静止画にフォールバック）
+```
+
+- グラフは FreeVideo アプリ自身が実行したもの（`/history` の `prompt`）と同じ2ノード構成。`two_pass`・8+3ステップ・`upscale_factor=2`。
+- 実測（RTX 4060 8GB / 544x960 / 7.0秒）: **1本あたり 4〜9分**（248〜538秒。空きRAMが少ないと遅い）、出力は 7.29秒・24fps・175フレーム。
+- `audio_use: reference` で音声も生成されるが**使わない**。プロンプトに `no background music, quiet room tone only` を入れると、エンジンが starter の score を `N/A` に置き換える（`freevideo_engine/music_request.py`）。
+- クリップがシーンより長ければ頭から切り、短ければ尺に合わせて遅くする。1080x1920 に cover → 30fps の連番JPEG（`unsharp=5:5:0.6` を軽くかける）に展開してから使う（`cache/render_<slug>/clipframes/`）。
+- シーンの見た目が台本の `visual` と合わない出力（例: 冷凍肉に湯気が立った）は、作り直すか静止画にフォールバックする。
+
+## BGM
+
+- `render.json` の `bgm` に `file`（リポジトリからの相対パス）/ `gain_db` / `start` / `fade_in` / `fade_out` / `credit` を書く。
+- ナレーションを sidechain にして、声の間だけ BGM を自動で下げる（`sidechaincompress` → `amix` → `loudnorm=I=-14`）。
+- 曲は**動画ごとに変える**（定型BGMの使い回しを避ける）。クレジットは説明欄に自動で入る。
+- 実測（魔王魂ピアノ39・`gain_db=-18`）: ミックス全体 **-14.3 LUFS / True Peak -1.2 dBFS**、声と声の間の BGM は約 -27 dBFS。
+- 権利の条件と表記は [`RIGHTS_LEDGER.md`](RIGHTS_LEDGER.md)。
+
 ## 既知の制約
 
 - Shorts の説明欄 URL はクリックできない。導線はチャンネルプロフィールのリンク（楽天ROOM）に限る。
-- BGM は入れていない（定型BGMの使い回しを避ける方針と、権利処理の単純化のため）。入れる場合はクレジットを説明欄へ。
 - `kaito_plate` の台本は「キッチン時短」＝実写必須と判定されたジャンルの題材で、画像なしの不利を確かめるテストケース。

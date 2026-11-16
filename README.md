@@ -14,8 +14,9 @@
 | 3 | [`docs/research/20261116_rakuten_api_and_terms.md`](docs/research/20261116_rakuten_api_and_terms.md) | 楽天アフィリエイト規約 / 楽天ウェブサービスAPI の一次資料調査 |
 | 4 | [`docs/research/20261116_ad_rules_and_platform_policy.md`](docs/research/20261116_ad_rules_and_platform_policy.md) | 景表法・ステマ規制・薬機法・著作権・YouTubeポリシー |
 | 5 | [`docs/research/20261116_shorts_genre_scan.md`](docs/research/20261116_shorts_genre_scan.md) | 商品画像なしで成立するジャンルの実測 |
-| 6 | [`docs/RENDER_PIPELINE.md`](docs/RENDER_PIPELINE.md) | 台本から MP4 を作る工程（PR・種別ラベルの焼き込み） |
-| 7 | [`docs/PRODUCTION_LOG.md`](docs/PRODUCTION_LOG.md) | 作ったもの・確認したこと・残っていること |
+| 6 | [`docs/RENDER_PIPELINE.md`](docs/RENDER_PIPELINE.md) | 台本から MP4 を作る工程（PR・種別ラベル・BGM・動画背景の焼き込み） |
+| 7 | [`docs/RIGHTS_LEDGER.md`](docs/RIGHTS_LEDGER.md) | 素材ごとの権利条件と表記 |
+| 8 | [`docs/PRODUCTION_LOG.md`](docs/PRODUCTION_LOG.md) | 作ったもの・確認したこと・残っていること |
 
 ## この企画の要点（迷ったらここに戻る）
 
@@ -58,6 +59,8 @@ python scripts/render_short.py <slug>          # MP4・SRT・説明欄・固定�
 
 - `status` が `ready` 以外なら **`out/draft/` にしか書かない**（公開用の `out/` には出さない）。
 - 「PR」・「イメージ（AI生成）」・「模式図」・出典は描画時に焼き込む。詳しくは [`docs/RENDER_PIPELINE.md`](docs/RENDER_PIPELINE.md)。
+- 背景の動画クリップは FreeVideo（ローカル ComfyUI）で作る: `python scripts/gen_freevideo.py shorts/<slug>/clips.json --slug <slug>`。
+- BGM は `shorts/<slug>/render.json` の `bgm` で指定（クレジットは説明欄に自動で入る）。
 
 ## 必要なもの
 
