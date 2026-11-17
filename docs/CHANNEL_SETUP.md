@@ -96,3 +96,22 @@ Target.attachToTarget + Runtime.evaluate / DOM.setFileInputFiles / Page.captureS
   もしくは YouTube Data API の resumable upload に切り替える（OAuth クライアントの用意が必要）。
 
 現状: チャンネルに動画は0本（コンテンツ一覧が空）。下書きのMP4は out/draft/ に残っている。
+
+---
+
+## 2026-11-18 楽天アフィリエイトにチャンネルをサイト登録
+
+- 楽天アフィリエイトにログインし、「サイト情報の登録」から下記を登録した。
+
+| 項目 | 内容 |
+| --- | --- |
+| 順位 | 2位（既存の「くらべるお」が1位） |
+| 運営サイト名 | 暮らしの判断メモ |
+| 運営サイトURL | https://www.youtube.com/@kurashi_hantei |
+| 運営サイトのジャンル | 住まい・インテリア・雑貨 |
+
+- 登録画面: https://affiliate.rakuten.co.jp/user/sites/create
+  - 項目は 運営サイト名（必須）/ 運営サイトURL（必須）/ 順位（上位5位まで必須）/ ジャンル（任意）。
+  - ジャンル候補は45件（日記系・趣味系が中心）。YouTube向けの専用区分は無い。
+- 次: 商品ページを開いて「リンク作成」→ できた `hb.afl.rakuten.co.jp` のURLを
+  `shorts/<slug>/render.json` の `affiliate` に入れて再生成する。
