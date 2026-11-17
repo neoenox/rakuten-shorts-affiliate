@@ -1,0 +1,15 @@
+{
+  "note": "ac_heater_saving の背景クリップ。シーン1（暖房の部屋）とシーン6（フィルター掃除）。文字・ロゴ・実在商品を描かせない。音楽はナレーションと別に入れるので頼まない。",
+  "clips": [
+    {
+      "name": "scene1",
+      "seconds": 7.0,
+      "prompt": "A dim living room on a winter night, seen from behind: a person wrapped in a blanket sits on a sofa facing a wall-mounted air conditioner that is blowing warm air. A small room thermometer stands on a low table. Cold blue light comes through the window, warm indoor light fills the room. The camera slowly pushes in. Cinematic realistic look, no faces, no people's faces, no text, no letters, no labels, no logos, no packaging, no background music, quiet room tone only."
+    },
+    {
+      "name": "scene6",
+      "seconds": 7.0,
+      "prompt": "Close-up of two hands opening the front panel of a white wall-mounted air conditioner and pulling out a grey filter covered with a thin layer of dust, a few dust motes drifting in soft indoor light. The camera slowly drifts sideways and pushes in slightly. Cinematic realistic look, natural hands, no faces, no people, no text, no letters, no labels, no logos, no packaging, no background music, quiet room tone only."
+    }
+  ]
+}

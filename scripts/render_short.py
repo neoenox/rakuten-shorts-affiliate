@@ -472,6 +472,9 @@ def description(data, conf):
     if conf.get('bgm'):
         credit = conf['bgm'].get('credit') or '魔王魂'
         music = '\n・音楽：%s' % credit
+    tags = conf.get('hashtags') or '#Shorts'
+    note = conf.get('description_note')
+    note_block = ('\n■ 注意\n%s\n' % note) if note else ''
     return f"""【PR】この動画は楽天アフィリエイト（アフィリエイト広告）を含みます。
 
 {data['title']}
@@ -480,7 +483,7 @@ def description(data, conf):
 
 ■ 動画で示した事実と出典
 {refs}
-
+{note_block}
 ■ 映像と音声について
 ・映像はすべてAI生成のイメージと、こちらで作成した模式図です。実在の商品・店舗・ロゴではありません。
 ・音声：VOICEVOX:{conf.get('speaker', '青山龍星')}{music}
@@ -489,7 +492,7 @@ def description(data, conf):
 ■ 商品ページ
 チャンネルプロフィールのリンクに、この動画で紹介した商品のページを置いています。
 
-#Shorts #時短 #キッチン #解凍 #一人暮らし
+{tags}
 """
 
 

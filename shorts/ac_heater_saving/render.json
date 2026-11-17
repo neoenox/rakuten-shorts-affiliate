@@ -1,0 +1,34 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.95,
+  "art_types": {
+    "1": "ai",
+    "2": "diagram",
+    "3": "diagram",
+    "4": "diagram",
+    "5": "diagram",
+    "6": "ai",
+    "7": "diagram"
+  },
+  "clips": {
+    "1": "scene1",
+    "6": "scene6"
+  },
+  "source_labels": {
+    "c1": "資源エネルギー庁 省エネポータル",
+    "c2": "資源エネルギー庁 省エネポータル",
+    "c3": "資源エネルギー庁 省エネポータル",
+    "c4": "資源エネルギー庁（算出根拠）"
+  },
+  "hashtags": "#Shorts #電気代 #省エネ #暖房 #一人暮らし",
+  "description_note": "金額は資源エネルギー庁の省エネポータルの試算です（東京をモデルとした木造南向き住宅・エアコン2.5kW・電気31円/kWh＝令和4年7月の新電力料金目安単価）。地域・機器・使い方・汚れ具合で変わります。節約額を保証するものではありません。",
+  "bgm": {
+    "file": "assets/bgm/maou_bgm_piano41_maoudamashii.mp3",
+    "gain_db": -18,
+    "start": 4.0,
+    "fade_in": 1.2,
+    "fade_out": 2.0,
+    "credit": "魔王魂「ピアノ41」（作曲：森田交一） https://maou.audio/"
+  }
+}
