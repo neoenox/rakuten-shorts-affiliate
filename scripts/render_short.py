@@ -514,8 +514,19 @@ def description(data, conf):
     tags = conf.get('hashtags') or '#Shorts'
     note = conf.get('description_note')
     note_block = ('\n■ 注意\n%s\n' % note) if note else ''
-    return f"""【PR】この動画は楽天アフィリエイト（アフィリエイト広告）を含みます。
 
+    # アフィリエイトリンクは説明欄の一番上（PR表記の直後）に置く。
+    # render.json の "affiliate": {"label": "...", "url": "..."} で指定する。
+    aff = conf.get('affiliate') or {}
+    aff_url = (aff.get('url') or '').strip()
+    if aff_url:
+        label = aff.get('label') or '商品ページはこちら（楽天市場）'
+        link_block = f'{label}\n{aff_url}\n'
+    else:
+        link_block = ''
+
+    return f"""【PR】この動画は楽天アフィリエイト（アフィリエイト広告）を含みます。
+{link_block}
 {data['title']}
 
 {data['hook']}
@@ -527,19 +538,19 @@ def description(data, conf):
 ・映像はすべてAI生成のイメージと、こちらで作成した模式図です。実在の商品・店舗・ロゴではありません。
 ・音声：VOICEVOX:{conf.get('speaker', '青山龍星')}{music}
 ・商品名・価格・仕様は、必ず販売元の商品ページでご確認ください。
-
-■ 商品ページ
-チャンネルプロフィールのリンクに、この動画で紹介した商品のページを置いています。
+・リンクは広告（アフィリエイト）です。購入により当チャンネルに報酬が発生します。
 
 {tags}
 """
 
 
 def fixed_comment(data, conf):
+    aff = conf.get('affiliate') or {}
+    aff_url = (aff.get('url') or '').strip()
+    link_line = ('商品ページ：%s\n' % aff_url) if aff_url else ''
     return f"""【PR】この動画はアフィリエイト広告を含みます。
 {data['title']}
-商品ページは、チャンネルプロフィールのリンクにあります。
-映像はAI生成のイメージと模式図です（実在の商品ではありません）。
+{link_line}映像はAI生成のイメージと模式図です（実在の商品ではありません）。
 出典は説明欄に記載しています。
 """
 
