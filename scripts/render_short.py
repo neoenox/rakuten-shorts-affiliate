@@ -398,36 +398,75 @@ def render_frames(data, bases, kinds, conf, total, work, out_mp4, ff, clipf=None
         raise SystemExit('ffmpeg の映像エンコードに失敗')
 
 
-def mux(ff, raw_mp4, narration, total, final, bgm=None):
-    """ナレーションに BGM を敷き、-14 LUFS にそろえて mux する。
+def measure_lufs(ff, path):
+    """loudnorm の1パス目で、integrated loudness などの実測値を取り出す。"""
+    p = subprocess.run([ff, '-hide_banner', '-nostats', '-i', str(path), '-af',
+                        'loudnorm=I=-14:TP=-1.5:LRA=7:print_format=json', '-f', 'null', '-'],
+                       capture_output=True, text=True, errors='replace')
+    m = re.search(r'\{[^{}]*"input_i"[^{}]*\}', p.stderr, re.S)
+    if not m:
+        return None
+    try:
+        return json.loads(m.group(0))
+    except json.JSONDecodeError:
+        return None
 
-    bgm: {"file": 相対パス, "gain_db": -21, "start": 8.0, "fade_in": 1.0, "fade_out": 2.0}
-    BGM は sidechaincompress でナレーションの間だけ自動的に下げる。
+
+def mux(ff, raw_mp4, narration, total, final, bgm=None):
+    """ナレーションに BGM を敷いて mux する。
+
+    bgm: {"file": 相対パス, "gain_db": -8, "start": 8.0, "fade_in": 1.0, "fade_out": 2.0,
+          "duck": {"threshold": 0.05, "ratio": 4, "attack": 10, "release": 250}}
+
+    最終音量は loudnorm の2パス目（linear=true）で合わせる。1パス目で測った値を渡すと
+    「全体に一定のゲインをかける」動作になり、BGM とナレーションの相対レベルが保たれる。
+    動的な loudnorm を最終段に置くと、BGM を上げたぶん全体が押し戻されて音楽が大きくならない。
     """
     if not bgm:
+        chain = '[1:a]aresample=48000[nar]'
+        tmp = final.with_suffix('.mix.wav')
         subprocess.run([ff, '-y', '-v', 'warning', '-i', str(raw_mp4), '-i', str(narration),
-                        '-filter_complex', '[1:a]aresample=48000,loudnorm=I=-14:TP=-1.5:LRA=7[a]',
-                        '-map', '0:v', '-map', '[a]', '-t', '%.2f' % total,
-                        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
-                        '-movflags', '+faststart', str(final)], check=True)
-        return
-    path = ROOT / bgm['file']
-    if not path.exists():
-        raise SystemExit('BGM が無い: %s' % path)
-    gain = 10 ** (float(bgm.get('gain_db', -21)) / 20)
-    fin = float(bgm.get('fade_in', 1.0))
-    fout = float(bgm.get('fade_out', 2.0))
-    fc = ('[1:a]aresample=48000,atrim=start=%.3f,asetpts=N/SR/TB,volume=%.4f,'
-          'afade=t=in:d=%.2f,afade=t=out:st=%.2f:d=%.2f[b];'
-          '[2:a]aresample=48000,asplit=2[n1][n2];'
-          '[b][n1]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=400[bd];'
-          '[bd][n2]amix=inputs=2:duration=first:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=7[a]'
-          % (float(bgm.get('start', 0.0)), gain, fin, max(0.0, total - fout), fout))
-    subprocess.run([ff, '-y', '-v', 'warning', '-i', str(raw_mp4), '-stream_loop', '-1',
-                    '-i', str(path), '-i', str(narration),
-                    '-filter_complex', fc, '-map', '0:v', '-map', '[a]', '-t', '%.2f' % total,
+                        '-filter_complex', chain, '-map', '[nar]', '-t', '%.2f' % total,
+                        '-c:a', 'pcm_s16le', '-ar', '48000', str(tmp)], check=True)
+    else:
+        path = ROOT / bgm['file']
+        if not path.exists():
+            raise SystemExit('BGM が無い: %s' % path)
+        gain = 10 ** (float(bgm.get('gain_db', -8)) / 20)
+        fin = float(bgm.get('fade_in', 1.0))
+        fout = float(bgm.get('fade_out', 2.0))
+        duck = bgm.get('duck') or {}
+        thr = float(duck.get('threshold', 0.05))
+        ratio = float(duck.get('ratio', 4))
+        attack = float(duck.get('attack', 10))
+        release = float(duck.get('release', 250))
+        fc = ('[1:a]aresample=48000,atrim=start=%.3f,asetpts=N/SR/TB,volume=%.4f,'
+              'afade=t=in:d=%.2f,afade=t=out:st=%.2f:d=%.2f[b];'
+              '[2:a]aresample=48000,asplit=2[n1][n2];'
+              '[b][n1]sidechaincompress=threshold=%.3f:ratio=%.1f:attack=%.0f:release=%.0f[bd];'
+              '[bd][n2]amix=inputs=2:duration=first:normalize=0[a]'
+              % (float(bgm.get('start', 0.0)), gain, fin, max(0.0, total - fout), fout,
+                 thr, ratio, attack, release))
+        tmp = final.with_suffix('.mix.wav')
+        subprocess.run([ff, '-y', '-v', 'warning', '-i', str(raw_mp4), '-stream_loop', '-1',
+                        '-i', str(path), '-i', str(narration), '-filter_complex', fc,
+                        '-map', '[a]', '-t', '%.2f' % total, '-c:a', 'pcm_s16le', '-ar', '48000', str(tmp)],
+                       check=True)
+
+    m = measure_lufs(ff, tmp)
+    if m:
+        af = ('loudnorm=I=-14:TP=-1.5:LRA=7:measured_I=%s:measured_TP=%s:measured_LRA=%s'
+              ':measured_thresh=%s:offset=%s:linear=true,alimiter=limit=0.79:level=disabled'
+              % (m['input_i'], m['input_tp'], m['input_lra'], m['input_thresh'], m['target_offset']))
+    else:
+        af = 'loudnorm=I=-14:TP=-1.5:LRA=7,alimiter=limit=0.79:level=disabled'
+    subprocess.run([ff, '-y', '-v', 'warning', '-i', str(raw_mp4), '-i', str(tmp), '-af', af,
+                    '-map', '0:v', '-map', '1:a', '-t', '%.2f' % total,
                     '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
                     '-movflags', '+faststart', str(final)], check=True)
+    tmp.unlink(missing_ok=True)
+    if m:
+        print('ミックス: %.1f LUFS（実測）→ linear loudnorm で -14 LUFS に合わせた' % float(m['input_i']))
 
 
 def subtitle_chunks(text, maxc=15, lines=2):
@@ -596,3 +635,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

@@ -1,8 +1,8 @@
-"""ac_heater_saving の図解素材（シーン2〜5・7）を作る。
+"""ac_heater_saving の図解素材（シーン2〜5）を作る。
 
 数値と文字はここで正確に描く（生成AIに任せない）。写真が要るシーン1・6は生成AIのイメージ。
   python shorts/ac_heater_saving/art/build_art.py
-出力: shorts/ac_heater_saving/art/scene_02.png … scene_05.png, scene_07.png（1080x1920）
+出力: shorts/ac_heater_saving/art/scene_02.png … scene_05.png（1080x1920）
 """
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
@@ -58,7 +58,7 @@ ROWS = [
     ('1日1時間だけ短くする', 1110, '約1,110円', BLUE),
     ('フィルターを掃除する', 1170, '約1,170円', GREEN),
 ]
-X0, MAXW, MAXV = 400, 470, 1200.0
+X0, MAXW, MAXV = 380, 430, 1200.0
 YS = [640, 830, 1020]
 
 
@@ -74,7 +74,7 @@ def bars(n):
         w = int(val / MAXV * MAXW)
         if on:
             d.rounded_rectangle((X0, y, X0 + w, y + 96), 12, fill=col + (235,))
-            d.text((X0 + w + 24, y + 48), txt, font=font(40, 700), fill=col, anchor='lm')
+            d.text((X0 + w + 22, y + 48), txt, font=font(38, 700), fill=col, anchor='lm')
         else:
             d.rounded_rectangle((X0, y, X0 + MAXW, y + 96), 12, outline=FAINT + (255,), width=3)
             d.text((X0 + 26, y + 48), '？', font=font(40, 700), fill=(78, 90, 102), anchor='lm')
@@ -93,10 +93,10 @@ def scene_05():
     ]
     y = 560
     for name, val in items:
-        d.rounded_rectangle((70, y, W - 70, y + 150), 20, fill=(24, 36, 48, 235), outline=(60, 76, 92), width=2)
-        d.text((110, y + 40), name, font=font(28, 600), fill=DIM, anchor='lm')
-        d.multiline_text((110, y + 78), val, font=font(34, 700), fill=WHITE, spacing=8)
-        y += 178
+        d.rounded_rectangle((70, y, W - 70, y + 168), 20, fill=(24, 36, 48, 235), outline=(60, 76, 92), width=2)
+        d.text((110, y + 38), name, font=font(27, 600), fill=DIM, anchor='lm')
+        d.multiline_text((110, y + 72), val, font=font(33, 700), fill=WHITE, spacing=6)
+        y += 190
     d.text((W // 2, y + 40), '地域・機器・使い方で変わります', font=font(30, 600), fill=GOLD, anchor='mm')
     d.text((W // 2, y + 92), '※ 31円/kWh は令和4年7月の新電力料金目安単価',
            font=font(24, 500), fill=DIM, anchor='mm')
@@ -136,7 +136,7 @@ if __name__ == '__main__':
         print('scene_%02d.png' % i)
     scene_05().save(ART / 'scene_05.png')
     print('scene_05.png')
-    scene_07().save(ART / 'scene_07.png')
-    print('scene_07.png')
+
+
 
 

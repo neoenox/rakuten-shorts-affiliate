@@ -9,7 +9,7 @@
     "4": "diagram",
     "5": "diagram",
     "6": "ai",
-    "7": "diagram"
+    "7": "ai"
   },
   "clips": {
     "1": "scene1",
@@ -25,10 +25,15 @@
   "description_note": "金額は資源エネルギー庁の省エネポータルの試算です（東京をモデルとした木造南向き住宅・エアコン2.5kW・電気31円/kWh＝令和4年7月の新電力料金目安単価）。地域・機器・使い方・汚れ具合で変わります。節約額を保証するものではありません。",
   "bgm": {
     "file": "assets/bgm/maou_bgm_piano41_maoudamashii.mp3",
-    "gain_db": -18,
+    "gain_db": -5,
+    "duck": { "threshold": 0.05, "ratio": 3, "attack": 10, "release": 200 },
     "start": 4.0,
     "fade_in": 1.2,
     "fade_out": 2.0,
     "credit": "魔王魂「ピアノ41」（作曲：森田交一） https://maou.audio/"
   }
 }
+
+
+
+
