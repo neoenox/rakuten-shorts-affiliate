@@ -193,3 +193,18 @@
      バー長を430px、ラベルを38pxに縮めて、右端に余白を残した。
 
 最終: 39.03秒 / -14.0 LUFS / True Peak -1.9 dBFS。
+
+---
+
+## 2026-11-18 2本目 `ac_heater_saving` をYouTubeに非公開アップロード
+
+**結果: チャンネル「暮らしの判断メモ」に1本目として非公開でアップロード完了。**
+
+- 動画ID: VsQqOfVrJk4（Shorts、0:40）
+- タイトル・PR説明文（出典つき）・サムネイル・子ども向け=いいえ・公開設定=**非公開**
+- 自動化は Playwright がこの環境で落ちるため、生CDP（Target.attachToTarget + Runtime.evaluate /
+  DOM.setFileInputFiles）で完遂。罠の一覧（aria-disabledの文字列比較、ラジオはhostをクリック、
+  Shortsは「ショート」タブに出る等）は docs/CHANNEL_SETUP.md に記録。
+- 「動画を保存できませんでした」のトーストは、保存が通った後も出ていることがある。
+  成否は編集ページか「ショート」タブで確認する。
+- 残件: 公開は人の判断。公開前に動画を目視確認し、固定コメントを投稿する。
