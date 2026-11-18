@@ -32,7 +32,13 @@
     "start": 6.0,
     "fade_in": 1.2,
     "fade_out": 2.0,
-    "duck": { "threshold": 0.05, "ratio": 3, "attack": 10, "release": 200 },
+    "duck": {
+      "threshold": 0.05,
+      "ratio": 3,
+      "attack": 10,
+      "release": 200
+    },
     "credit": "魔王魂「ピアノ39」（作曲：森田交一） https://maou.audio/"
-  }
+  },
+  "product_name": "シービージャパン atomico 解凍プレート M（厚さ3mm）"
 }

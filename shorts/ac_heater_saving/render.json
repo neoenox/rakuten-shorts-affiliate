@@ -30,14 +30,16 @@
   "bgm": {
     "file": "assets/bgm/maou_bgm_piano41_maoudamashii.mp3",
     "gain_db": -5,
-    "duck": { "threshold": 0.05, "ratio": 3, "attack": 10, "release": 200 },
+    "duck": {
+      "threshold": 0.05,
+      "ratio": 3,
+      "attack": 10,
+      "release": 200
+    },
     "start": 4.0,
     "fade_in": 1.2,
     "fade_out": 2.0,
     "credit": "魔王魂「ピアノ41」（作曲：森田交一） https://maou.audio/"
-  }
+  },
+  "product_name": "フィルターブラシ（エアコン用・すきま掃除）"
 }
-
-
-
-
