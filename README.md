@@ -107,3 +107,14 @@ python scripts/affiliate_link.py "https://item.rakuten.co.jp/<shop>/<item>/"
 - 楽天アフィリエイトにログインした分離Chromeが必要。
 - 返るURLを `shorts/<slug>/render.json` の `affiliate` に入れ、`python scripts/regen_text.py <slug>` で
   説明欄・固定コメントに反映する。公開済みなら Studio の説明欄を差し替える。
+
+## レビュー（台本・動画）
+
+`powershell
+python scripts/script_review.py <slug>     # 台本を ChatGPT と Gemini が査読
+python scripts/muse_review.py <slug>       # 完成動画を Muse がレビュー（音声も聴ける）
+`
+
+- レビュー用Chrome（--remote-debugging-port=9223、プロファイル .chrome-automation）が必要。
+- 返答は shorts/<slug>/review_chatgpt.md / eview_gemini.md / eview_muse.md に残す。
+- 指摘は出典を確かめてから反映する。手順と実例は [docs/REVIEWS.md](docs/REVIEWS.md)。

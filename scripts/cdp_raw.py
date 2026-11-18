@@ -16,8 +16,8 @@ CDP = 'http://127.0.0.1:9222'
 
 
 class Raw:
-    def __init__(self):
-        v = requests.get(CDP + '/json/version', timeout=10).json()
+    def __init__(self, port=9222):
+        v = requests.get(f'http://127.0.0.1:{port}/json/version', timeout=10).json()
         self.ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=90)
         self.n = 0
 
@@ -64,9 +64,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('expr')
     ap.add_argument('--match', default='studio.youtube.com')
+    ap.add_argument('--port', type=int, default=9222)
     ap.add_argument('--await', action='store_true')
     a = ap.parse_args()
-    raw = Raw()
+    raw = Raw(a.port)
     try:
         t = raw.page(a.match) or raw.page()
         if not t:
