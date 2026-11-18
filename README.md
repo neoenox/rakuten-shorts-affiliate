@@ -118,3 +118,8 @@ python scripts/muse_review.py <slug>       # 完成動画を Muse がレビュ�
 - レビュー用Chrome（--remote-debugging-port=9223、プロファイル .chrome-automation）が必要。
 - 返答は shorts/<slug>/review_chatgpt.md / eview_gemini.md / eview_muse.md に残す。
 - 指摘は出典を確かめてから反映する。手順と実例は [docs/REVIEWS.md](docs/REVIEWS.md)。
+
+## 数字の見方
+
+- チャンネルの実測は [docs/ANALYTICS.md](docs/ANALYTICS.md) に日付つきで追記する。
+- 判断基準（決定事項）: 3か月で**成果1件**＋**再生1,000回/本**。1本の数字で題材を決めない。
