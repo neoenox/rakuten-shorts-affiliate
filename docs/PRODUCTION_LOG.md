@@ -539,3 +539,43 @@ YouTube Studio の「リンクを追加」は、入力欄がダイアログ外�
 - コンロは「料理全般」ではなく**1日3回の湯沸かし（水1L）**の試算であることを明示。
 - 「低めの保温」と「プラグを抜く」が混在して迷わせる、というGeminiの指摘を受けて、
   最終シーンの主張を**「保温せず、使うときに沸かす」**に一本化した（商品の電気ケトルとも整合）。
+
+---
+
+## 2026-11-19 制作フローを再設計し、公開済み3本を遡及チェック
+
+### 決めたこと（詳細は `docs/WORKFLOW.md`）
+
+- `ready` は「オーナー承認済み・期限内」。証跡は `shorts/<slug>/verification.json`（上流スキーマは変更しない）。
+- 承認は `approve.py prepare` → オーナー承認 → `approve.py sign --by owner`。**有効期限14日**。
+  承認後に `result.json` を変えると SHA-256 不一致で失効する。
+- `needs_research` は**未解決の作業だけ**。解決済みは `resolved_needs`、埋まらない留保は `limitations`。
+- `ready` 後は必ず再描画。**Muse が見た draft と映像 framemd5・音声 md5 が一致**しなければ公開しない。
+- 公開の事実は `publish.json`。公開済みでも旧フローなら `needs_review` のまま（承認を捏造しない）。
+- `docs/STATUS.md` は `scripts/status.py` の生成物。README の状態表は廃止した。
+
+### 実装
+
+- `scripts/gate.py`（公開前検査の一元化）、`scripts/approve.py`（prepare/sign/revoke）、`scripts/status.py`。
+- `scripts/upload_short.py` の preflight を `gate.py` に置き換えた（ルールの二重化を解消）。
+- `tests/test_gate.py` 13件（承認失効・期限切れ・needs残り・PR表記・リンク形式）。`pytest` を requirements に追加。
+
+### 公開済み3本の遡及チェック（承認ではない）
+
+対象10 claims を一次資料で再確認した。**すべて数値・条件とも一致**。
+
+| 動画 | claims | 出典 | 結果 |
+| --- | --- | --- | --- |
+| `ac_heater_saving` | 4 | enecho 空調／算出根拠 | 一致（15.80/35.68/37.90kWh、490/1,110/1,170円、31円/kWh・令和4年7月） |
+| `hot_carpet` | 3 | enecho 空調 | 一致（185.97kWh・5,770円、89.91kWh・2,790円、断熱マット） |
+| `kaito_plate` | 3 | 産総研 熱物性DB／cb-j.com | 一致（Al 226〜237、Fe 72〜80.4、3mm、10分比較） |
+
+- `kaito_plate` c1 の「比は約2.8〜3.3倍」は原文の記載ではなく **226/80.4・237/72 の計算値**。
+  動画のナレーションは比を言っていないため映像は問題ない。説明欄で計算であることを明示するとよい（軽微）。
+- 結果は各 `publish.json` の `legacy_check` に記録した。
+
+### 残り
+
+1. 未公開4本の検証・承認（公開週ごとに1本）。`kettle_heat` から。
+2. アップロード上限の自然解除待ち。次の公開週に1回だけ試す。
+3. `winter_three` は保留のまま（同一出典・同一数値のため）。

@@ -25,6 +25,51 @@
       "resolution": "ナレーションに「地域で変わります」、説明欄に「保証するものではありません」を記載済み。"
     }
   ],
-  "legacy_check": null,
+  "legacy_check": {
+    "checked_at": "2026-11-18T18:06:49+09:00",
+    "status": "ok",
+    "results": [
+      {
+        "claim_id": "c1",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
+        "http_status": 200,
+        "numbers_found": true,
+        "numbers_missing": [],
+        "conditions_match": true,
+        "note": ""
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
+        "http_status": 200,
+        "numbers_found": true,
+        "numbers_missing": [],
+        "conditions_match": true,
+        "note": ""
+      },
+      {
+        "claim_id": "c3",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
+        "http_status": 200,
+        "numbers_found": true,
+        "numbers_missing": [],
+        "conditions_match": true,
+        "note": ""
+      },
+      {
+        "claim_id": "c4",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/index.html",
+        "http_status": 200,
+        "numbers_found": true,
+        "numbers_missing": [],
+        "conditions_match": true,
+        "note": ""
+      }
+    ],
+    "notes": [
+      "2026-11-19に全claimsを一次資料で再確認した（承認の証跡ではない）。",
+      "kaito_plate c1 の比 2.8〜3.3 倍は導出値。説明欄で計算であることを明示するとよい（軽微）。"
+    ]
+  },
   "notes": "旧版 VsQqOfVrJk4（CTA不一致）は非公開で保存。"
 }
