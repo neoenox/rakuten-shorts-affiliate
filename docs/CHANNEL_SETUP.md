@@ -115,3 +115,20 @@ Target.attachToTarget + Runtime.evaluate / DOM.setFileInputFiles / Page.captureS
   - ジャンル候補は45件（日記系・趣味系が中心）。YouTube向けの専用区分は無い。
 - 次: 商品ページを開いて「リンク作成」→ できた `hb.afl.rakuten.co.jp` のURLを
   `shorts/<slug>/render.json` の `affiliate` に入れて再生成する。
+
+---
+
+## 2026-11-18 アップロードツールを整備（`scripts/upload_short.py`）
+
+- Studio操作を1コマンドにまとめた。`python scripts/upload_short.py <slug> [--publish]`。
+- 実装上の要点:
+  - 各ボタンは **見えて有効になるまで待ってから実マウス相当（Input.dispatchMouseEvent）で押す**。
+    JSの `.click()` では Polymer の状態が更新されず、保存ボタンが disabled のまま残る。
+  - **1日のアップロード上限**（「1 日のアップロード数の上限に達しました」）を検出したら exit 2 で中止。
+  - 実測: `upload_short.py iphone_battery` → 上限を検出して exit 2 で停止することを確認済み。
+- 途中で定数名とクラス名が衝突するバグ（`CDP`）を踏んだので `CDP_URL` に改名した。
+
+### 固定コメントのピン留め（手動）
+
+- 自動操作では安定しなかった（メニューの「固定」を実クリックしても、ページ上に固定表示が出ない）。
+- **手順**: 動画ページ → コメントの「⋯」→「固定」。1クリックなので、必要時に手で行う。

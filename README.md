@@ -62,6 +62,19 @@ python scripts/render_short.py <slug>          # MP4・SRT・説明欄・固定�
 - 背景の動画クリップは FreeVideo（ローカル ComfyUI）で作る: `python scripts/gen_freevideo.py shorts/<slug>/clips.json --slug <slug>`。
 - BGM は `shorts/<slug>/render.json` の `bgm` で指定（クレジットは説明欄に自動で入る）。
 
+## アップロード（YouTube Studio）
+
+```powershell
+python scripts/upload_short.py <slug>            # 非公開で保存
+python scripts/upload_short.py <slug> --publish  # 保存後に公開へ切り替える
+```
+
+- 分離Chrome（CDP 9222）が必要。起動方法は [`docs/CHANNEL_SETUP.md`](docs/CHANNEL_SETUP.md)。
+- 各ボタンは「見えて有効になるまで待ってから実マウス相当で押す」。JSの `.click()` では
+  Polymer の状態が更新されず、保存ボタンが無効のままになる。
+- **1日のアップロード上限**を検出すると exit 2 で止まる（24時間待つか、Studioのワンタイム認証が必要）。
+- アップロード後の公開切り替え・コメント投稿は個別スクリプト（`docs/CHANNEL_SETUP.md` 参照）。
+
 ## 必要なもの
 
 - Python 3（`pip install -r requirements.txt`）
