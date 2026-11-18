@@ -593,3 +593,16 @@ YouTube Studio の「リンクを追加」は、入力欄がダイアログ外�
 - `render_short.py kettle_heat` で `out/kettle_heat.mp4` を再描画（35.45秒）。
   **映像 framemd5 と音声 md5 が draft と一致**した（gate PASS）。Muse のレビューはそのまま有効。
 - `upload_short.py kettle_heat --check-only` PASS。1日のアップロード上限の解除を待って1回だけ試す。
+
+### 追記: `kettle_heat` は承認前に公開されていた
+
+YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`KeUn5IsdLeU` として公開済み**だった。
+
+- `uploadDate` は **2026-11-18 16:23 JST**（draft 描画 16:08 の15分後）。15:54 の再試行が「処理中」のまま
+  完了していた可能性が高い。旧フローのアップロードで、承認前の公開。
+- 公開されている説明欄の先頭は現在の `out/kettle_heat_description.md` と一致（【PR】・商品名 MAXZEN・
+  `hb.afl` リンク）。動画も、2026-11-19 に再描画した `out/` と **映像 framemd5・音声 md5 が一致**した。
+- したがって「公開された内容」と「今回承認した内容」は同一。順序（公開が承認より先）は旧フローのもので、
+  承認を捏造したわけではない。`publish.json` の `notes` にこの経緯を記録した。
+
+この結果、今週の1本は既に公開済み。次の公開週は `led_light` から（Q8 の順序）。
