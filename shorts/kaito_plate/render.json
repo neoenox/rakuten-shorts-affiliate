@@ -21,6 +21,10 @@
     "c3": "商品ページ（販売元）"
   },
   "hashtags": "#Shorts #解凍 #キッチン #時短 #一人暮らし",
+  "affiliate": {
+    "label": "解凍プレート（楽天市場・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/59a6d564.66bc3c7b.59a6d565.33f54fd0/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fnaturestock%2Faj480177026d7d1d%2F"
+  },
   "description_note": "数値は産総研の熱物性データベースと販売元の商品ページに基づきます。解凍の速さはプレートの厚み・材質・接触面積・室温で変わります。",
   "bgm": {
     "file": "assets/bgm/maou_bgm_piano39_maoudamashii.mp3",
