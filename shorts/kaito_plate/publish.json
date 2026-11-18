@@ -1,0 +1,30 @@
+{
+  "slug": "kaito_plate",
+  "visibility": "public",
+  "video_id": "aVawDx0PiVg",
+  "published_at": "2026-11-18",
+  "title": "レンジの解凍がうまくいかない理由",
+  "product": {
+    "name": "シービージャパン atomico 解凍プレート M（厚さ3mm）"
+  },
+  "affiliate_url": "https://hb.afl.rakuten.co.jp/ichiba/59a6d564.66bc3c7b.59a6d565.33f54fd0/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fnaturestock%2Faj480177026d7d1d%2F",
+  "legacy_open_items": [
+    {
+      "item": "商品ページのアフィリエイトリンク（プロフィールに置く）",
+      "status": "resolved",
+      "resolution": "方針変更（D6/Q8）によりプロフィールは使わず、説明欄の先頭にリンクを設置済み。"
+    },
+    {
+      "item": "シービージャパンは特定商品の販売元であり、汎用の性能根拠としては弱い",
+      "status": "open",
+      "resolution": "未補強。動画の主張は商品ページの範囲に限定し、産総研の熱伝導率で一般論を補っている。"
+    },
+    {
+      "item": "製品ごとの「自然解凍の約6倍」等の速度訴求は公的資料で未確認のため未使用",
+      "status": "accepted",
+      "resolution": "使わない判断を維持。速度は「厚みや材質で変わる」と留保を画面に表示。"
+    }
+  ],
+  "legacy_check": null,
+  "notes": ""
+}

@@ -1,0 +1,30 @@
+{
+  "slug": "ac_heater_saving",
+  "visibility": "public",
+  "video_id": "yFXNYLgMzmY",
+  "published_at": "2026-11-18",
+  "title": "暖房を1℃下げても、年490円",
+  "product": {
+    "name": "フィルターブラシ（エアコン用・すきま掃除）"
+  },
+  "affiliate_url": "https://hb.afl.rakuten.co.jp/ichiba/59a5ff5f.d4fba42c.59a5ff60.3d440606/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Flivingut%2F494664%2F",
+  "legacy_open_items": [
+    {
+      "item": "掃除用のブラシ（商品）の特定と、楽天アフィリエイトのリンク作成",
+      "status": "resolved",
+      "resolution": "フィルターブラシ（418円）のリンクを作成し、説明欄の先頭に反映済み。"
+    },
+    {
+      "item": "金額の前提（31円/kWh・令和4年7月単価）と試算条件を説明欄に必ず書く",
+      "status": "resolved",
+      "resolution": "render.json の description_note に条件と単価を明記済み。"
+    },
+    {
+      "item": "実際の家庭での削減額は条件で変わるため、保証する表現にしないことの最終確認",
+      "status": "resolved",
+      "resolution": "ナレーションに「地域で変わります」、説明欄に「保証するものではありません」を記載済み。"
+    }
+  ],
+  "legacy_check": null,
+  "notes": "旧版 VsQqOfVrJk4（CTA不一致）は非公開で保存。"
+}

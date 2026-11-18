@@ -1,0 +1,25 @@
+{
+  "slug": "hot_carpet",
+  "visibility": "public",
+  "video_id": "zVQ7UoER4xM",
+  "published_at": "2026-11-18",
+  "title": "電気カーペット、強のままで年5,770円",
+  "product": {
+    "name": "ホットカーペット（TEKNOS・3畳用）"
+  },
+  "affiliate_url": "https://hb.afl.rakuten.co.jp/ichiba/59a73ba2.8c940066.59a73ba3.3dbe232b/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fenetroom%2F7039812%2F",
+  "legacy_open_items": [
+    {
+      "item": "電気カーペット（または断熱マット）の商品選定とアフィリエイトリンク作成",
+      "status": "resolved",
+      "resolution": "TEKNOS ホットカーペット（3,980円〜）のリンクを作成し、説明欄に反映済み。"
+    },
+    {
+      "item": "「強」から「中」に下げたときの体感低下を補う説明（服・断熱マット）を人が確認",
+      "status": "resolved",
+      "resolution": "シーン5〜6で「床に直に敷くと熱が逃げる。断熱マットを1枚」と説明済み。"
+    }
+  ],
+  "legacy_check": null,
+  "notes": ""
+}

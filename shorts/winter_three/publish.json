@@ -1,0 +1,25 @@
+{
+  "slug": "winter_three",
+  "visibility": "held",
+  "video_id": null,
+  "published_at": null,
+  "title": "冬の暖房、3つの行動で年2,770円",
+  "product": {
+    "name": "エアコン洗浄セット 12点（洗浄ガン・排水ホース付き）"
+  },
+  "affiliate_url": "https://hb.afl.rakuten.co.jp/ichiba/59a7cf90.192658be.59a7cf91.e6166002/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fparagon78%2Faironeset001a%2F",
+  "legacy_open_items": [
+    {
+      "item": "合計2,770円は単純な足し算であることの確認（重複効果の注記が画面にあるか）",
+      "status": "resolved",
+      "resolution": "作成済み（合計の注記は画面と説明欄にあり、商品リンクも設定済み）。"
+    },
+    {
+      "item": "エアコン関連商品（1,500円以上）の選定とアフィリエイトリンク作成",
+      "status": "resolved",
+      "resolution": "作成済み（合計の注記は画面と説明欄にあり、商品リンクも設定済み）。"
+    }
+  ],
+  "legacy_check": null,
+  "notes": "ac_heater_saving と同一出典・同一数値のため保留（D7）。再開条件は別の切り口への改稿。"
+}

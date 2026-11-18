@@ -15,7 +15,7 @@
     "c2": "資源エネルギー庁 省エネポータル",
     "c3": "資源エネルギー庁 省エネポータル"
   },
-  "product_name": "電気ケトル（保温機能なし・1.0L前後）",
+  "product_name": "MAXZEN 電気ケトル 1.0L（保温なし・空だき防止）",
   "hashtags": "#Shorts #電気代 #キッチン #節約 #家電",
   "description_note": "金額は資源エネルギー庁の省エネポータル（キッチン）の試算です（電気31円/kWh＝令和4年7月の新電力料金目安単価）。ポットは2.2L沸騰・1.2L使用・6時間保温、コンロは水1L・1日3回の条件で、合計は単純な足し算の目安です。",
   "bgm": {
@@ -31,5 +31,9 @@
       "release": 200
     },
     "credit": "魔王魂「ピアノ39」（作曲：森田交一） https://maou.audio/"
+  },
+  "affiliate": {
+    "label": "電気ケトル（楽天市場・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/56efb198.78b56db2.56efb199.4a5fe96d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fa-price%2F4571495438389%2F"
   }
 }
