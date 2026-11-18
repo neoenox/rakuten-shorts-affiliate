@@ -1,17 +1,21 @@
 """Shorts を YouTube Studio にアップロードする（生CDP・実クリック）。
 
 usage:
-  python scripts/upload_short.py <slug> [--publish]
+  python scripts/upload_short.py <slug> [--publish] [--check-only]
 
 前提:
   - 分離Chromeが CDP 9222 で起動していること（docs/CHANNEL_SETUP.md）
-  - out/draft/<slug>_DRAFT.mp4 / _thumb.jpg / _description.md が存在すること
+  - result.json が status=ready、needs_research=[]、verification.json が承認済み・期限内であること
+  - out/<slug>.mp4 / _thumb.jpg / _description.md / _fixed_comment.md が存在すること
+  - render.json に商品名とアフィリエイトリンクがあること
 
 挙動:
   - 既定は「非公開」で保存する。--publish を付けると保存後に公開へ切り替える。
   - 「1日のアップロード数の上限」を検出したら、その場で中止して理由を表示する。
   - 各ステップのボタンは、見えて有効になるまで待ってから実マウス相当で押す
     （JSの .click() では Polymer の状態が更新されない）。
+  - Studioへ接続する前に gate.py で承認・成果物・指紋・表記・商品リンクを検査する。
+  - --check-only は検査だけ行い、アップロード画面は開かない。
 """
 import argparse
 import json
@@ -22,15 +26,25 @@ from pathlib import Path
 import requests
 import websocket
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import gate  # noqa: E402
+
 CDP_URL = 'http://127.0.0.1:9222'
 CH = 'UCBQ8nx5q0_P9NrtStUkSTEg'
-ROOT = Path(__file__).resolve().parents[1]
 
 LIMIT_MARKERS = ('1 日のアップロード数の上限', 'アップロード数の上限に達しました')
 
 
 def log(*a):
     print(*a, flush=True)
+
+
+def preflight(slug, check_link=True):
+    info = gate.evaluate(slug, network=check_link)
+    if not info['passed']:
+        raise ValueError('公開前検査に失敗: ' + ' / '.join(info['failures']))
+    return info
 
 
 class CDP:
@@ -106,17 +120,23 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('slug')
     ap.add_argument('--publish', action='store_true')
+    ap.add_argument('--check-only', action='store_true',
+                    help='状態・成果物・リンクだけを検査し、Studioは操作しない')
     a = ap.parse_args()
 
-    py = a.slug + '_DRAFT'
-    video = ROOT / 'out' / 'draft' / (py + '.mp4')
-    thumb = ROOT / 'out' / 'draft' / (py + '_thumb.jpg')
-    desc = ROOT / 'out' / 'draft' / (py + '_description.md')
-    for p in (video, desc):
-        if not p.exists():
-            sys.exit(f'見つかりません: {p}')
-    title = json.loads((ROOT / 'shorts' / a.slug / 'result.json').read_text(encoding='utf-8'))['title']
-    text = desc.read_text(encoding='utf-8')
+    try:
+        checked = preflight(a.slug)
+    except ValueError as exc:
+        sys.exit(f'公開前検査で中止: {exc}')
+    title = checked['title']
+    video = checked['video']
+    thumb = checked['thumb']
+    text = checked['description']
+    log(f'公開前検査: PASS / {a.slug}')
+    log(f'  商品: {checked["product_name"]}')
+    log(f'  リンク: {checked["final_url"]}')
+    if a.check_only:
+        return
 
     c = CDP()
     tid = c.call('Target.createTarget', {'url': f'https://studio.youtube.com/channel/{CH}/videos/upload'})['result']['targetId']
@@ -171,13 +191,25 @@ def main():
     c.click_when_ready(sid, '#next-button', 120, '次へ(詳細)')
     time.sleep(6)
 
-    rad = c.ev(sid, """(() => { const rs = Array.from(document.querySelectorAll('tp-yt-paper-radio-button')).filter(r => r.getBoundingClientRect().width > 0);
-      for (const r of rs) if ((r.innerText || '').indexOf('いいえ、子ども向けではありません') >= 0) {
-        const b = r.getBoundingClientRect(); return {x: Math.round(b.x + 20), y: Math.round(b.y + b.height/2)}; }
-      return null; })()""")
-    if rad:
-        c.rclick(sid, rad['x'], rad['y'])
-        log('  子ども向け: いいえ')
+    # 子ども向け: ホスト要素をクリックしないと選択が確定しないことがある（実測）。
+    # 押したあと aria-checked を確認し、入っていなければ座標クリックで再試行する。
+    for attempt in range(3):
+        res = c.ev(sid, """(() => {
+          const rs = Array.from(document.querySelectorAll('tp-yt-paper-radio-button'))
+            .filter(r => r.getBoundingClientRect().width > 0);
+          const t = rs.find(r => (r.innerText || '').indexOf('いいえ、子ども向けではありません') >= 0);
+          if (!t) return {ok: false};
+          if (t.getAttribute('aria-checked') !== 'true') t.click();
+          const b = t.getBoundingClientRect();
+          return {ok: t.getAttribute('aria-checked') === 'true',
+                  x: Math.round(b.x + 20), y: Math.round(b.y + b.height / 2)};
+        })()""")
+        if res and res.get('ok'):
+            log('  子ども向け: いいえ')
+            break
+        if res and res.get('x'):
+            c.rclick(sid, res['x'], res['y'])
+        time.sleep(2)
     time.sleep(3)
     c.click_when_ready(sid, '#next-button', 120, '次へ(要素)')
 
@@ -187,8 +219,13 @@ def main():
             log('  チェック完了')
             break
         time.sleep(5)
-    time.sleep(3)
-    c.click_when_ready(sid, '#next-button', 90, '次へ(公開設定)')
+
+    # 「次へ」は1回で進まないことがある（実測）。公開設定ページが出るまで最大5回押す。
+    for i in range(5):
+        if '限定公開' in (c.ev(sid, 'document.body.innerText') or ''):
+            break
+        c.click_when_ready(sid, '#next-button', 30, f'次へ(公開設定{i + 1})')
+        time.sleep(4)
 
     for _ in range(30):
         if '限定公開' in (c.ev(sid, 'document.body.innerText') or ''):
