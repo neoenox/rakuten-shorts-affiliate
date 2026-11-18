@@ -538,7 +538,7 @@ def description(data, conf):
 {refs}
 {note_block}
 ■ 映像と音声について
-・映像はすべてAI生成のイメージと、こちらで作成した模式図です。実在の商品・店舗・ロゴではありません。
+・映像はAI生成のイメージ、自作のイラスト・模式図です。実在の商品・店舗・ロゴではありません。
 ・音声：VOICEVOX:{conf.get('speaker', '青山龍星')}{music}
 ・商品名・価格・仕様は、必ず販売元の商品ページでご確認ください。
 ・リンクは広告（アフィリエイト）です。購入により当チャンネルに報酬が発生します。
@@ -551,9 +551,13 @@ def fixed_comment(data, conf):
     aff = conf.get('affiliate') or {}
     aff_url = (aff.get('url') or '').strip()
     link_line = ('商品ページ：%s\n' % aff_url) if aff_url else ''
+    product_name = (conf.get('product_name') or '').strip()
+    if not product_name and aff_url:
+        product_name = ''
+    name_line = ('商品名：%s\n' % product_name) if product_name else ''
     return f"""【PR】この動画はアフィリエイト広告を含みます。
 {data['title']}
-{link_line}映像はAI生成のイメージと模式図です（実在の商品ではありません）。
+{name_line}{link_line}映像はAI生成のイメージ、自作のイラスト・模式図です（実在の商品ではありません）。
 出典は説明欄に記載しています。
 """
 
@@ -649,4 +653,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
