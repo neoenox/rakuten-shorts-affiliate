@@ -47,7 +47,14 @@ python scripts/shorts_standard.py check shorts/<slug>/result.json
 ```
 
 `check` は `validate.py`（形式）＋追加規則。ERROR 0 が合格。
-**`status: ready` は人の原文照合が済んでから。** `needs_research` が残っている間は `ready` にできない（`to-spec` も通らない）。
+**`status: ready` は、証跡を作ってオーナーの承認を取ってから。** `needs_research` が残っている間は `ready` にできない。
+
+```powershell
+python scripts/approve.py prepare <slug>   # 出典・商品・表記・レビューを照合し verification.json を作る
+python scripts/approve.py sign <slug> --by owner   # 承認（有効期限14日）→ status: ready
+```
+承認後に `result.json` を変えると承認は無効になる（SHA-256 で検査）。`--plan` は承認より前に実行する。
+詳細は [`docs/WORKFLOW.md`](docs/WORKFLOW.md)。
 
 ## 動画の作り方（描画）
 
@@ -55,6 +62,7 @@ python scripts/shorts_standard.py check shorts/<slug>/result.json
 python scripts/render_short.py <slug> --plan   # 音声を合成し、実測尺を result.json に書き戻す
 python scripts/shorts_standard.py check shorts/<slug>/result.json   # 尺が変わったので検査し直す
 python scripts/render_short.py <slug>          # MP4・SRT・説明欄・固定コメント・サムネを作る
+python scripts/gate.py <slug>                  # 承認の有効性・成果物・指紋・リンクを公開前に検査
 ```
 
 - `status` が `ready` 以外なら **`out/draft/` にしか書かない**（公開用の `out/` には出さない）。
@@ -67,7 +75,10 @@ python scripts/render_short.py <slug>          # MP4・SRT・説明欄・固定�
 ```powershell
 python scripts/upload_short.py <slug>            # 非公開で保存
 python scripts/upload_short.py <slug> --publish  # 保存後に公開へ切り替える
+python scripts/upload_short.py <slug> --check-only  # Studioを開かず、公開前検査だけ
 ```
+
+- アップロード前に `gate.py` と同じ検査を通す（`status=ready`・承認が期限内・指紋一致・PR表記・リンク生存）。
 
 - 分離Chrome（CDP 9222）が必要。起動方法は [`docs/CHANNEL_SETUP.md`](docs/CHANNEL_SETUP.md)。
 - 各ボタンは「見えて有効になるまで待ってから実マウス相当で押す」。JSの `.click()` では
@@ -80,29 +91,29 @@ python scripts/upload_short.py <slug> --publish  # 保存後に公開へ切り�
 - Python 3（`pip install -r requirements.txt`）
 - 台本の検査だけならこれで足りる。描画するなら VOICEVOX（`127.0.0.1:50021`）と FFmpeg が別途必要。
 
-## 現在の状態（2026-11-18）
+## 現在の状態
 
 チャンネル: **暮らしの判断メモ**（`@kurashi_hantei` / `UCBQ8nx5q0_P9NrtStUkSTEg`）。
 
-| 動画 | ID | 状態 | リンク |
-| --- | --- | --- | --- |
-| 暖房を1℃下げても、年490円 | `yFXNYLgMzmY` | 公開 | ブラシ（418円） |
-| レンジの解凍がうまくいかない理由 | `aVawDx0PiVg` | 公開 | 解凍プレート（1,628円） |
-| 電気カーペット、強のままで年5,770円 | `zVQ7UoER4xM` | 公開 | **未設定**（楽天の再ログイン待ち） |
-| iPhoneのバッテリー、何回充電で劣化する？ | — | 描画済み・**アップロード待ち** | — |
-| 冬の暖房、3つの行動で年2,770円 | — | 描画済み・**アップロード待ち** | — |
+**状態の一覧は [`docs/STATUS.md`](docs/STATUS.md) を見る。** これは `python scripts/status.py` が
+`result.json` / `verification.json` / `publish.json` から生成する（手で編集しない）。
 
-- 楽天アフィリエイトのサイト登録は完了（2位）。決定事項は [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md)。
-- **1日のアップロード上限**に達したため、未アップの2本は24時間後かワンタイム認証後にアップする。
+- 公開済み3本（`yFXNYLgMzmY` / `aVawDx0PiVg` / `zVQ7UoER4xM`）は**レビュー体制より前の旧フロー**。
+  承認を捏造しないため `status` は `needs_review` のままにし、公開の事実は `publish.json` に残している。
+- 未公開は4本（`kettle_heat` → `led_light` → `fridge_habits` → `iphone_battery` の順に週1）。
+- `winter_three` は `ac_heater_saving` と同一出典・同一数値のため**保留**（`visibility: held`）。
+- **1日のアップロード上限**が続いている。次の公開週に1回だけ試し、まだ上限ならワンタイム認証へ切り替える。
 - プロフィールリンクは使わない方針。動画内の案内は「商品名は説明欄に書いています」に統一。
-- ピン留め（固定コメント）は自動化できず、手動1クリック。
+- ピン留め（固定コメント）は自動化できず、手動 1 クリック。
+
+公開までの順序と承認のルールは [`docs/WORKFLOW.md`](docs/WORKFLOW.md)。
 
 
 ## アフィリエイトリンクの作成
 
-`powershell
+```powershell
 python scripts/affiliate_link.py "https://item.rakuten.co.jp/<shop>/<item>/"
-`
+```
 
 - 楽天アフィリエイトにログインした分離Chromeが必要。
 - 返るURLを `shorts/<slug>/render.json` の `affiliate` に入れ、`python scripts/regen_text.py <slug>` で
@@ -110,13 +121,13 @@ python scripts/affiliate_link.py "https://item.rakuten.co.jp/<shop>/<item>/"
 
 ## レビュー（台本・動画）
 
-`powershell
+```powershell
 python scripts/script_review.py <slug>     # 台本を ChatGPT と Gemini が査読
 python scripts/muse_review.py <slug>       # 完成動画を Muse がレビュー（音声も聴ける）
-`
+```
 
 - レビュー用Chrome（--remote-debugging-port=9223、プロファイル .chrome-automation）が必要。
-- 返答は shorts/<slug>/review_chatgpt.md / eview_gemini.md / eview_muse.md に残す。
+- 返答は `shorts/<slug>/review_chatgpt.md` / `review_gemini.md` / `review_muse.md` に残す。
 - 指摘は出典を確かめてから反映する。手順と実例は [docs/REVIEWS.md](docs/REVIEWS.md)。
 
 ## 数字の見方

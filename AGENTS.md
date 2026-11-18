@@ -28,7 +28,11 @@
 3. `python scripts/shorts_standard.py brief-check` を通す。
 4. `shorts-standard/PROMPT.md` に従って `result.json` を作る（30〜45秒、5〜7シーン、疑問→結論の方向性→理由・根拠→結論回収）。
 5. `python scripts/shorts_standard.py check` で ERROR 0 にする。
-6. 原文照合が済むまで `status: needs_review`。未確認は `needs_research` に書く。`needs_research` が空でない JSON は `ready` にできない。
+6. 原文照合が済むまで `status: needs_review`。`needs_research` は**未解決の作業だけ**を書き、`needs_research` が空でない JSON は `ready` にできない。調べても埋まらない留保は `limitations`（`verification.json`）に書く。
+7. 公開前に `python scripts/approve.py prepare <slug>` で証跡（`shorts/<slug>/verification.json`）を作り、**オーナーの承認**を取る。承認は `approve.py sign <slug> --by owner` で記録する。承認の有効期限は14日。
+8. 承認後に `result.json` を書き換えたら承認は無効（SHA-256 不一致）。`--plan` は承認より前に実行する。
+9. `ready` にしてから `render_short.py` で `out/` へ再描画し、`gate.py` を通す。再描画した動画は Muse が見た draft とストリーム指紋（映像 framemd5・音声 md5）が一致すること。不一致なら Muse に再レビューを依頼する。
+10. 手順の詳細は `docs/WORKFLOW.md`。状態の一覧は `python scripts/status.py` が生成する `docs/STATUS.md` を見る（手で更新しない）。
 
 ## 4. ジャンル選定の指針（実測より）
 
