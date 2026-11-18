@@ -1,0 +1,101 @@
+{
+  "slug": "kettle_heat",
+  "status": "pending",
+  "checked_at": "2026-11-18T18:48:20+09:00",
+  "approved_at": null,
+  "approved_by": null,
+  "expires_at": null,
+  "result_sha256": "1633562990422ceb60c2c56d669b5b9e8df4d303f13426256a7e187cd8f2c59c",
+  "review": {
+    "file": "review_muse.md",
+    "exists": true,
+    "passed": true,
+    "mtime": "2026-11-18T16:10:27+09:00",
+    "verdict": "レビュー終わったよ。このまま公開可。",
+    "newer_than_draft": true
+  },
+  "artifacts": {
+    "file": "out\\draft\\kettle_heat_DRAFT.mp4",
+    "video_framemd5_sha256": "9961b920bb535afa3f0be8b5974e1a7b05e1548a8027eed9b63cf08fb569ad80",
+    "audio_md5": "768b034a508fb4588a72cb1bcb27d275"
+  },
+  "checks": {
+    "sources": [
+      {
+        "claim_id": "c1",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/kitchen/index.html",
+        "http_status": 200,
+        "numbers_total": 5,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/kitchen/index.html",
+        "http_status": 200,
+        "numbers_total": 5,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c3",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/kitchen/index.html",
+        "http_status": 200,
+        "numbers_total": 0,
+        "numbers_missing": [],
+        "numbers_found": true
+      }
+    ],
+    "product": {
+      "name_in_config": "MAXZEN 電気ケトル 1.0L（保温なし・空だき防止）",
+      "manual": true,
+      "passed": true,
+      "http_status": 200,
+      "title": "【楽天市場】【11/20 19時~エントリーでP10倍】 MAXZEN 電気ケトル 1.0Ｌ 転倒湯こぼれ防止 空だき防止 自動電源OFF 簡単操作 お手入れ簡単 コンパクト 1000ml 白 ホワイト 黒 ブラック MKT10SR01 マクスゼン XP1120：XPRICE楽天市場店",
+      "price": 3400
+    },
+    "link": {
+      "final": "https://item.rakuten.co.jp/a-price/4571495438389/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "passed": true
+    },
+    "presentation": {
+      "failures": []
+    },
+    "format": {
+      "passed": true,
+      "errors": []
+    },
+    "frames": {
+      "manual": true,
+      "label": "フレーム3点の目視",
+      "passed": true
+    },
+    "conditions": {
+      "manual": true,
+      "label": "試算条件の一致",
+      "passed": true
+    },
+    "expressions": {
+      "manual": true,
+      "label": "断定・効能表現の排除",
+      "passed": true
+    }
+  },
+  "failures": [],
+  "resolved_needs": [
+    {
+      "item": "電気ケトル（1,500円以上）の商品選定とアフィリエイトリンク作成",
+      "resolution": "MAXZEN 電気ケトル 1.0L（MKT10SR01・3,400円）を選定。リンクを作成し、301で商品ページ着地・scid=af_pc_etc を確認（2026-11-19）。説明欄と固定コメントに反映済み。"
+    },
+    {
+      "item": "保温をやめる手間と金額のバランスを、画面でどう伝えるか人の確認",
+      "resolution": "シーン6と模式図に「手間と金額のどちらを取るかは人次第」を明記。Museも「このまま公開可」と判定。"
+    }
+  ],
+  "limitations": [
+    "金額は資源エネルギー庁の試算条件（2.2L沸騰・1.2L使用・6時間保温）に依存し、使い方で変わる。",
+    "保温をやめると沸かし直す手間が増える。手間と金額のどちらを取るかは人による。",
+    "電気料金は31円/kWh（令和4年7月の目安単価）で換算。契約により変わる。",
+    "商品はMAXZEN MKT10SR01（3,400円）。価格・在庫は変わり得る。"
+  ]
+}
