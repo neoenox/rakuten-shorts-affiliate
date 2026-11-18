@@ -1,0 +1,37 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.95,
+  "art_types": {
+    "1": "illustration",
+    "2": "diagram",
+    "3": "diagram",
+    "4": "diagram",
+    "5": "diagram",
+    "6": "diagram"
+  },
+  "source_labels": {
+    "c1": "資源エネルギー庁 省エネポータル",
+    "c2": "資源エネルギー庁 省エネポータル",
+    "c3": "資源エネルギー庁 省エネポータル",
+    "c4": "資源エネルギー庁 省エネポータル",
+    "c5": "資源エネルギー庁 省エネポータル"
+  },
+  "product_name": "冷蔵庫用の温度計（庫内温度を確認するもの）",
+  "hashtags": "#Shorts #電気代 #冷蔵庫 #節約 #家電",
+  "description_note": "4つの金額は資源エネルギー庁の省エネポータル（キッチン）の試算です（電気31円/kWh＝令和4年7月の新電力料金目安単価）。合計は単純な足し算で、実際は効果が重なります。温度設定を下げると食品が傷みやすいため、公的資料も注意を促しています。",
+  "bgm": {
+    "file": "assets/bgm/maou_bgm_piano33_maoudamashii.mp3",
+    "gain_db": -5,
+    "start": 4.0,
+    "fade_in": 1.2,
+    "fade_out": 2.0,
+    "duck": {
+      "threshold": 0.05,
+      "ratio": 3,
+      "attack": 10,
+      "release": 200
+    },
+    "credit": "魔王魂「ピアノ33」（作曲：森田交一） https://maou.audio/"
+  }
+}
