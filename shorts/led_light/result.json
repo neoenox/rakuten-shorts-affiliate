@@ -1,0 +1,94 @@
+{
+  "title": "白熱電球のまま、年2,880円の差",
+  "hook": "白熱電球をLEDに替えるだけで、年間いくら変わるのか。公的資料の試算は約2,880円だった。",
+  "duration_sec": 39.76,
+  "status": "needs_review",
+  "scenes": [
+    {
+      "start": 0.0,
+      "end": 3.28,
+      "narration": "白熱電球、そのままだと？",
+      "caption": ["白熱電球のまま", "年いくら損？"],
+      "visual": "自作イラストのイメージ。夜の部屋。天井の照明の下、机に向かう人物の後ろ姿。実在の商品・ロゴは描かない。",
+      "claim_ids": []
+    },
+    {
+      "start": 3.28,
+      "end": 11.18,
+      "narration": "白熱電球1個を、7.5ワットのLEDに替えると、年約2880円です。",
+      "caption": ["白熱1個 → LED", "年 約2,880円"],
+      "visual": "模式図。白熱電球54WとLED 7.5Wの消費電力を棒で対比し、「1個あたり・年間2,000時間使用」の条件と金額を示す。",
+      "claim_ids": ["c1"]
+    },
+    {
+      "start": 11.18,
+      "end": 18.53,
+      "narration": "蛍光灯の器具ごと替えると、68ワットから34ワットで年約2110円です。",
+      "caption": ["器具ごと交換", "年 約2,110円"],
+      "visual": "模式図。蛍光灯器具68WとLED器具34Wの棒グラフと金額。「器具ごと交換」と明記する。",
+      "claim_ids": ["c2"]
+    },
+    {
+      "start": 18.53,
+      "end": 25.14,
+      "narration": "LEDの器具なら、1日1時間短くするだけで年約380円です。",
+      "caption": ["LED器具を1日1時間", "年 約380円"],
+      "visual": "模式図。24時間の帯から1時間を削る図（使っている時間のうち1時間）と金額。「LED器具34W・1灯」と添える。",
+      "claim_ids": ["c3"]
+    },
+    {
+      "start": 25.14,
+      "end": 32.15,
+      "narration": "LEDの器具を1日1時間だけ半分の明るさにすると、年約190円です。",
+      "caption": ["LED器具を1日1時間調光", "年 約190円"],
+      "visual": "模式図。明るさのバーが50%に下がる図と金額。「LED器具34W・1灯」と添える。",
+      "claim_ids": ["c4"]
+    },
+    {
+      "start": 32.15,
+      "end": 39.76,
+      "narration": "交換のときは、口金のサイズと、密閉器具・調光器への対応を確認してください。",
+      "caption": ["口金サイズ", "密閉・調光の対応を確認"],
+      "visual": "模式図。ソケットと電球の模式図に「口金サイズ（E26・E17）」「密閉器具対応」「調光器対応」の3つのチェック項目を並べる。実在の商品は描かない。",
+      "claim_ids": ["c5"]
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "statement": "資源エネルギー庁の省エネポータルは、54Wの白熱電球から7.5Wの電球形LEDランプに交換した場合（年間2,000時間使用）を、年間で電気93.00kWhの省エネ、約2,880円の節約としている。",
+      "source_type": "primary",
+      "source_url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+      "evidence_note": "2026-11-18に取得。「54Wの白熱電球から7.5Wの電球形LEDランプに交換（年間2,000時間使用）年間で電気93.00kWhの省エネ、原油換算20.74L、CO2削減量39.2kg 約2,880円の節約」を確認。"
+    },
+    {
+      "id": "c2",
+      "statement": "同ページは、68Wの蛍光灯器具から34WのLED照明器具に交換した場合（年間2,000時間使用）を、年間で電気68.00kWh、約2,110円の節約としている。",
+      "source_type": "primary",
+      "source_url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+      "evidence_note": "2026-11-18に取得。「68Wの蛍光灯器具から34WのLED照明器具に交換（年間2,000時間使用）年間で電気68.00kWhの省エネ…約2,110円の節約」を確認。"
+    },
+    {
+      "id": "c3",
+      "statement": "同ページは、34WのLED照明器具1灯の点灯時間を1日1時間短縮した場合を、年間で電気12.41kWh、約380円の節約としている。",
+      "source_type": "primary",
+      "source_url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+      "evidence_note": "2026-11-18に取得。「34WのLED照明器具1灯の点灯時間を1日1時間短縮した場合 年間で電気12.41kWhの省エネ…約380円の節約」を確認。"
+    },
+    {
+      "id": "c4",
+      "statement": "同ページは、34WのLED照明器具1灯を1日1時間だけ50％に調光した場合を、年間で電気6.21kWh、約190円の節約としている。",
+      "source_type": "primary",
+      "source_url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+      "evidence_note": "2026-11-18に取得。「34WのLED照明器具1灯の点灯時間を1日1時間50％に調光した場合 年間で電気6.21kWhの省エネ…約190円の節約」を確認。"
+    },
+    {
+      "id": "c5",
+      "statement": "同ページは、省エネ性能の優れた製品に取り替えることと、点灯時間を短くすることを挙げている。LEDランプの購入費や器具の対応可否には触れていない。",
+      "source_type": "primary",
+      "source_url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+      "evidence_note": "2026-11-18に取得。「省エネ性能の優れた製品に取り替えて、点灯時間も短くしましょう」を確認。購入費・器具対応の記載は無いため、注意はこちらの判断として画面に出す。"
+    }
+  ],
+  "needs_research": ["LED電球（1,500円以上）の商品選定とアフィリエイトリンク作成", "器具対応（密閉器具・調光器）の注意書きが画面で読み切れるか人の確認"]
+}

@@ -1,0 +1,37 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.95,
+  "art_types": {
+    "1": "illustration",
+    "2": "diagram",
+    "3": "diagram",
+    "4": "diagram",
+    "5": "diagram",
+    "6": "illustration"
+  },
+  "source_labels": {
+    "c1": "資源エネルギー庁 省エネポータル",
+    "c2": "資源エネルギー庁 省エネポータル",
+    "c3": "資源エネルギー庁 省エネポータル",
+    "c4": "資源エネルギー庁 省エネポータル",
+    "c5": "資源エネルギー庁 省エネポータル"
+  },
+  "product_name": "LED電球（電球形LEDランプ・調光非対応）",
+  "hashtags": "#Shorts #電気代 #LED #節約 #照明",
+  "description_note": "金額は資源エネルギー庁の省エネポータルの試算です（年間2,000時間使用・電気31円/kWh＝令和4年7月の新電力料金目安単価）。ランプ本体の購入費は含みません。器具が密閉型・調光対応かは購入前に確認してください。",
+  "bgm": {
+    "file": "assets/bgm/maou_bgm_piano41_maoudamashii.mp3",
+    "gain_db": -5,
+    "start": 3.5,
+    "fade_in": 1.2,
+    "fade_out": 2.0,
+    "duck": {
+      "threshold": 0.05,
+      "ratio": 3,
+      "attack": 10,
+      "release": 200
+    },
+    "credit": "魔王魂「ピアノ41」（作曲：森田交一） https://maou.audio/"
+  }
+}

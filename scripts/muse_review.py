@@ -84,8 +84,11 @@ class C:
 
 def compress(src, slug):
     out = ROOT / 'out' / f'muse_{slug}.mp4'
+    # レビュー用コピーは低ビットレートAACで符号化overshootが出るため、1.5dB下げて作る。
+    # 本編は -14 LUFS / true peak -1.9 dBFS で管理している（Museが見る「0.0dB」はこのコピー側の値）。
     subprocess.run([FFMPEG, '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=360:-2',
-                    '-c:v', 'libx264', '-crf', '30', '-preset', 'fast', '-c:a', 'aac', '-b:a', '64k', str(out)],
+                    '-c:v', 'libx264', '-crf', '30', '-preset', 'fast',
+                    '-af', 'volume=-1.5dB', '-c:a', 'aac', '-b:a', '96k', str(out)],
                    check=True)
     return out
 
