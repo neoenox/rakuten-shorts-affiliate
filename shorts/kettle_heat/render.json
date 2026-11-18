@@ -1,0 +1,35 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.95,
+  "art_types": {
+    "1": "illustration",
+    "2": "diagram",
+    "3": "diagram",
+    "4": "diagram",
+    "5": "diagram",
+    "6": "diagram"
+  },
+  "source_labels": {
+    "c1": "資源エネルギー庁 省エネポータル",
+    "c2": "資源エネルギー庁 省エネポータル",
+    "c3": "資源エネルギー庁 省エネポータル"
+  },
+  "product_name": "電気ケトル（保温機能なし・1.0L前後）",
+  "hashtags": "#Shorts #電気代 #キッチン #節約 #家電",
+  "description_note": "金額は資源エネルギー庁の省エネポータル（キッチン）の試算です（電気31円/kWh＝令和4年7月の新電力料金目安単価）。ポットは2.2L沸騰・1.2L使用・6時間保温、コンロは水1L・1日3回の条件で、合計は単純な足し算の目安です。",
+  "bgm": {
+    "file": "assets/bgm/maou_bgm_piano39_maoudamashii.mp3",
+    "gain_db": -5,
+    "start": 3.5,
+    "fade_in": 1.2,
+    "fade_out": 2.0,
+    "duck": {
+      "threshold": 0.05,
+      "ratio": 3,
+      "attack": 10,
+      "release": 200
+    },
+    "credit": "魔王魂「ピアノ39」（作曲：森田交一） https://maou.audio/"
+  }
+}
