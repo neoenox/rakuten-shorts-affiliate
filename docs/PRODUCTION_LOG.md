@@ -579,3 +579,17 @@ YouTube Studio の「リンクを追加」は、入力欄がダイアログ外�
 1. 未公開4本の検証・承認（公開週ごとに1本）。`kettle_heat` から。
 2. アップロード上限の自然解除待ち。次の公開週に1回だけ試す。
 3. `winter_three` は保留のまま（同一出典・同一数値のため）。
+
+---
+
+## 2026-11-19 `kettle_heat` を承認し、out/ へ再描画（アップロード待ち）
+
+- `approve.py prepare` で照合し、オーナー承認 → `sign` で `status: ready`（承認期限 2026-12-02）。
+  - 出典: 資源エネルギー庁 キッチン。2.2L沸騰・1.2L使用・6時間保温→107.45kWh・約3,330円、
+    ガス1L×1日3回・強→中→2.38m3・約390円。原文に見つからない数値は0件。
+  - 商品: MAXZEN 電気ケトル 1.0L（MKT10SR01）3,400円。リンクは301で商品ページに着地し scid 付き。
+  - Muse「このまま公開可」が draft 描画より新しいことを確認。フレーム3点（0.5/15.0/33.0秒）を目視。
+  - needs_research 2件の解決内容と limitations 4件を verification.json に記録。
+- `render_short.py kettle_heat` で `out/kettle_heat.mp4` を再描画（35.45秒）。
+  **映像 framemd5 と音声 md5 が draft と一致**した（gate PASS）。Muse のレビューはそのまま有効。
+- `upload_short.py kettle_heat --check-only` PASS。1日のアップロード上限の解除を待って1回だけ試す。

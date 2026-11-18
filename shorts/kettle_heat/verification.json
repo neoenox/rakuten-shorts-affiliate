@@ -1,11 +1,11 @@
 {
   "slug": "kettle_heat",
-  "status": "pending",
+  "status": "approved",
   "checked_at": "2026-11-18T18:48:20+09:00",
-  "approved_at": null,
-  "approved_by": null,
-  "expires_at": null,
-  "result_sha256": "1633562990422ceb60c2c56d669b5b9e8df4d303f13426256a7e187cd8f2c59c",
+  "approved_at": "2026-11-18T19:00:23+09:00",
+  "approved_by": "owner",
+  "expires_at": "2026-12-02",
+  "result_sha256": "93fcf38ee2a637e6cff56d5db82a94db2b0546ad960761a7cb03d6f8c9f97be9",
   "review": {
     "file": "review_muse.md",
     "exists": true,

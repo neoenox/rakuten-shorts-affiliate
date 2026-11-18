@@ -260,8 +260,11 @@ def sign(slug, by):
             raise SystemExit('承認できません: 未確認の項目がある: %s' % key)
     if ver.get('result_sha256') != gate.sha256_file(result_path):
         raise SystemExit('承認できません: prepare 後に result.json が変更されている')
-    if data.get('needs_research'):
-        raise SystemExit('承認できません: needs_research が残っている（prepare で解決内容を記録する）')
+    needs = list(data.get('needs_research') or [])
+    resolved = {r.get('item') for r in (ver.get('resolved_needs') or [])}
+    missing = [n for n in needs if n not in resolved]
+    if missing:
+        raise SystemExit('承認できません: 解決内容が記録されていない残件がある: ' + ' / '.join(missing))
 
     # result.json を ready にする（needs_research は解決済みなので空）
     data['status'] = 'ready'
