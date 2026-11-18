@@ -247,7 +247,8 @@ def bottom_shade(im):
 
 
 def type_label(kind):
-    return {'ai': 'イメージ（AI生成）', 'diagram': '模式図', 'photo': '実写'}.get(kind, 'イメージ')
+    return {'ai': 'イメージ（AI生成）', 'diagram': '模式図', 'photo': '実写',
+            'illustration': 'イラスト'}.get(kind, 'イメージ')
 
 
 def draw_chrome(im, data, sc, conf, scene_i, kind, alpha=1.0):
@@ -524,9 +525,11 @@ def description(data, conf):
         link_block = f'{label}\n{aff_url}\n'
     else:
         link_block = ''
+    product_name = (conf.get('product_name') or '').strip()
+    product_block = ('商品名：%s\n' % product_name) if product_name else ''
 
     return f"""【PR】この動画は楽天アフィリエイト（アフィリエイト広告）を含みます。
-{link_block}
+{product_block}{link_block}
 {data['title']}
 
 {data['hook']}

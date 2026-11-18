@@ -1,0 +1,35 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.95,
+  "art_types": {
+    "1": "illustration",
+    "2": "diagram",
+    "3": "diagram",
+    "4": "diagram",
+    "5": "diagram",
+    "6": "illustration"
+  },
+  "source_labels": {
+    "c1": "資源エネルギー庁 省エネポータル",
+    "c2": "資源エネルギー庁 省エネポータル",
+    "c3": "資源エネルギー庁 省エネポータル"
+  },
+  "hashtags": "#Shorts #電気代 #節約 #冬 #カーペット",
+  "description_note": "金額は資源エネルギー庁の省エネポータルの試算です（3畳用・1日5時間・室温20℃・電気31円/kWh＝令和4年7月の新電力料金目安単価）。地域・使い方で変わります。断熱マットの効果額は公的資料に記載が無いため数値は示していません。",
+  "bgm": {
+    "file": "assets/bgm/maou_bgm_piano33_maoudamashii.mp3",
+    "gain_db": -5,
+    "start": 4.0,
+    "fade_in": 1.2,
+    "fade_out": 2.0,
+    "duck": {
+      "threshold": 0.05,
+      "ratio": 3,
+      "attack": 10,
+      "release": 200
+    },
+    "credit": "魔王魂「ピアノ33」（作曲：森田交一） https://maou.audio/"
+  },
+  "product_name": "ホットカーペット（3畳用・温度調節付き）"
+}

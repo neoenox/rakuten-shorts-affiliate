@@ -1,0 +1,15 @@
+{
+  "note": "hot_carpet の情景クリップ。シーン1（冬のリビングとカーペット）とシーン6（断熱マットを敷く手元）。文字・ロゴ・実在商品は描かない。",
+  "clips": [
+    {
+      "name": "scene1",
+      "seconds": 7.0,
+      "prompt": "A cozy Japanese living room in winter evening: a person seen from behind sits on a brown electric carpet on the floor, knees drawn up, wrapped in a blanket. A small room thermometer stands nearby. Warm lamp light, cold blue window. The camera slowly pushes in. Cinematic realistic look, no faces, no text, no letters, no labels, no logos, no packaging, no background music, quiet room tone only."
+    },
+    {
+      "name": "scene6",
+      "seconds": 7.0,
+      "prompt": "Close-up of two hands sliding a thin silver insulation mat under a brown electric carpet on a wooden floor. Soft indoor light, shallow depth of field, the camera slowly drifts sideways. Cinematic realistic look, natural hands, no faces, no text, no letters, no labels, no logos, no packaging, no background music, quiet room tone only."
+    }
+  ]
+}
