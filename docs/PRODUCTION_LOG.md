@@ -507,3 +507,17 @@ YouTube Studio の「リンクを追加」は、入力欄がダイアログ外�
   **符号化時のovershoot**であり、本編の問題ではない。
 - 対策として `scripts/muse_review.py` の圧縮を `volume=-1.5dB` / `b:a 96k` に変更した。
   今後Museが見るコピーは0dBに張り付かない。**本編のマスターは変更しない。**
+
+---
+
+## 2026-11-18 LED動画のリンクと、アップロード再試行の結果
+
+- `led_light` の商品を **Lepro LED電球 E26 60W形 6個セット（3,980円）** に決定。
+  `scripts/affiliate_link.py` でリンクを作成し、301で商品ページに着地することを確認。
+  `render.json` の `affiliate` / `product_name` に反映済み（アップロード時に説明欄へ入る）。
+- 15:54 に `upload_short.py led_light --publish` を再試行したが、
+  「次へ(公開設定) 押せませんでした」で停止し、ダイアログが閉じてアップロード画面に戻った。
+  **上限はまだ解除されていない**と判断。
+- 試行のたびに一覧へ「処理中」の行が残るため、**解除が確認できるまでアップロードは試さない**。
+  解除後は次の4本を順に上げる:
+  `fridge_habits` / `iphone_battery` / `winter_three` / `led_light`（すべて査読・Muse通過・リンク設定済み）。

@@ -17,7 +17,7 @@
     "c4": "資源エネルギー庁 省エネポータル",
     "c5": "資源エネルギー庁 省エネポータル"
   },
-  "product_name": "LED電球（電球形LEDランプ・調光非対応）",
+  "product_name": "Lepro LED電球 E26 60W形 6個セット",
   "hashtags": "#Shorts #電気代 #LED #節約 #照明",
   "description_note": "金額は資源エネルギー庁の省エネポータルの試算です（年間2,000時間使用・電気31円/kWh＝令和4年7月の新電力料金目安単価）。ランプ本体の購入費は含みません。器具が密閉型・調光対応かは購入前に確認してください。",
   "bgm": {
@@ -33,5 +33,9 @@
       "release": 200
     },
     "credit": "魔王魂「ピアノ41」（作曲：森田交一） https://maou.audio/"
+  },
+  "affiliate": {
+    "label": "LED電球（楽天市場・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/59a8a8d2.d56590f4.59a8a8d3.70090e6f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Flepro%2F100002-ww-jp-6%2F"
   }
 }
