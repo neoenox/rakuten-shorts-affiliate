@@ -65,11 +65,20 @@ def count_limitations(sd):
     return n
 
 
-def next_action(slug, pub_state, appr, needs):
+def resolved_count(sd):
+    vp = sd / 'verification.json'
+    if vp.is_file():
+        return len(gate.load_json(vp).get('resolved_needs') or [])
+    return 0
+
+
+def next_action(slug, pub_state, appr, needs, resolved):
     if pub_state == '公開':
         return '—（公開済み）'
     if pub_state == '保留':
         return '改稿して再開'
+    if appr == '承認待ち':
+        return '承認待ち（sign）'
     if appr.startswith('承認済み'):
         if (ROOT / 'out' / ('%s.mp4' % slug)).is_file():
             return 'アップロード（週1）'
@@ -89,6 +98,7 @@ def rows():
         appr = approval_state(sd.name, sd)
         pub, vid = publish_state(sd)
         needs = len(data.get('needs_research') or [])
+        resolved = resolved_count(sd)
         out.append({
             'slug': sd.name,
             'title': str(data.get('title') or ''),
@@ -97,8 +107,9 @@ def rows():
             'publish': pub,
             'video_id': vid,
             'needs': needs,
+            'resolved': resolved,
             'limitations': count_limitations(sd),
-            'next': next_action(sd.name, pub, appr, needs),
+            'next': next_action(sd.name, pub, appr, needs, resolved),
         })
     order = {'公開': 0, '保留': 1, '未公開': 2}
     out.sort(key=lambda r: (order.get(r['publish'], 3), r['slug']))
@@ -116,9 +127,10 @@ def render(rs):
     lines.append('| --- | --- | --- | --- | --- | --- | --- | --- |')
     for r in rs:
         pub = r['publish'] + ('（%s）' % r['video_id'] if r['video_id'] else '')
-        lines.append('| `%s` | %s | %s | %s | %s | %d | %d | %s |' % (
+        needs = str(r['needs']) + ('（解決 %d）' % r['resolved'] if r['resolved'] else '')
+        lines.append('| `%s` | %s | %s | %s | %s | %s | %d | %s |' % (
             r['slug'], r['title'].replace('|', '\\|'), r['status'], r['approval'],
-            pub, r['needs'], r['limitations'], r['next']))
+            pub, needs, r['limitations'], r['next']))
     lines.append('')
     pub_n = sum(1 for r in rs if r['publish'] == '公開')
     lines.append('公開 %d本 / 保留 %d本 / 未公開 %d本（全%d本）' % (

@@ -11,7 +11,7 @@
 | `winter_three` | 冬の暖房、3つの行動で年2,770円 | needs_review | 未承認 | 保留 | 0 | 0 | 改稿して再開 |
 | `fridge_habits` | 冷蔵庫の4つのクセ、直すと年4,450円 | needs_review | 未承認 | 未公開 | 1 | 0 | 残件を解消 → prepare |
 | `iphone_battery` | iPhoneのバッテリー、充電500回でどうなる？ | needs_review | 未承認 | 未公開 | 1 | 0 | 残件を解消 → prepare |
-| `kettle_heat` | 電気ポットの保温、年3,330円 | needs_review | 承認待ち | 未公開 | 2 | 4 | 残件を解消 → prepare |
+| `kettle_heat` | 電気ポットの保温、年3,330円 | needs_review | 承認待ち | 未公開 | 2（解決 2） | 4 | 承認待ち（sign） |
 | `led_light` | 白熱電球のまま、年2,880円の差 | needs_review | 未承認 | 未公開 | 2 | 0 | 残件を解消 → prepare |
 
 公開 3本 / 保留 1本 / 未公開 4本（全8本）
