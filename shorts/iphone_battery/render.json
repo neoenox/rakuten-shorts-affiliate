@@ -1,0 +1,37 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.95,
+  "art_types": {
+    "1": "illustration",
+    "2": "diagram",
+    "3": "diagram",
+    "4": "diagram",
+    "5": "diagram",
+    "6": "illustration"
+  },
+  "source_labels": {
+    "c1": "Apple サポート",
+    "c2": "Apple サポート",
+    "c3": "Apple サポート",
+    "c4": "Apple サポート",
+    "c5": "Apple サポート"
+  },
+  "product_name": "モバイルバッテリー（大容量・急速充電対応）",
+  "hashtags": "#Shorts #iPhone #バッテリー #スマホ #節約",
+  "description_note": "回数と容量はAppleのサポートページの設計値です（理想的な条件下）。実際の劣化は使い方で変わります。高温環境の回避と、長期保管時の50%前後についても同ページの案内に基づきます。",
+  "bgm": {
+    "file": "assets/bgm/maou_bgm_piano41_maoudamashii.mp3",
+    "gain_db": -5,
+    "start": 4.0,
+    "fade_in": 1.2,
+    "fade_out": 2.0,
+    "duck": {
+      "threshold": 0.05,
+      "ratio": 3,
+      "attack": 10,
+      "release": 200
+    },
+    "credit": "魔王魂「ピアノ41」（作曲：森田交一） https://maou.audio/"
+  }
+}
