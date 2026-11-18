@@ -132,3 +132,26 @@ Target.attachToTarget + Runtime.evaluate / DOM.setFileInputFiles / Page.captureS
 
 - 自動操作では安定しなかった（メニューの「固定」を実クリックしても、ページ上に固定表示が出ない）。
 - **手順**: 動画ページ → コメントの「⋯」→「固定」。1クリックなので、必要時に手で行う。
+
+---
+
+## 2026-11-18 楽天アフィリエイト復帰 → リンクを4本分整備
+
+- 一時的に描画されなくなっていた楽天アフィリエイトが復帰（セッションは生きていた）。
+- **3本目（公開済み・`zVQ7UoER4xM`）にリンクを追加**。Studioの説明欄を差し替え、外部から
+  `hb.afl.rakuten.co.jp` と商品名（TEKNOS）が載っていることを確認した。
+
+| 動画 | 商品 | 価格 | リンク |
+| --- | --- | --- | --- |
+| `zVQ7UoER4xM`（公開） | ホットカーペット TEKNOS | 3,980円〜 | 設定済み・反映済み |
+| `iphone_battery`（待ち） | Anker Zolo Power Bank 20000mAh | 3,980円 | 設定済み（アップ時に反映） |
+| `winter_three`（待ち） | エアコン洗浄セット 12点 | 5,980円 | 設定済み（同上） |
+| `fridge_habits`（待ち） | シンワ 冷蔵庫用温度計 A | 3,980円 | 設定済み（同上） |
+
+### リンク作成の手順で分かったこと
+
+- `https://affiliate.rakuten.co.jp/freelink?u=<商品URL>` を開くと `/link/pc/item?...` に遷移する。
+- **URLは `#codebox` の value に入る**（innerHTML には出ない）。既定は「画像とテキスト」のHTML形式で、
+  `?pc=` が2つ（商品とサムネイル）含まれるため、**最初の `?pc=` だけを取り出す**必要がある。
+- これを自動化した `scripts/affiliate_link.py` を追加（商品URLを渡すと hb.afl のテキストリンクを返す）。
+- 作成したリンクは HTTP で 301 を追跡し、`scid=af_pc_etc` が付いて商品ページに着地することを毎回確認している。

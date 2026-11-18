@@ -17,7 +17,7 @@
     "c4": "資源エネルギー庁 省エネポータル",
     "c5": "資源エネルギー庁 省エネポータル"
   },
-  "product_name": "冷蔵庫用の温度計（庫内温度を確認するもの）",
+  "product_name": "シンワ 冷蔵庫用温度計 A（マグネット付）",
   "hashtags": "#Shorts #電気代 #冷蔵庫 #節約 #家電",
   "description_note": "4つの金額は資源エネルギー庁の省エネポータル（キッチン）の試算です（電気31円/kWh＝令和4年7月の新電力料金目安単価）。合計は単純な足し算で、実際は効果が重なります。温度設定を下げると食品が傷みやすいため、公的資料も注意を促しています。",
   "bgm": {
@@ -33,5 +33,9 @@
       "release": 200
     },
     "credit": "魔王魂「ピアノ33」（作曲：森田交一） https://maou.audio/"
+  },
+  "affiliate": {
+    "label": "冷蔵庫用温度計（楽天市場・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/59a7d14a.a011695c.59a7d14b.d3f618a3/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fauc-mikawa-kiko%2F10002167%2F"
   }
 }

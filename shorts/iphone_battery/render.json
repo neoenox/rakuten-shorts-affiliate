@@ -17,7 +17,7 @@
     "c4": "Apple サポート",
     "c5": "Apple サポート"
   },
-  "product_name": "モバイルバッテリー（大容量・急速充電対応）",
+  "product_name": "Anker Zolo Power Bank 20000mAh（30W・USB-Cケーブル内蔵）",
   "hashtags": "#Shorts #iPhone #バッテリー #スマホ #節約",
   "description_note": "回数と容量はAppleのサポートページの設計値です（理想的な条件下）。実際の劣化は使い方で変わります。高温環境の回避と、長期保管時の50%前後についても同ページの案内に基づきます。",
   "bgm": {
@@ -33,5 +33,9 @@
       "release": 200
     },
     "credit": "魔王魂「ピアノ41」（作曲：森田交一） https://maou.audio/"
+  },
+  "affiliate": {
+    "label": "Anker Zolo Power Bank 20000mAh（モバイルバッテリー・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/57a4962c.d331655a.57a4962d.2b976f04/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fanker%2Fa1689%2F"
   }
 }

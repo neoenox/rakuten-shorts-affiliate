@@ -15,7 +15,7 @@
     "c2": "資源エネルギー庁 省エネポータル",
     "c3": "資源エネルギー庁 省エネポータル"
   },
-  "product_name": "エアコン用フィルター掃除ブラシ",
+  "product_name": "エアコン洗浄セット 12点（洗浄ガン・排水ホース付き）",
   "hashtags": "#Shorts #電気代 #暖房 #節約 #冬",
   "description_note": "3つの金額は資源エネルギー庁の省エネポータルの試算です（東京をモデルとした木造南向き住宅・エアコン2.5kW・電気31円/kWh＝令和4年7月の新電力料金目安単価）。合計は単純な足し算で、実際は効果が重なります。",
   "bgm": {
@@ -31,5 +31,9 @@
       "release": 200
     },
     "credit": "魔王魂「ピアノ39」（作曲：森田交一） https://maou.audio/"
+  },
+  "affiliate": {
+    "label": "エアコン洗浄セット（楽天市場・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/59a7cf90.192658be.59a7cf91.e6166002/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fparagon78%2Faironeset001a%2F"
   }
 }

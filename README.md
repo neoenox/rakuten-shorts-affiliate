@@ -97,3 +97,13 @@ python scripts/upload_short.py <slug> --publish  # 保存後に公開へ切り�
 - プロフィールリンクは使わない方針。動画内の案内は「商品名は説明欄に書いています」に統一。
 - ピン留め（固定コメント）は自動化できず、手動1クリック。
 
+
+## アフィリエイトリンクの作成
+
+`powershell
+python scripts/affiliate_link.py "https://item.rakuten.co.jp/<shop>/<item>/"
+`
+
+- 楽天アフィリエイトにログインした分離Chromeが必要。
+- 返るURLを `shorts/<slug>/render.json` の `affiliate` に入れ、`python scripts/regen_text.py <slug>` で
+  説明欄・固定コメントに反映する。公開済みなら Studio の説明欄を差し替える。
