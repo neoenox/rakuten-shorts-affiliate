@@ -10,22 +10,25 @@
     "5": "diagram",
     "6": "diagram"
   },
-  "source_labels": {
-    "c1": "産総研 熱物性データベース",
-    "c2": "商品ページ（販売元）",
-    "c3": "商品ページ（販売元）"
-  },
   "clips": {
     "1": "scene1b",
     "2": "scene2",
     "4": "scene4"
   },
+  "source_labels": {
+    "c1": "産総研 熱物性データベース",
+    "c2": "商品ページ（販売元）",
+    "c3": "商品ページ（販売元）"
+  },
+  "hashtags": "#Shorts #解凍 #キッチン #時短 #一人暮らし",
+  "description_note": "数値は産総研の熱物性データベースと販売元の商品ページに基づきます。解凍の速さはプレートの厚み・材質・接触面積・室温で変わります。",
   "bgm": {
     "file": "assets/bgm/maou_bgm_piano39_maoudamashii.mp3",
-    "gain_db": -18,
+    "gain_db": -5,
     "start": 6.0,
     "fade_in": 1.2,
     "fade_out": 2.0,
+    "duck": { "threshold": 0.05, "ratio": 3, "attack": 10, "release": 200 },
     "credit": "魔王魂「ピアノ39」（作曲：森田交一） https://maou.audio/"
   }
 }

@@ -111,9 +111,9 @@ def scene_05():
 
 
 def scene_06():
-    """プロフィール欄に商品ページのリンクを置いている、という案内の模式図。"""
+    """説明欄に商品名を書いている、という案内の模式図。"""
     im, d = base()
-    heading(d, '商品ページの置き場所')
+    heading(d, '商品名の置き場所')
 
     px, py, pw, ph = 300, 452, 480, 600
     d.rounded_rectangle((px, py, px + pw, py + ph), 44, fill=(16, 24, 32), outline=(70, 86, 100), width=6)
@@ -122,22 +122,18 @@ def scene_06():
     d.ellipse((px + 48, py + 56, px + 128, py + 136), fill=(58, 74, 90))
     d.text((px + 148, py + 96), 'チャンネル', font=font(30, 600), fill=WHITE, anchor='lm')
     d.line([(px + 40, py + 172), (px + pw - 40, py + 172)], fill=(60, 76, 92), width=2)
-    # リンク行
-    d.text((px + 48, py + 226), 'プロフィール', font=font(26, 600), fill=DIM, anchor='lm')
+    # 説明欄
+    d.text((px + 48, py + 226), '説明欄', font=font(26, 600), fill=DIM, anchor='lm')
     d.rounded_rectangle((px + 40, py + 262, px + pw - 40, py + 372), 18, fill=(32, 46, 60))
-    # 外部リンクの印（絵文字はフォントに無いので「↗」を四角で囲む）
-    ix, iy = px + 72, py + 300
-    d.rounded_rectangle((ix - 20, iy - 20, ix + 20, iy + 20), 10, outline=GOLD, width=3)
-    d.text((ix, iy - 2), '↗', font=font(28, 700), fill=GOLD, anchor='mm')
-    d.text((px + 118, py + 300), '商品ページ', font=font(34, 700), fill=WHITE, anchor='lm')
-    d.text((px + 66, py + 344), '価格とレビューを確認', font=font(24, 500), fill=DIM, anchor='lm')
-    d.text((px + 48, py + 430), '説明欄のURLは', font=font(24, 500), fill=(140, 152, 164), anchor='lm')
-    d.text((px + 48, py + 466), 'タップできないため', font=font(24, 500), fill=(140, 152, 164), anchor='lm')
+    d.text((px + 66, py + 300), '商品名：', font=font(26, 600), fill=DIM, anchor='lm')
+    d.text((px + 66, py + 336), '解凍プレート', font=font(32, 700), fill=WHITE, anchor='lm')
+    d.text((px + 48, py + 430), 'URLはタップできないため、', font=font(23, 500), fill=(140, 152, 164), anchor='lm')
+    d.text((px + 48, py + 464), '商品名で探してください', font=font(23, 500), fill=(140, 152, 164), anchor='lm')
 
     # 誘導矢印
     d.line([(W // 2, py + ph + 24), (W // 2, py + ph + 86)], fill=GOLD, width=8)
     d.polygon([(W // 2, py + ph + 122), (W // 2 - 26, py + ph + 76), (W // 2 + 26, py + ph + 76)], fill=GOLD)
-    d.text((W // 2, py + ph + 168), 'プロフィールのリンクへ', font=font(36, 700), fill=GOLD, anchor='mm')
+    d.text((W // 2, py + ph + 168), '説明欄を見てください', font=font(34, 700), fill=GOLD, anchor='mm')
 
     im.save(ART / 'scene_06.png')
     print('scene_06.png')
