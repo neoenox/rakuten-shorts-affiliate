@@ -1,8 +1,8 @@
 {
   "slug": "fridge_habits",
-  "visibility": "unpublished",
-  "video_id": null,
-  "published_at": null,
+  "visibility": "public",
+  "video_id": "1m-6W8Hnfms",
+  "published_at": "2026-11-19",
   "title": "冷蔵庫の4つのクセ、直すと年4,450円",
   "product": {
     "name": "シンワ 冷蔵庫用温度計 A（マグネット付）"
@@ -10,5 +10,5 @@
   "affiliate_url": "https://hb.afl.rakuten.co.jp/ichiba/59a7d14a.a011695c.59a7d14b.d3f618a3/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fauc-mikawa-kiko%2F10002167%2F",
   "legacy_open_items": [],
   "legacy_check": null,
-  "notes": ""
+  "notes": "2026-11-19に照合・オーナー承認（期限2026-12-03）→ out/ へ再描画 → gate PASS → 公開。冒頭の冷蔵庫イラストが開いた扉に見えなかったため描き直し、Museに再レビュー（公開可）を受けてから承認した。"
 }

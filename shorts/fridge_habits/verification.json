@@ -1,0 +1,108 @@
+{
+  "slug": "fridge_habits",
+  "status": "approved",
+  "checked_at": "2026-11-19T10:34:28+09:00",
+  "approved_at": "2026-11-19T10:40:23+09:00",
+  "approved_by": "owner",
+  "expires_at": "2026-12-03",
+  "result_sha256": "0e2666e6b9bcfd0609f62033d04ee78adafd19ab13fbd01d02162263683af05b",
+  "review": {
+    "file": "review_muse.md",
+    "exists": true,
+    "passed": true,
+    "mtime": "2026-11-19T10:34:05+09:00",
+    "verdict": "レビューしたよ。このまま公開可。冒頭の描き直し、効いてる。",
+    "newer_than_draft": true
+  },
+  "artifacts": {
+    "file": "out\\draft\\fridge_habits_DRAFT.mp4",
+    "video_framemd5_sha256": "82e8e1309f32b5432cc6d605292874b8c9c93d512e25764f5f2e0bf452def05a",
+    "audio_md5": "3ef56fc2bba44529ad363b189b029b31"
+  },
+  "checks": {
+    "sources": [
+      {
+        "claim_id": "c1",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/kitchen/index.html",
+        "http_status": 200,
+        "numbers_total": 2,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/kitchen/index.html",
+        "http_status": 200,
+        "numbers_total": 4,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c3",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/kitchen/index.html",
+        "http_status": 200,
+        "numbers_total": 6,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c4",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/kitchen/index.html",
+        "http_status": 200,
+        "numbers_total": 1,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c5",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/kitchen/index.html",
+        "http_status": 200,
+        "numbers_total": 0,
+        "numbers_missing": [],
+        "numbers_found": true
+      }
+    ],
+    "product": {
+      "name_in_config": "シンワ 冷蔵庫用温度計 A（マグネット付）",
+      "manual": true,
+      "passed": true,
+      "http_status": 200,
+      "title": "【楽天市場】シンワ 冷蔵庫用温度計 A マグネット付 ＜72532＞：三河機工 カイノス 楽天市場店",
+      "price": 363
+    },
+    "link": {
+      "final": "https://item.rakuten.co.jp/auc-mikawa-kiko/10002167/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "passed": true
+    },
+    "presentation": {
+      "failures": []
+    },
+    "format": {
+      "passed": true,
+      "errors": []
+    },
+    "frames": {
+      "manual": true,
+      "label": "フレーム3点の目視",
+      "passed": true
+    },
+    "conditions": {
+      "manual": true,
+      "label": "試算条件の一致",
+      "passed": true
+    },
+    "expressions": {
+      "manual": true,
+      "label": "断定・効能表現の排除",
+      "passed": true
+    }
+  },
+  "failures": [],
+  "resolved_needs": [
+    {
+      "item": "冷蔵庫関連商品（1,500円以上）の選定とアフィリエイトリンク作成",
+      "resolution": "シンワ 冷蔵庫用温度計 A（マグネット付・3,980円）を選定。301→商品ページ、scid=af_pc_etc を確認"
+    }
+  ],
+  "limitations": []
+}
