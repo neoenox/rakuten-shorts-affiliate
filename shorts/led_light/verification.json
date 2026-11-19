@@ -1,0 +1,112 @@
+{
+  "slug": "led_light",
+  "status": "approved",
+  "checked_at": "2026-11-19T10:14:53+09:00",
+  "approved_at": "2026-11-19T10:16:04+09:00",
+  "approved_by": "owner",
+  "expires_at": "2026-12-03",
+  "result_sha256": "9d530c245bc6cf25063d6c22b0dc99874e7097efb3a74a8599d6e6cf01659f04",
+  "review": {
+    "file": "review_muse.md",
+    "exists": true,
+    "passed": true,
+    "mtime": "2026-11-19T10:14:34+09:00",
+    "verdict": "レビューしたよ。結論から言うと、このまま公開可。冒頭の描き直しも、音量も改善されてる。",
+    "newer_than_draft": true
+  },
+  "artifacts": {
+    "file": "out\\draft\\led_light_DRAFT.mp4",
+    "video_framemd5_sha256": "70642010a35b693ed8988be5943b787f18b6188b8fa08035f0c2cecaec1a72af",
+    "audio_md5": "319ddd088d4086c25a4fbcaf38dfbb0f"
+  },
+  "checks": {
+    "sources": [
+      {
+        "claim_id": "c1",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+        "http_status": 200,
+        "numbers_total": 5,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+        "http_status": 200,
+        "numbers_total": 4,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c3",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+        "http_status": 200,
+        "numbers_total": 4,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c4",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+        "http_status": 200,
+        "numbers_total": 5,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c5",
+        "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/lighting/index.html",
+        "http_status": 200,
+        "numbers_total": 0,
+        "numbers_missing": [],
+        "numbers_found": true
+      }
+    ],
+    "product": {
+      "name_in_config": "Lepro LED電球 E26 60W形 6個セット",
+      "manual": true,
+      "passed": true,
+      "http_status": 200,
+      "title": "【楽天市場】【E26 60W形】【2個・6個入り】Lepro LED電球 E26 60W形「810lm」「電球色3000K 昼白色5000K」LEDE26 一般電球 E26口金 広配光高演色性PSE認証済み省エネ キッチン ダイニング 脱衣所寝室廊下 非調光型 A19：Lepro",
+      "price": 1380
+    },
+    "link": {
+      "final": "https://item.rakuten.co.jp/lepro/100002-ww-jp-6/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "passed": true
+    },
+    "presentation": {
+      "failures": []
+    },
+    "format": {
+      "passed": true,
+      "errors": []
+    },
+    "frames": {
+      "manual": true,
+      "label": "フレーム3点の目視",
+      "passed": true
+    },
+    "conditions": {
+      "manual": true,
+      "label": "試算条件の一致",
+      "passed": true
+    },
+    "expressions": {
+      "manual": true,
+      "label": "断定・効能表現の排除",
+      "passed": true
+    }
+  },
+  "failures": [],
+  "resolved_needs": [
+    {
+      "item": "LED電球（1,500円以上）の商品選定とアフィリエイトリンク作成",
+      "resolution": "Lepro LED電球 E26 60W形 6個セット(3,980円)を選定。301→商品ページ、scid=af_pc_etc を確認"
+    },
+    {
+      "item": "器具対応（密閉器具・調光器）の注意書きが画面で読み切れるか人の確認",
+      "resolution": "図に口金サイズ・密閉器具・調光器の3項目を明記。フレーム3点を目視し、はみ出しなしを確認"
+    }
+  ],
+  "limitations": []
+}

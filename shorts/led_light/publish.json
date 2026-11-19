@@ -1,8 +1,8 @@
 {
   "slug": "led_light",
-  "visibility": "unpublished",
-  "video_id": null,
-  "published_at": null,
+  "visibility": "public",
+  "video_id": "uWOcg8G6BXM",
+  "published_at": "2026-11-19",
   "title": "白熱電球のまま、年2,880円の差",
   "product": {
     "name": "Lepro LED電球 E26 60W形 6個セット"
@@ -10,5 +10,5 @@
   "affiliate_url": "https://hb.afl.rakuten.co.jp/ichiba/59a8a8d2.d56590f4.59a8a8d3.70090e6f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Flepro%2F100002-ww-jp-6%2F",
   "legacy_open_items": [],
   "legacy_check": null,
-  "notes": ""
+  "notes": "2026-11-19に照合・オーナー承認（期限2026-12-03）→ out/ へ再描画 → gate PASS → Studioで公開。冒頭イラストが暗く空に見えたため明るく描き直し、Museに再レビュー（「このまま公開可」）を受けてから承認した。"
 }

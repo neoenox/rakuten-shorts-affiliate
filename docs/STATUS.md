@@ -9,12 +9,12 @@
 | `hot_carpet` | 電気カーペット、強のままで年5,770円 | needs_review | 未承認 | 公開（zVQ7UoER4xM） | 0 | 0 | —（公開済み） |
 | `kaito_plate` | レンジの解凍がうまくいかない理由 | needs_review | 未承認 | 公開（aVawDx0PiVg） | 0 | 2 | —（公開済み） |
 | `kettle_heat` | 電気ポットの保温、年3,330円 | ready | 承認済み（〜2026-12-02） | 公開（KeUn5IsdLeU） | 0（解決 2） | 4 | —（公開済み） |
+| `led_light` | 白熱電球のまま、年2,880円の差 | ready | 承認済み（〜2026-12-03） | 公開（uWOcg8G6BXM） | 0（解決 2） | 0 | —（公開済み） |
 | `winter_three` | 冬の暖房、3つの行動で年2,770円 | needs_review | 未承認 | 保留 | 0 | 0 | 改稿して再開 |
 | `fridge_habits` | 冷蔵庫の4つのクセ、直すと年4,450円 | needs_review | 未承認 | 未公開 | 1 | 0 | 残件を解消 → prepare |
 | `iphone_battery` | iPhoneのバッテリー、充電500回でどうなる？ | needs_review | 未承認 | 未公開 | 1 | 0 | 残件を解消 → prepare |
-| `led_light` | 白熱電球のまま、年2,880円の差 | needs_review | 未承認 | 未公開 | 2 | 0 | 残件を解消 → prepare |
 
-公開 4本 / 保留 1本 / 未公開 3本（全8本）
+公開 5本 / 保留 1本 / 未公開 2本（全8本）
 
 ## 見方
 
