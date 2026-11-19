@@ -854,3 +854,14 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - `gate.py peak_hours` PASS。商品は「コンセント タイマー 4時間 5分単位 ダイヤルタイマー（FUMITAKE CS4）」、
   着地 URL は `item.rakuten.co.jp/.../?scid=af_pc_etc&sc2id=af_101_0_0`。
 - 次: `upload_short.py peak_hours --publish` → 公開確認 → hub を10件に更新。
+
+### 追記: `peak_hours` の商品を差し替え
+
+- オーナー指摘で、タイマーコンセントは「いつ電気を使うか」という動画内容と結びつきが弱いと判断。
+  商品を**ワットモニター付き電源タップ 6個口 1.5m（サンワダイレクト 700-TAP071）**に変更した。
+- 商品ページで 5,280円・`InStock` を確認し、アフィリエイトリンクを再作成。
+  `render.json` の `product_name` / `affiliate` を更新。
+- `result.json` は変更していないため、承認（SHA-256・有効期限 2026-12-03）はそのまま有効。
+  `render_short.py peak_hours` で再描画 → `gate.py peak_hours` PASS。
+  着地 URL は `item.rakuten.co.jp/sanwadirect/700-tap071/?scid=af_pc_etc&sc2id=af_101_0_0`。
+- `verification.json` の商品名・価格・着地 URL も新しい商品に合わせて更新。

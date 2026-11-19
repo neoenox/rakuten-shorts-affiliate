@@ -55,15 +55,15 @@
       }
     ],
     "product": {
-      "name_in_config": "コンセント タイマー 4時間 5分単位 ダイヤルタイマー（FUMITAKE CS4）",
+      "name_in_config": "ワットモニター付き電源タップ 6個口 1.5m（サンワダイレクト 700-TAP071）",
       "manual": true,
       "passed": true,
       "http_status": 200,
-      "title": "【楽天市場】コンセント タイマー 4時間 5分単位 ダイヤルタイマー 電源オンオフ 節電 スマートホーム キッチン 直結式 暖房 電気ストーブ 室内 こたつ 扇風機 照明器具 テレビ 防犯カメラ 切り忘れ防止 ペット用 エサやり 自動給水 温度管理 水槽ライト 植物用：文武電機楽天市場店",
-      "price": 1980
+      "title": "【楽天市場】電源タップ 個別 スイッチ ワットモニター ワットメーター ワットチェッカー 消費電力計 検電器 6個口 1.5m（サンワダイレクト 700-TAP071）",
+      "price": 5280
     },
     "link": {
-      "final": "https://item.rakuten.co.jp/fumitake/kzm-timer-cs4-402/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "final": "https://item.rakuten.co.jp/sanwadirect/700-tap071/?scid=af_pc_etc&sc2id=af_101_0_0",
       "passed": true
     },
     "presentation": {
