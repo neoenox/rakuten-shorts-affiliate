@@ -56,22 +56,30 @@ python scripts/render_short.py <slug>
 - 1回だけ「コンテンツポリシー違反の可能性」で拒否された（朝のキッチン＋弁当のプロンプト）。同じ趣旨を言い換えたら通った。
 - 生成サイズは 941x1672（≒9:16）。9:16 を指定すると比率は概ね守られる。
 
-### 動画背景（FreeVideo / ローカル ComfyUI）
+### 動画背景（FreeVideo / ローカル ComfyUI）— **既定**
 
-静止画の寄り引きの代わりに、**短い動画クリップ**を背景にできる。動きが出るぶん Shorts 向き。
+**情景のシーンは、静止画ではなく FreeVideo のクリップで作る**（2026-11-19 決定）。図解・模式図は PIL のまま。
+1シーン＝1クリップを `clips.json` に書き、`render.json` の `clips` でシーン番号に対応させる。
 
 ```powershell
-# 1. クリップを作る（FreeVideo のランチャーで 8188 番を起動しておく）
+# 1. clips.json を書く（情景のシーンだけ。図解のシーンは書かない）
+#    {"clips":[{"name":"scene1","seconds":7.0,"prompt":"… no text, no letters, no logos …"}]}
+# 2. クリップを作る（FreeVideo のランチャーで 8188 番を起動しておく）
 python scripts/gen_freevideo.py shorts/<slug>/clips.json --slug <slug>
-# 2. render.json の "clips" にシーン番号→クリップ名を書く（例: {"1": "scene1", "2": "scene2"}）
-# 3. 描画（art/clip_<name>.mp4 があれば自動で使う。無ければ静止画にフォールバック）
+# 3. render.json の "clips" にシーン番号→クリップ名を書く（例: {"1": "scene1", "6": "scene6"}）
+#    そのシーンの art_types は "ai"（画面ラベルが「イメージ（AI生成）」になる）
+# 4. 描画（art/clip_<name>.mp4 があれば自動で使う。無ければ静止画にフォールバック）
+python scripts/render_short.py <slug>
 ```
 
 - グラフは FreeVideo アプリ自身が実行したもの（`/history` の `prompt`）と同じ2ノード構成。`two_pass`・8+3ステップ・`upscale_factor=2`。
 - 実測（RTX 4060 8GB / 544x960 / 7.0秒）: **1本あたり 4〜9分**（248〜538秒。空きRAMが少ないと遅い）、出力は 7.29秒・24fps・175フレーム。
+  情景3シーンの動画なら **15〜30分**を見込む。待ち時間が長いので、生成はバックグラウンドで流し、その間に図解や台本を進める。
 - `audio_use: reference` で音声も生成されるが**使わない**。プロンプトに `no background music, quiet room tone only` を入れると、エンジンが starter の score を `N/A` に置き換える（`freevideo_engine/music_request.py`）。
 - クリップがシーンより長ければ頭から切り、短ければ尺に合わせて遅くする。1080x1920 に cover → 30fps の連番JPEG（`unsharp=5:5:0.6` を軽くかける）に展開してから使う（`cache/render_<slug>/clipframes/`）。
 - シーンの見た目が台本の `visual` と合わない出力（例: 冷凍肉に湯気が立った）は、作り直すか静止画にフォールバックする。
+- シーンが 7.29秒より長い（尺の都合で9秒など）ときは、クリップを遅くして埋める。動きが不自然になるなら、そのシーンだけ静止画にする。
+- **FreeVideo が停止している／出力が合わない**ときは静止イラストで代替してよい。ただし理由を `docs/PRODUCTION_LOG.md` に残す（AGENTS.md §2）。
 
 ## BGM
 

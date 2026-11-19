@@ -24,6 +24,7 @@
 ```
 brief.yaml（事実と出典）
   → result.json
+  → clips.json（情景のシーンのプロンプト）→ gen_freevideo.py <slug>   # FreeVideo でシーンごとのクリップ
   → render_short.py <slug> --plan        # 実測尺を result.json に書き戻す
   → shorts_standard.py check             # ERROR 0
   → approve.py prepare <slug>            # 照合・証跡の作成（下記10項目）
@@ -33,6 +34,10 @@ brief.yaml（事実と出典）
   → gate.py <slug>                       # ハッシュ・期限・指紋・表記・リンクを検査
   → upload_short.py <slug> [--publish]
 ```
+
+- 情景のシーンは **FreeVideo のクリップ**で作る（2026-11-19 決定）。図解・模式図は PIL。
+  クリップ生成は `--plan` より前に済ませる（尺が確定してから、クリップの長さを合わせるため）。
+  詳しくは [`RENDER_PIPELINE.md`](RENDER_PIPELINE.md) の「動画背景」。
 
 **承認は `--plan` の後**に取る。`--plan` は `result.json` を書き換えるため、先に承認するとハッシュが即座に無効になる。
 
