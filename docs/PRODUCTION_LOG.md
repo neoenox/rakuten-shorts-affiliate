@@ -818,3 +818,11 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - 修正版 `upload_short.py` が初めて最後まで通った。タイトル・説明は公開後に設定し直す必要が無く、
   外部取得で一致を確認（この問題は解消）。
 - hub も 9 件に更新（`build_hub.py --deploy`）し、公開ページで反映を確認。
+
+## 2026-11-19 10本目 `peak_hours`（節電のピークは2つある）brief 作成
+
+- 題材: 夏の電力需要で「総需要は13:00-17:00ごろ」「家庭用は18時ごろ」「需給がきびしいのは17:00-20:00ごろ」と、ピークが二つあることを整理する。
+- 一次資料: 資源エネルギー庁「エネこれ」 https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html を開いて本文確認。`source_urls` はこの1件のみ。
+- `verified_facts` は時間帯と条件だけ。節電率は「19時ごろの家庭の電力使用量に対する概算値・地域差あり」と明記されているため、台本で使うなら条件を画面に出す。
+- 図は元グラフを複製せず自作の模式図にする。
+- `brief-check` PASS。次は PROMPT.md に従って result.json を作り `shorts_standard.py check`。
