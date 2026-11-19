@@ -1,0 +1,14 @@
+{
+  "clips": [
+    {
+      "name": "scene1",
+      "seconds": 7.0,
+      "prompt": "Night interior of a small Japanese apartment. A tall wooden bookshelf stands against the wall, with a single slim metal tension pole wedged between the top of the shelf and the ceiling. Dim warm lamp light from the side, quiet and still atmosphere. Static camera, slow slight push-in. No people, no text, no letters, no logos, no product packaging. Photorealistic, soft shadows, cinematic."
+    },
+    {
+      "name": "scene6",
+      "seconds": 7.0,
+      "prompt": "Daytime interior of a small Japanese apartment. A tall wooden bookshelf stands against the wall. A small metal L-shaped bracket connects the top back of the shelf to the wall, a clear adhesive mat sits under the shelf legs, and a dark wedge stopper is placed at the front bottom edge. Soft daylight from a window, calm and tidy room. Static camera, slow slight push-in. No people, no text, no letters, no logos, no product packaging. Photorealistic, soft shadows, cinematic."
+    }
+  ]
+}

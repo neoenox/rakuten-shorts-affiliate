@@ -1,0 +1,45 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.92,
+  "art_types": {
+    "1": "ai",
+    "2": "diagram",
+    "3": "diagram",
+    "4": "diagram",
+    "5": "diagram",
+    "6": "ai"
+  },
+  "clips": {
+    "1": "scene1",
+    "6": "scene6"
+  },
+  "source_labels": {
+    "c1": "東京都防災ホームページ／東京消防庁",
+    "c2": "東京消防庁 家具転倒防止ハンドブック",
+    "c3": "東京消防庁 家具転倒防止ハンドブック",
+    "c4": "東京消防庁 家具転倒防止ハンドブック",
+    "c5": "東京消防庁 家具転倒防止ハンドブック"
+  },
+  "product_name": "家具転倒防止具 L字型金具（L字4個・取付ネジ付き）",
+  "hashtags": "#Shorts #防災 #地震対策 #家具転倒防止 #暮らし",
+  "description_note": "効果は震度6強の揺れを再現した実験にもとづくもので、すべての家具・建物で同じ結果になるわけではありません。壁は下地（柱・間柱）に固定し、天井は強度を確認してください。賃貸で穴あけが難しい場合は、突っ張り棒とストッパー式・粘着マットの併用になります。取り付けは管理会社や専門家に確認してください。",
+  "bgm": {
+    "file": "assets/bgm/maou_bgm_piano33_maoudamashii.mp3",
+    "gain_db": -5,
+    "start": 3.5,
+    "fade_in": 1.2,
+    "fade_out": 2.0,
+    "duck": {
+      "threshold": 0.05,
+      "ratio": 3,
+      "attack": 10,
+      "release": 200
+    },
+    "credit": "魔王魂「ピアノ33」（作曲：森田交一） https://maou.audio/"
+  },
+  "affiliate": {
+    "label": "家具転倒防止 L字金具（楽天市場・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/59b41f73.c17a9e2f.59b41f74.026bfccb/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fganpon%2F10001270%2F"
+  }
+}

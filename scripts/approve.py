@@ -57,6 +57,17 @@ def normalize_numbers(text):
 
 def fetch_source(url, timeout=25):
     r = requests.get(url, headers={'User-Agent': gate.UA}, timeout=timeout)
+    if r.content[:4] == b'%PDF':
+        # ハンドブックのような一次資料は PDF のまま配布される。本文を抽出して数値を照合する
+        try:
+            import io
+
+            from pypdf import PdfReader
+
+            reader = PdfReader(io.BytesIO(r.content))
+            return r.status_code, '\n'.join((page.extract_text() or '') for page in reader.pages)
+        except Exception:
+            return r.status_code, ''
     return r.status_code, r.text
 
 

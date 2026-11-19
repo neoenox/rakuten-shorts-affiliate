@@ -1,0 +1,115 @@
+{
+  "slug": "furniture_anchor",
+  "status": "approved",
+  "checked_at": "2026-11-19T15:29:09+09:00",
+  "approved_at": "2026-11-19T15:30:59+09:00",
+  "approved_by": "owner",
+  "expires_at": "2026-12-03",
+  "result_sha256": "37c361d5f6427c13686a6a0052c814b3a14adb4050dafb6ccea9f09879ec4cdc",
+  "review": {
+    "file": "review_muse.md",
+    "exists": true,
+    "passed": true,
+    "mtime": "2026-11-19T15:26:49+09:00",
+    "verdict": "レビューしたよ。このまま公開可。長さも44.2秒で基準内。",
+    "newer_than_draft": true
+  },
+  "artifacts": {
+    "file": "out\\draft\\furniture_anchor_DRAFT.mp4",
+    "video_framemd5_sha256": "1e3ed45f6c0aa88473019ef5bdd716d8932de9ccf2aa944be08203fe4c570fb9",
+    "audio_md5": "967de0036a38754dd7b0805bd81abe7a"
+  },
+  "checks": {
+    "sources": [
+      {
+        "claim_id": "c1",
+        "url": "https://www.bousai.metro.tokyo.lg.jp/bousai/1000027/1005737.html",
+        "http_status": 200,
+        "numbers_total": 2,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://www.tfd.metro.tokyo.lg.jp/content/000010472.pdf",
+        "http_status": 200,
+        "numbers_total": 1,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c3",
+        "url": "https://www.tfd.metro.tokyo.lg.jp/content/000010472.pdf",
+        "http_status": 200,
+        "numbers_total": 0,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c4",
+        "url": "https://www.tfd.metro.tokyo.lg.jp/content/000010472.pdf",
+        "http_status": 200,
+        "numbers_total": 0,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c5",
+        "url": "https://www.tfd.metro.tokyo.lg.jp/content/000010472.pdf",
+        "http_status": 200,
+        "numbers_total": 0,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c6",
+        "url": "https://www.tfd.metro.tokyo.lg.jp/content/000010472.pdf",
+        "http_status": 200,
+        "numbers_total": 11,
+        "numbers_missing": [],
+        "numbers_found": true
+      }
+    ],
+    "product": {
+      "name_in_config": "家具転倒防止具 L字型金具（L字4個・取付ネジ付き）",
+      "manual": true,
+      "passed": true,
+      "http_status": 200,
+      "title": "【楽天市場】【家具転倒防止】家具転倒防止具L字型金具家具転倒防止 L字金具 家具固定 地震対策：防災・防犯の専門shop岩本商事",
+      "price": 2750
+    },
+    "link": {
+      "final": "https://item.rakuten.co.jp/ganpon/10001270/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "passed": true
+    },
+    "presentation": {
+      "failures": []
+    },
+    "format": {
+      "passed": true,
+      "errors": []
+    },
+    "frames": {
+      "manual": true,
+      "label": "フレーム3点の目視",
+      "passed": true
+    },
+    "conditions": {
+      "manual": true,
+      "label": "試算条件の一致",
+      "passed": true
+    },
+    "expressions": {
+      "manual": true,
+      "label": "断定・効能表現の排除",
+      "passed": true
+    }
+  },
+  "failures": [],
+  "resolved_needs": [],
+  "limitations": [
+    "効果は震度6強の揺れを再現した実験にもとづき、家具・壁・天井の条件で変わる",
+    "壁は下地（柱・間柱）に固定する。下地の位置は下地センサー等で確認する",
+    "賃貸では管理会社に確認が必要。代替は突っ張り棒とストッパー・粘着マットの併用"
+  ]
+}
