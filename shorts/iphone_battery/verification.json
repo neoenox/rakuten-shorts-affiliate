@@ -1,0 +1,116 @@
+{
+  "slug": "iphone_battery",
+  "status": "approved",
+  "checked_at": "2026-11-19T11:01:28+09:00",
+  "approved_at": "2026-11-19T11:02:36+09:00",
+  "approved_by": "owner",
+  "expires_at": "2026-12-03",
+  "result_sha256": "a68319efe894c873ca4d2fc8e4cf49fc9f344e65b5a90f5313ca947ef2fbc1a2",
+  "review": {
+    "file": "review_muse.md",
+    "exists": true,
+    "passed": true,
+    "mtime": "2026-11-18T14:43:26+09:00",
+    "verdict": "レビュー終わったよ。このまま公開可。",
+    "newer_than_draft": true
+  },
+  "artifacts": {
+    "file": "out\\draft\\iphone_battery_DRAFT.mp4",
+    "video_framemd5_sha256": "c91749e7edf7648e2ba34ac3d70e570d4d5209097bab5cfcf76d3660d3752369",
+    "audio_md5": "f37d78da033a84de5b4a2af79b494661"
+  },
+  "checks": {
+    "sources": [
+      {
+        "claim_id": "c1",
+        "url": "https://support.apple.com/ja-jp/101575",
+        "http_status": 200,
+        "numbers_total": 3,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://support.apple.com/ja-jp/101575",
+        "http_status": 200,
+        "numbers_total": 3,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c3",
+        "url": "https://support.apple.com/ja-jp/101575",
+        "http_status": 200,
+        "numbers_total": 0,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c4",
+        "url": "https://support.apple.com/ja-jp/101575",
+        "http_status": 200,
+        "numbers_total": 1,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c5",
+        "url": "https://support.apple.com/ja-jp/101575",
+        "http_status": 200,
+        "numbers_total": 0,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c6",
+        "url": "https://support.apple.com/ja-jp/101575",
+        "http_status": 200,
+        "numbers_total": 4,
+        "numbers_missing": [],
+        "numbers_found": true
+      }
+    ],
+    "product": {
+      "name_in_config": "Anker Zolo Power Bank 20000mAh（30W・USB-Cケーブル内蔵）",
+      "manual": true,
+      "passed": true,
+      "http_status": 200,
+      "title": "【楽天市場】【期間限定セール実施中 11/25まで】Anker Zolo Power Bank (20000mAh, 30W, Built-In USB-Cケーブル)(モバイルバッテリー 20000mAh 最大30W出力 USB-C ケーブル一体型 ディスプレイ搭載) 【PD/PowerIQ搭載/PSE技術基準適合】iPhone 16 / 15 Android iPad：アンカー・ダイレクト楽天市場店",
+      "price": 3990
+    },
+    "link": {
+      "final": "https://item.rakuten.co.jp/anker/a1689/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "passed": true
+    },
+    "presentation": {
+      "failures": []
+    },
+    "format": {
+      "passed": true,
+      "errors": []
+    },
+    "frames": {
+      "manual": true,
+      "label": "フレーム3点の目視",
+      "passed": true
+    },
+    "conditions": {
+      "manual": true,
+      "label": "試算条件の一致",
+      "passed": true
+    },
+    "expressions": {
+      "manual": true,
+      "label": "断定・効能表現の排除",
+      "passed": true
+    }
+  },
+  "failures": [],
+  "resolved_needs": [
+    {
+      "item": "モバイルバッテリーの商品選定とアフィリエイトリンク作成",
+      "resolution": "Anker Zolo Power Bank 20000mAh（3,980円）を選定。301→商品ページ、scid=af_pc_etc を確認"
+    }
+  ],
+  "limitations": []
+}

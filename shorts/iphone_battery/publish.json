@@ -1,8 +1,8 @@
 {
   "slug": "iphone_battery",
-  "visibility": "unpublished",
-  "video_id": null,
-  "published_at": null,
+  "visibility": "public",
+  "video_id": "UKNQdUxTi7A",
+  "published_at": "2026-11-19",
   "title": "iPhoneのバッテリー、充電500回でどうなる？",
   "product": {
     "name": "Anker Zolo Power Bank 20000mAh（30W・USB-Cケーブル内蔵）"
@@ -10,5 +10,5 @@
   "affiliate_url": "https://hb.afl.rakuten.co.jp/ichiba/57a4962c.d331655a.57a4962d.2b976f04/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fanker%2Fa1689%2F",
   "legacy_open_items": [],
   "legacy_check": null,
-  "notes": ""
+  "notes": "2026-11-19に照合・オーナー承認→gate PASS→公開。ただし1回目のアップロードでタイトルと説明欄が未設定のまま公開されたため、編集ページでタイトルと説明欄を設定し直した（公開設定は公開のまま）。"
 }
