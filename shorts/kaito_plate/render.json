@@ -25,7 +25,7 @@
     "label": "解凍プレート（楽天市場・PR）",
     "url": "https://hb.afl.rakuten.co.jp/ichiba/59a6d564.66bc3c7b.59a6d565.33f54fd0/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fnaturestock%2Faj480177026d7d1d%2F"
   },
-  "description_note": "数値は産総研の熱物性データベースと販売元の商品ページに基づきます。解凍の速さはプレートの厚み・材質・接触面積・室温で変わります。",
+  "description_note": "数値は産総研の熱物性データベースと販売元の商品ページに基づきます。アルミは鉄より約2.8〜3.3倍熱を伝えやすいという倍率は、データベースの値（アルミ 226〜237 W/mK、鉄 72〜80.4 W/mK）から算出した計算値で、原文に倍率の記載はありません。解凍の速さはプレートの厚み・材質・接触面積・室温で変わります。",
   "bgm": {
     "file": "assets/bgm/maou_bgm_piano39_maoudamashii.mp3",
     "gain_db": -5,

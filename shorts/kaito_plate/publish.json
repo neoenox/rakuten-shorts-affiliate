@@ -60,7 +60,13 @@
     "notes": [
       "2026-11-19に全claimsを一次資料で再確認した（承認の証跡ではない）。",
       "kaito_plate c1 の比 2.8〜3.3 倍は導出値。説明欄で計算であることを明示するとよい（軽微）。"
-    ]
+    ],
+    "description_note": {
+      "updated_at": "2026-11-19",
+      "local": "render.json の description_note に導出値の説明を追記し、regen_text.py で out/draft/kaito_plate_DRAFT_description.md を再生成した（963→1,061文字、差分は「注意」の1行のみ）。",
+      "live": "未反映。ブラウザのGoogleアカウントにこのチャンネル（UCBQ8nx5q0_P9NrtStUkSTEg）への権限がなく、Studioが「このページを表示する権限がありません」を返すため。",
+      "next": "権限のあるアカウントでStudioを開き、説明欄を out/draft/kaito_plate_DRAFT_description.md の内容に差し替える。"
+    }
   },
   "notes": ""
 }

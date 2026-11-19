@@ -607,3 +607,18 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 
 この結果、今週の1本は既に公開済み。次の公開週は `led_light` から（Q8 の順序）。
 2026-11-19 の判断: 週1ペースを維持し、`led_light` は来週まで着手しない（アップロード上限の自然解除も待つ）。
+
+---
+
+## 2026-11-19 `kaito_plate` の説明欄に導出値の注記を追加（ローカルのみ／YouTube反映は未了）
+
+- 遡及チェックに残っていた軽微項目を解消した。比「約2.8〜3.3倍」が産総研データベースの値
+  （アルミ 226〜237 W/mK、鉄 72〜80.4 W/mK）からの**計算値**であり、原文に倍率の記載がないことを説明欄に明記。
+- 手順: `shorts/kaito_plate/render.json` の `description_note` を更新 → `python scripts/regen_text.py kaito_plate`
+  で `out/draft/kaito_plate_DRAFT_description.md` を再生成（MP4 は変更なし）。963 → 1,061文字。
+  公開中の説明欄を取得して突き合わせたところ、**差分は「注意」の1行のみ**で他は一致。
+- **YouTube への反映は未実施。** `https://studio.youtube.com/channel/UCBQ8nx5q0_P9NrtStUkSTEg/` は
+  「このページを表示する権限がありません」を返す。ブラウザにサインイン中のGoogleアカウントは4つ
+  （もち / 榎園和仁 / gemini / lab yori）で、そのいずれもこのチャンネルの権限を持っていない状態だった。
+- 次回: 権限のあるアカウントで Studio を開き、`aVawDx0PiVg` の説明欄を
+  `out/draft/kaito_plate_DRAFT_description.md` の内容に差し替える。
