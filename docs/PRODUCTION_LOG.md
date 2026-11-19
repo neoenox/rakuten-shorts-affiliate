@@ -826,3 +826,21 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - `verified_facts` は時間帯と条件だけ。節電率は「19時ごろの家庭の電力使用量に対する概算値・地域差あり」と明記されているため、台本で使うなら条件を画面に出す。
 - 図は元グラフを複製せず自作の模式図にする。
 - `brief-check` PASS。次は PROMPT.md に従って result.json を作り `shorts_standard.py check`。
+
+### 追記: `peak_hours` を下書き制作・照合準備まで完了
+
+- `result.json`: 6シーン・39.44秒。話速は 0.96（初期の 0.90 では実測45.7秒で上限超過）。
+  `shorts_standard.py check` は ERROR 0（WARN のみ）。WARN は冒頭3.6秒・文字数/秒の目安など。
+- 情景2シーン（scene1 夕方のリビング / scene4 夕方のキッチン）は `clips.json` に1シーン1クリップで書き、
+  `gen_freevideo.py` で生成（各7.29秒、307秒 / 291秒）。図解4枚は PIL の自作模式図。
+  静止フォールバック2枚も作ってある。クリップは台本の `visual` と一致し、文字・ロゴ・人物なしを目視確認。
+- `render_short.py peak_hours` で `out/draft/peak_hours_DRAFT.mp4` を描画。フレーム目視で PR・種別ラベル・字幕・出典を確認。
+- Muse レビューは「公開可・39.4秒で基準内」。`shorts/peak_hours/review_muse.md` に保存。
+  `muse_review.py` の返答抽出がサイドバー文字列を拾う不具合があり、`out/muse_reply_peak_hours.txt` は誤内容。
+  正しい返答はチャットスレッドの最後の発言から手で抽出した（要修正）。
+- 商品: コンセント タイマー 4時間 5分単位 ダイヤルタイマー（FUMITAKE CS4）。
+  商品ページの `itemprop=price` は 1,980円、`availability` は InStock を確認。
+  アフィリエイトリンクを作成して `render.json` に設定し、`needs_research` を解消。
+- `approve.py prepare peak_hours --frames-ok --conditions-ok --expressions-ok --product-ok` PASS。
+  証跡は `shorts/peak_hours/verification.json`。`status` は `needs_review` のまま、**オーナー承認待ち**。
+- 次: オーナーが `approve.py sign peak_hours --by owner` → `render_short.py peak_hours` → `gate.py` → アップロード → hub 更新。

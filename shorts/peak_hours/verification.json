@@ -1,0 +1,95 @@
+{
+  "slug": "peak_hours",
+  "status": "pending",
+  "checked_at": "2026-11-19T20:02:29+09:00",
+  "approved_at": null,
+  "approved_by": null,
+  "expires_at": null,
+  "result_sha256": "bbc509ad214bd117f17932e80992bdfd2c0de9cf15983addf91ce62e3fe80020",
+  "review": {
+    "file": "review_muse.md",
+    "exists": true,
+    "passed": true,
+    "mtime": "2026-11-19T20:01:01+09:00",
+    "verdict": "- 判定: 公開可。尺も39.4秒で基準内。",
+    "newer_than_draft": true
+  },
+  "artifacts": {
+    "file": "out\\draft\\peak_hours_DRAFT.mp4",
+    "video_framemd5_sha256": "e8f583fefdcfdd66a34dabe0c5fd4be3eacd522ff36bdb9921a0adfdbc86fb47",
+    "audio_md5": "94fc201c38e2b1da4efe12af9f83f0aa"
+  },
+  "checks": {
+    "sources": [
+      {
+        "claim_id": "c1",
+        "url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+        "http_status": 200,
+        "numbers_total": 3,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+        "http_status": 200,
+        "numbers_total": 1,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c3",
+        "url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+        "http_status": 200,
+        "numbers_total": 3,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c4",
+        "url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+        "http_status": 200,
+        "numbers_total": 1,
+        "numbers_missing": [],
+        "numbers_found": true
+      }
+    ],
+    "product": {
+      "name_in_config": "コンセント タイマー 4時間 5分単位 ダイヤルタイマー（FUMITAKE CS4）",
+      "manual": true,
+      "passed": true,
+      "http_status": 200,
+      "title": "【楽天市場】コンセント タイマー 4時間 5分単位 ダイヤルタイマー 電源オンオフ 節電 スマートホーム キッチン 直結式 暖房 電気ストーブ 室内 こたつ 扇風機 照明器具 テレビ 防犯カメラ 切り忘れ防止 ペット用 エサやり 自動給水 温度管理 水槽ライト 植物用：文武電機楽天市場店",
+      "price": 1980
+    },
+    "link": {
+      "final": "https://item.rakuten.co.jp/fumitake/kzm-timer-cs4-402/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "passed": true
+    },
+    "presentation": {
+      "failures": []
+    },
+    "format": {
+      "passed": true,
+      "errors": []
+    },
+    "frames": {
+      "manual": true,
+      "label": "フレーム3点の目視",
+      "passed": true
+    },
+    "conditions": {
+      "manual": true,
+      "label": "試算条件の一致",
+      "passed": true
+    },
+    "expressions": {
+      "manual": true,
+      "label": "断定・効能表現の排除",
+      "passed": true
+    }
+  },
+  "failures": [],
+  "resolved_needs": [],
+  "limitations": []
+}

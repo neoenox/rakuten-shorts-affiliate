@@ -1,0 +1,30 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.96,
+  "art_types": {
+    "1": "ai",
+    "2": "diagram",
+    "3": "diagram",
+    "4": "ai",
+    "5": "diagram",
+    "6": "diagram"
+  },
+  "clips": {
+    "1": "scene1",
+    "4": "scene4"
+  },
+  "source_labels": {
+    "c1": "資源エネルギー庁「エネこれ」",
+    "c2": "資源エネルギー庁「エネこれ」",
+    "c3": "資源エネルギー庁「エネこれ」",
+    "c4": "資源エネルギー庁「エネこれ」"
+  },
+  "product_name": "コンセント タイマー 4時間 5分単位 ダイヤルタイマー（FUMITAKE CS4）",
+  "affiliate": {
+    "label": "タイマーコンセント（楽天市場・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/59b70700.6890918c.59b70701.66751876/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ffumitake%2Fkzm-timer-cs4-402%2F"
+  },
+  "hashtags": "#Shorts #節電 #電気代 #電力 #暮らし",
+  "description_note": "出典は資源エネルギー庁「エネこれ」。夏の電力需要のグラフをもとにしており、地域や時間帯によって傾向は変わります。動画内では商品を映していません。"
+}

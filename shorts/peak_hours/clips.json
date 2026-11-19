@@ -1,0 +1,14 @@
+{
+  "clips": [
+    {
+      "name": "scene1",
+      "seconds": 7.0,
+      "prompt": "Early evening inside a small Japanese apartment living room. Ceiling light and a wall-mounted air conditioner are on, late afternoon light through the window. No people, no text, no letters, no logos, no product packaging. Quiet still atmosphere, static camera with a slow slight push-in. Photorealistic, cinematic, soft shadows. No background music, quiet room tone only."
+    },
+    {
+      "name": "scene4",
+      "seconds": 7.0,
+      "prompt": "Early evening inside a small Japanese apartment kitchen. Dimming daylight through the window, a pot on the stove, a refrigerator and under-cabinet light visible. No people, no text, no letters, no logos, no product packaging. Quiet still atmosphere, static camera with a slow slight push-in. Photorealistic, cinematic, soft shadows. No background music, quiet room tone only."
+    }
+  ]
+}
