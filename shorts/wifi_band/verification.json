@@ -1,0 +1,115 @@
+{
+  "slug": "wifi_band",
+  "status": "approved",
+  "checked_at": "2026-11-19T17:39:35+09:00",
+  "approved_at": "2026-11-19T17:40:38+09:00",
+  "approved_by": "owner",
+  "expires_at": "2026-12-03",
+  "result_sha256": "08599ecc96c8df33f61715aca109a96fa282bbe1610ef01fd427653b5996d952",
+  "review": {
+    "file": "review_muse.md",
+    "exists": true,
+    "passed": true,
+    "mtime": "2026-11-19T17:39:12+09:00",
+    "verdict": "(7) 判定：公開可。尺は43.9秒で、基準の30〜45秒にも収まっている。",
+    "newer_than_draft": true
+  },
+  "artifacts": {
+    "file": "out\\draft\\wifi_band_DRAFT.mp4",
+    "video_framemd5_sha256": "ac379dda1f5dd9b4fb397a82a7b4695795827f1b59ef6e860bfb00c957b76afa",
+    "audio_md5": "b2ad4446f11db7bcde31418cf1cd6888"
+  },
+  "checks": {
+    "sources": [
+      {
+        "claim_id": "c1",
+        "url": "https://www.tele.soumu.go.jp/j/sys/others/wlan_outdoor/index.htm",
+        "http_status": 200,
+        "numbers_total": 6,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://www.soumu.go.jp/main_content/000976221.pdf",
+        "http_status": 200,
+        "numbers_total": 1,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c3",
+        "url": "https://www.tele.soumu.go.jp/j/sys/others/wlan_outdoor/index.htm",
+        "http_status": 200,
+        "numbers_total": 5,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c4",
+        "url": "https://www.tele.soumu.go.jp/j/sys/others/wlan_outdoor/index.htm",
+        "http_status": 200,
+        "numbers_total": 3,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c5",
+        "url": "https://www.soumu.go.jp/main_content/000976221.pdf",
+        "http_status": 200,
+        "numbers_total": 1,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c6",
+        "url": "https://www.soumu.go.jp/main_content/000976221.pdf",
+        "http_status": 200,
+        "numbers_total": 6,
+        "numbers_missing": [],
+        "numbers_found": true
+      }
+    ],
+    "product": {
+      "name_in_config": "バッファロー Wi-Fi中継機 WEX-5400AX6（Wi-Fi 6・2.4/5GHz対応）",
+      "manual": true,
+      "passed": true,
+      "http_status": 200,
+      "title": "【楽天市場】バッファロー（Buffalo） Wi-Fi中継機 WEX-5400AX6：ケーズデンキ 楽天市場店",
+      "price": 21978
+    },
+    "link": {
+      "final": "https://item.rakuten.co.jp/ksdenki/4981254061305/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "passed": true
+    },
+    "presentation": {
+      "failures": []
+    },
+    "format": {
+      "passed": true,
+      "errors": []
+    },
+    "frames": {
+      "manual": true,
+      "label": "フレーム3点の目視",
+      "passed": true
+    },
+    "conditions": {
+      "manual": true,
+      "label": "試算条件の一致",
+      "passed": true
+    },
+    "expressions": {
+      "manual": true,
+      "label": "断定・効能表現の排除",
+      "passed": true
+    }
+  },
+  "failures": [],
+  "resolved_needs": [],
+  "limitations": [
+    "実際の速度や届き方はルーター・壁・周辺機器で変わる。屋内の一般家庭を前提にしている",
+    "5GHz帯の屋外・上空利用には条件がある（動画では言及のみ）",
+    "AIイメージのルーターは模式表現。実在商品ではない"
+  ]
+}

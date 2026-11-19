@@ -1,0 +1,130 @@
+{
+  "title": "Wi-Fiが遅いとき、まず見るべきは2.4GHzか5GHz",
+  "hook": "Wi-Fiが遅い。ルーターを替える前に、まず何を見ればよいのか。",
+  "duration_sec": 43.85,
+  "status": "ready",
+  "scenes": [
+    {
+      "start": 0.0,
+      "end": 4.02,
+      "narration": "Wi-Fiが遅い。替える前に何を見る？",
+      "caption": [
+        "Wi-Fiが遅い",
+        "まず何を見る？"
+      ],
+      "visual": "情景のイメージ。夜のリビングにルーターと、部屋の奥へ伸びる薄い電波の波。人物・実在商品・ロゴは描かない。",
+      "claim_ids": []
+    },
+    {
+      "start": 4.02,
+      "end": 12.96,
+      "narration": "総務省によると、無線LANは2.4・5・6ギガヘルツ。まず見るのは2.4か5です。",
+      "caption": [
+        "無線LANの周波数は",
+        "2.4・5・6GHz"
+      ],
+      "visual": "模式図。2.4GHz・5GHz・6GHzの3つの帯域ブロックを横並びにし、5GHzは5.2・5.3・5.6の区切りを添える。出典は総務省電波利用ポータル。",
+      "claim_ids": [
+        "c1"
+      ]
+    },
+    {
+      "start": 12.96,
+      "end": 21.12,
+      "narration": "壁越しや遠い部屋なら2.4ギガヘルツ。低い周波数ほど、壁の裏に回り込みやすいです。",
+      "caption": [
+        "壁越し・遠い部屋は",
+        "2.4GHz"
+      ],
+      "visual": "模式図。壁を挟むルーターとスマホ。低い周波数の波が壁の裏へ回り込む矢印と、高い周波数が壁で弱まる矢印を比較する。",
+      "claim_ids": [
+        "c2"
+      ]
+    },
+    {
+      "start": 21.12,
+      "end": 28.93,
+      "narration": "近くで使うなら5ギガヘルツ。屋内では利用できますが、屋外や上空には条件があります。",
+      "caption": [
+        "近くで使うなら",
+        "5GHz"
+      ],
+      "visual": "模式図。同じ部屋のルーターとスマホを短い矢印で結び「屋内では利用可」と表示。横に小さく「屋外・上空は条件付き」。",
+      "claim_ids": [
+        "c3",
+        "c4"
+      ]
+    },
+    {
+      "start": 28.93,
+      "end": 35.71,
+      "narration": "遅さの原因は干渉かもしれません。同じ周波数とタイミングで重なると起きます。",
+      "caption": [
+        "原因は干渉かも",
+        "電波が重なる"
+      ],
+      "visual": "模式図。同じ高さ・同じタイミングの2つの波が重なって乱れる様子。下に「周波数・空間・時間をずらす」と3つ並べる。",
+      "claim_ids": [
+        "c5"
+      ]
+    },
+    {
+      "start": 35.71,
+      "end": 43.85,
+      "narration": "2.4ギガなら、重複しないチャネルは5以上離します。1なら2から5は避けて6以降へ。",
+      "caption": [
+        "2.4GHzのチャネルは",
+        "5以上離す"
+      ],
+      "visual": "模式図。2.4GHzのチャネル1〜14を帯で並べ、1を使う場合に「2〜5は重複」「6〜14は重複なし」と色分け。下部に「まず設定、それから中継機」。",
+      "claim_ids": [
+        "c6"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "statement": "総務省 電波利用ポータルは、無線LANが使用する周波数帯を2.4GHz帯、5GHz帯及び6GHz帯とし、5GHz帯はさらに5.2GHz、5.3GHz、5.6GHz帯と使用条件が相違すると記載している。",
+      "source_type": "primary",
+      "source_url": "https://www.tele.soumu.go.jp/j/sys/others/wlan_outdoor/index.htm",
+      "evidence_note": "2026-11-19取得。本文「無線LANは大きく分けて2.4GHz帯、5GHz帯及び6GHz帯…5GHz帯はさらに5.2GHz、5.3GHz、5.6GHz帯と使用条件が相違します」を確認。"
+    },
+    {
+      "id": "c2",
+      "statement": "総務省「ローカル５Ｇ等入門用資料」は、回折について障害物の後ろにも回り込んで伝わるとし、回折で回り込む度合いは基本的に周波数が低いほど大きいと記載している。",
+      "source_type": "primary",
+      "source_url": "https://www.soumu.go.jp/main_content/000976221.pdf",
+      "evidence_note": "2026-11-19取得。p5「電波の伝わり方一覧」の回折の欄を確認。"
+    },
+    {
+      "id": "c3",
+      "statement": "総務省 電波利用ポータルの表では、屋内利用は2.4GHz・5.2GHz・5.3GHz・5.6GHz・6GHzのすべてで可能。屋外利用は2.4GHzと5.6GHzが可能で、5.3GHzは不可、6GHzはLPI不可・VLP可。",
+      "source_type": "primary",
+      "source_url": "https://www.tele.soumu.go.jp/j/sys/others/wlan_outdoor/index.htm",
+      "evidence_note": "2026-11-19取得。「1. 無線LANの周波数と利用可能場所」の表を確認。"
+    },
+    {
+      "id": "c4",
+      "statement": "同ページは、5.2GHz帯が衛星通信のフィーダリンクと周波数を共用し隣接帯に気象レーダーがあるため屋外・上空利用に条件があるとし、5.3GHz帯と5.6GHz帯はDFS機能の具備が必須としている。",
+      "source_type": "primary",
+      "source_url": "https://www.tele.soumu.go.jp/j/sys/others/wlan_outdoor/index.htm",
+      "evidence_note": "2026-11-19取得。5.2GHz帯の共用とDFS必須の注記を確認。"
+    },
+    {
+      "id": "c5",
+      "statement": "総務省「ローカル５Ｇ等入門用資料」は、他の通信機からの電波が同じ周波数・同じタイミングで重なると干渉になるとし、避ける手法として周波数帯・空間・時間をずらすことを挙げている。",
+      "source_type": "primary",
+      "source_url": "https://www.soumu.go.jp/main_content/000976221.pdf",
+      "evidence_note": "2026-11-19取得。p6 干渉の定義とp7「電波干渉やノイズを避ける手法（例）」を確認。"
+    },
+    {
+      "id": "c6",
+      "statement": "同資料は、2.4GHz帯のWi-Fiで重複しないチャネルは5チャネル以上離れたチャネルとし、1チャネルを使う場合は重複する2〜5チャネルを使わず、重複しない6〜14チャネルを使う例を記載している。",
+      "source_type": "primary",
+      "source_url": "https://www.soumu.go.jp/main_content/000976221.pdf",
+      "evidence_note": "2026-11-19取得。p7 のチャネル例（1を使う場合、2〜5は使用しない、6〜14を使用）を確認。"
+    }
+  ],
+  "needs_research": []
+}

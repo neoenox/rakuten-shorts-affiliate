@@ -1,0 +1,14 @@
+{
+  "clips": [
+    {
+      "name": "scene1",
+      "seconds": 7.0,
+      "prompt": "Night interior of a small Japanese apartment living room. On a low table sits a compact white wireless router with a faint soft glow, and a smartphone screen is dimly visible nearby. No people. Quiet still atmosphere, soft warm lamp light from the side, static camera with a slow slight push-in. No text, no letters, no logos, no product packaging. Photorealistic, cinematic, soft shadows."
+    },
+    {
+      "name": "scene4",
+      "seconds": 7.0,
+      "prompt": "Daytime interior of a small Japanese apartment. A compact white wireless router stands on a shelf by a bright window, and a smartphone lies on a wooden desk. A clean soft light arc connects them. Completely bare wall, no posters, no wall decorations, no writing, no text, no letters, no logos, no product packaging. No people. Static camera, slow slight push-in. Photorealistic, cinematic, soft shadows."
+    }
+  ]
+}

@@ -178,21 +178,28 @@ def main():
             break
         time.sleep(2)
 
-    c.ev(sid, """(() => { const el = document.querySelector('#title-textarea #textbox'); if (!el) return;
-      el.focus(); document.execCommand('selectAll', false, null);
-      document.execCommand('insertText', false, %s); })()""" % json.dumps(title))
-    c.ev(sid, """(() => { const el = document.querySelector('ytcp-video-description #textbox'); if (!el) return;
-      el.focus(); document.execCommand('selectAll', false, null);
-      document.execCommand('insertText', false, %s); })()""" % json.dumps(text))
-    got_title = c.ev(sid, "(document.querySelector('#title-textarea #textbox')||{innerText:''}).innerText") or ''
+    def set_field(selector, value, select_all=True):
+        """実クリック＋実キーで入力する。execCommand は Studio の状態に反映されないことがある。"""
+        p = c.rect(sid, selector)
+        if p:
+            c.rclick(sid, p['x'], p['y'])
+        if select_all:
+            for t in ('keyDown', 'keyUp'):
+                c.call('Input.dispatchKeyEvent', {'type': t, 'key': 'a', 'code': 'KeyA',
+                       'windowsVirtualKeyCode': 65, 'modifiers': 2}, session=sid)
+        c.call('Input.insertText', {'text': value}, session=sid)
+        time.sleep(1)
+        return c.ev(sid, "(document.querySelector(%s)||{innerText:''}).innerText" % json.dumps(selector)) or ''
+
+    got_title = set_field('#title-textarea #textbox', title)
+    got_desc = set_field('ytcp-video-description #textbox', text, select_all=False)
     if got_title.strip() != title.strip():
         log('!! タイトルが入っていない（%r）→ 再入力' % got_title[:20])
-        c.ev(sid, """(() => { const el = document.querySelector('#title-textarea #textbox'); if (!el) return;
-          el.focus(); document.execCommand('selectAll', false, null);
-          document.execCommand('insertText', false, %s); })()""" % json.dumps(title))
-        got_title = c.ev(sid, "(document.querySelector('#title-textarea #textbox')||{innerText:''}).innerText") or ''
+        got_title = set_field('#title-textarea #textbox', title)
         if got_title.strip() != title.strip():
             sys.exit('タイトルを設定できませんでした（Studio の入力欄を確認）')
+    if len(got_desc.strip()) < 100:
+        sys.exit('説明欄を設定できませんでした（Studio の入力欄を確認）')
     log('タイトルと説明を設定しました')
 
     if thumb.exists():

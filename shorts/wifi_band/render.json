@@ -1,0 +1,46 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.90,
+  "art_types": {
+    "1": "ai",
+    "2": "diagram",
+    "3": "diagram",
+    "4": "ai",
+    "5": "diagram",
+    "6": "diagram"
+  },
+  "clips": {
+    "1": "scene1",
+    "4": "scene4"
+  },
+  "source_labels": {
+    "c1": "総務省 電波利用ポータル",
+    "c2": "総務省 ローカル5G等入門用資料",
+    "c3": "総務省 電波利用ポータル",
+    "c4": "総務省 電波利用ポータル",
+    "c5": "総務省 ローカル5G等入門用資料",
+    "c6": "総務省 ローカル5G等入門用資料"
+  },
+  "product_name": "バッファロー Wi-Fi中継機 WEX-5400AX6（Wi-Fi 6・2.4/5GHz対応）",
+  "hashtags": "#Shorts #Wi-Fi #通信 #インターネット #暮らし",
+  "description_note": "出典は総務省「電波利用ポータル」と「ローカル５Ｇ等入門用資料」。ここでは屋内の一般家庭を前提にしています。実際の速度や届き方は、ルーター・壁の材質・周辺機器によって変わります。5GHz帯の屋外・上空利用には条件があります。中継機の購入前に、まずバンドとチャネルの設定を見直してください。",
+  "bgm": {
+    "file": "assets/bgm/maou_bgm_piano39_maoudamashii.mp3",
+    "gain_db": -5,
+    "start": 3.5,
+    "fade_in": 1.2,
+    "fade_out": 2.0,
+    "duck": {
+      "threshold": 0.05,
+      "ratio": 3,
+      "attack": 10,
+      "release": 200
+    },
+    "credit": "魔王魂「ピアノ39」（作曲：森田交一） https://maou.audio/"
+  },
+  "affiliate": {
+    "label": "Wi-Fi中継機（楽天市場・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/56f11025.74f68efc.56f11026.2c30f66b/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fksdenki%2F4981254061305%2F"
+  }
+}
