@@ -617,8 +617,9 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - 手順: `shorts/kaito_plate/render.json` の `description_note` を更新 → `python scripts/regen_text.py kaito_plate`
   で `out/draft/kaito_plate_DRAFT_description.md` を再生成（MP4 は変更なし）。963 → 1,061文字。
   公開中の説明欄を取得して突き合わせたところ、**差分は「注意」の1行のみ**で他は一致。
-- **YouTube への反映は未実施。** `https://studio.youtube.com/channel/UCBQ8nx5q0_P9NrtStUkSTEg/` は
-  「このページを表示する権限がありません」を返す。ブラウザにサインイン中のGoogleアカウントは4つ
-  （もち / 榎園和仁 / gemini / lab yori）で、そのいずれもこのチャンネルの権限を持っていない状態だった。
-- 次回: 権限のあるアカウントで Studio を開き、`aVawDx0PiVg` の説明欄を
-  `out/draft/kaito_plate_DRAFT_description.md` の内容に差し替える。
+- 最初は反映できなかった。Studio で `https://studio.youtube.com/channel/UCBQ8nx5q0_P9NrtStUkSTEg/` を開くと
+  「このページを表示する権限がありません」。当時の既定アカウントは別チャンネル（江戸ネタのチャンネル）だった。
+- オーナーの指定で Studio のアカウントを **gemini 名義**に切り替えたところ、対象チャンネル（暮らしの判断メモ）が
+  開けるようになった。`https://studio.youtube.com/video/aVawDx0PiVg/edit` で説明欄の「注意」段落だけを差し替え、
+  「変更を保存しました」を確認。**公開中の説明欄が 1,060文字になり、ローカル生成物と完全一致**（外部取得で検証）。
+  MP4・タイトル・公開設定は変更していない。
