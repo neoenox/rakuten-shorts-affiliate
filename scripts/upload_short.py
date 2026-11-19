@@ -19,6 +19,7 @@ usage:
 """
 import argparse
 import json
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -47,8 +48,20 @@ def preflight(slug, check_link=True):
     return info
 
 
+def ensure_chrome():
+    """チャンネル用Chromeが落ちていたら、最小化で起動する（chrome_launch.py に任せる）。"""
+    try:
+        requests.get(CDP_URL + '/json/version', timeout=3)
+        return
+    except Exception:
+        pass
+    launcher = ROOT / 'scripts' / 'chrome_launch.py'
+    subprocess.run([sys.executable, str(launcher), 'channel'], check=False, timeout=180)
+
+
 class CDP:
     def __init__(self):
+        ensure_chrome()
         v = requests.get(CDP_URL + '/json/version', timeout=10).json()
         self.ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=180)
         self.n = 0

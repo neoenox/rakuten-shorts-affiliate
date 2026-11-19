@@ -134,3 +134,15 @@ python scripts/muse_review.py <slug>       # 完成動画を Muse がレビュ�
 
 - チャンネルの実測は [docs/ANALYTICS.md](docs/ANALYTICS.md) に日付つきで追記する。
 - 判断基準（決定事項）: 3か月で**成果1件**＋**再生1,000回/本**。1本の数字で題材を決めない。
+
+## Chrome の起動
+
+```powershell
+python scripts/chrome_launch.py channel   # YouTube Studio・楽天（9222 / .chrome-gemienox）
+python scripts/chrome_launch.py review    # ChatGPT・Gemini・Muse（9223 / .chrome-automation）
+```
+
+- **最小化で開く**（2026-11-19 オーナー指示）。Chrome がセッション復元で最大化に戻る場合も、
+  起動後に数回リトライして最小化する。
+- 既にそのポートが開いていれば何もしない。`upload_short.py` / `muse_review.py` / `script_review.py` は
+  ポートが閉じていれば自動でこのランチャーを呼ぶ。

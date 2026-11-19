@@ -10,7 +10,7 @@ python scripts/script_review.py <slug> --target chatgpt
 python scripts/script_review.py <slug> --dry-run    # 依頼文を表示するだけ
 ```
 
-- レビュー用Chrome（`--user-data-dir=C:\Users\neoen\.chrome-automation --remote-debugging-port=9223`）で
+- レビュー用Chrome（`python scripts/chrome_launch.py review` / 9223 / `.chrome-automation`）で
   ChatGPT / Gemini にログインしておく。**チャンネル操作用のプロファイル（9222）とは分ける。**
 - 依頼文は `result.json` と `brief.yaml` から自動で作る。観点は A事実の正確さ／B出典と主張の対応／
   C聞きやすさ／D構成と引き／E抜けている文脈。**書き直し禁止・新事実には出典必須**を明記する。
@@ -52,4 +52,5 @@ python scripts/muse_review.py <slug> [--note "追記"] [--dry-run]
 - 指摘は**そのまま採用しない**。出典をこちらで確かめてから反映する（寄り道ラボと同じ方針）。
 - Museは1本の長い会話を使う。新規チャットを作らない。
 - 送信は ChatGPT がボタン、Gemini と Muse は Enter が確実（実測）。
-- Chromeが落ちていたら、レビュー用プロファイルを `--remote-debugging-port=9223` で起動し直す。
+- Chromeが落ちていたら `python scripts/chrome_launch.py review` で起動し直す（**最小化で開く**。muse_review.py / script_review.py は自動で呼ぶ）。
+

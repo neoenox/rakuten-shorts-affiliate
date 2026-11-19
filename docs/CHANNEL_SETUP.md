@@ -27,6 +27,16 @@ DSH のブラウザ拡張は使わない（Default プロファイルにしか�
 #   %LOCALAPPDATA%\Google\Chrome\User Data\Local State と "Profile 3" を
 #   C:\Users\neoen\.chrome-gemienox へコピー
 
+# 起動はこれを使う（最小化で開く・既に開いていれば何もしない）
+python scripts/chrome_launch.py channel
+```
+
+- **Chrome は最小化で起動する**（2026-11-19 オーナー指示）。`chrome_launch.py` は
+  `cmd /c start "" /min` で起動したあと、セッション復元で最大化に戻るのを数回リトライして最小化する。
+- `upload_short.py` と `muse_review.py` は、ポートが閉じていれば自分でこのランチャーを呼ぶ。
+- 手で起動する場合（トラブル時のみ）:
+
+```powershell
 & "C:\Program Files\Google\Chrome\Application\chrome.exe" `
   --user-data-dir="$env:USERPROFILE\.chrome-gemienox" `
   --profile-directory="Profile 3" `
