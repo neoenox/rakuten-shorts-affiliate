@@ -242,7 +242,24 @@ def main():
         time.sleep(3)
         log(f'  公開設定: {target}')
 
-    c.click_when_ready(sid, '#save-button', 90, '保存')
+    # 確定ボタンは選んだ公開範囲でラベルが変わる（非公開→「保存」／公開→「公開」）。
+    # #save-button が無い・無効なときは、ダイアログ内の該当ラベルを押す。
+    if not c.click_when_ready(sid, '#save-button', 30, '保存'):
+        for label in ('公開', '保存', '完了'):
+            p = c.ev(sid, """(() => {
+              const label = %s;
+              const btns = Array.from(document.querySelectorAll('ytcp-button, button'))
+                .filter(b => { const r = b.getBoundingClientRect(); return r.width > 0 && r.y > 0; });
+              const b = btns.find(x => (x.innerText || '').trim() === label && !x.hasAttribute('disabled'));
+              if (!b) return null;
+              b.scrollIntoView({block: 'center'});
+              const r = b.getBoundingClientRect();
+              return {x: Math.round(r.x + r.width/2), y: Math.round(r.y + r.height/2)};
+            })()""" % json.dumps(label))
+            if p:
+                c.rclick(sid, p['x'], p['y'])
+                log(f'  {label}: clicked')
+                break
     time.sleep(10)
     tail = (c.ev(sid, 'document.body.innerText.slice(-200)') or '').replace('\n', ' / ')
     log('保存後の表示:', tail)
