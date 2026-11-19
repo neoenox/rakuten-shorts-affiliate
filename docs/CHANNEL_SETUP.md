@@ -165,3 +165,27 @@ Target.attachToTarget + Runtime.evaluate / DOM.setFileInputFiles / Page.captureS
   `?pc=` が2つ（商品とサムネイル）含まれるため、**最初の `?pc=` だけを取り出す**必要がある。
 - これを自動化した `scripts/affiliate_link.py` を追加（商品URLを渡すと hb.afl のテキストリンクを返す）。
 - 作成したリンクは HTTP で 301 を追跡し、`scid=af_pc_etc` が付いて商品ページに着地することを毎回確認している。
+
+## 2026-11-19 楽天アフィリエイトに商品一覧ページ（hub）を登録
+
+| 項目 | 内容 |
+| --- | --- |
+| 順位 | 3位 |
+| 運営サイト名 | 暮らしの判断メモ（商品一覧） |
+| 運営サイトURL | https://neoenox.github.io/kurashi-hantei/ |
+| ジャンル | 住まい・インテリア・雑貨 |
+
+- 既存の「暮らしの判断メモ」（チャンネルURL・2位）はそのまま残した。
+- 登録画面の「サイト情報を登録する」ボタンは `main` のスクロール領域の外にあり、
+  ウィンドウを縦1400pxにしないと実クリックが外れる。
+
+## 2026-11-19 プロフィールの外部リンクを hub に差し替え
+
+| 項目 | 内容 |
+| --- | --- |
+| リンクのタイトル | 紹介した商品一覧（PR） |
+| URL | https://neoenox.github.io/kurashi-hantei/ |
+| 旧リンク | 掃除用ブラシ（楽天市場）（`ac_heater_saving` の商品。固定コメントに直リンクが残る） |
+
+- Studio のプロフィール編集で、既存リンクのタイトルと URL を書き換えて「公開」。
+  「すべての変更を保存しました」を確認し、公開ページの `channelExternalLinkViewModel` で一致を確認した。
