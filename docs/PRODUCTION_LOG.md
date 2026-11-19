@@ -844,3 +844,13 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - `approve.py prepare peak_hours --frames-ok --conditions-ok --expressions-ok --product-ok` PASS。
   証跡は `shorts/peak_hours/verification.json`。`status` は `needs_review` のまま、**オーナー承認待ち**。
 - 次: オーナーが `approve.py sign peak_hours --by owner` → `render_short.py peak_hours` → `gate.py` → アップロード → hub 更新。
+
+### 追記: `peak_hours` を承認・再描画・gate PASS
+
+- オーナー承認を記録: `approve.py sign peak_hours --by owner`。有効期限は 2026-12-03。
+  `result.json` は `ready`、`verification.json` は `approved`。
+- 承認後に `render_short.py peak_hours` で `out/peak_hours.mp4` へ再描画（39.44秒）。
+  Muse が見た draft と同じクリップ・図解を使っており、gate の指紋照合も通った。
+- `gate.py peak_hours` PASS。商品は「コンセント タイマー 4時間 5分単位 ダイヤルタイマー（FUMITAKE CS4）」、
+  着地 URL は `item.rakuten.co.jp/.../?scid=af_pc_etc&sc2id=af_101_0_0`。
+- 次: `upload_short.py peak_hours --publish` → 公開確認 → hub を10件に更新。

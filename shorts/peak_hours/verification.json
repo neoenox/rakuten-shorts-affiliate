@@ -1,11 +1,11 @@
 {
   "slug": "peak_hours",
-  "status": "pending",
+  "status": "approved",
   "checked_at": "2026-11-19T20:02:29+09:00",
-  "approved_at": null,
-  "approved_by": null,
-  "expires_at": null,
-  "result_sha256": "bbc509ad214bd117f17932e80992bdfd2c0de9cf15983addf91ce62e3fe80020",
+  "approved_at": "2026-11-19T20:07:20+09:00",
+  "approved_by": "owner",
+  "expires_at": "2026-12-03",
+  "result_sha256": "89f54ec173e232960f773f76c86f2e8ba0ae0026e9fdb5eae68060e9bb0e187f",
   "review": {
     "file": "review_muse.md",
     "exists": true,
