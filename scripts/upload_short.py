@@ -184,6 +184,15 @@ def main():
     c.ev(sid, """(() => { const el = document.querySelector('ytcp-video-description #textbox'); if (!el) return;
       el.focus(); document.execCommand('selectAll', false, null);
       document.execCommand('insertText', false, %s); })()""" % json.dumps(text))
+    got_title = c.ev(sid, "(document.querySelector('#title-textarea #textbox')||{innerText:''}).innerText") or ''
+    if got_title.strip() != title.strip():
+        log('!! タイトルが入っていない（%r）→ 再入力' % got_title[:20])
+        c.ev(sid, """(() => { const el = document.querySelector('#title-textarea #textbox'); if (!el) return;
+          el.focus(); document.execCommand('selectAll', false, null);
+          document.execCommand('insertText', false, %s); })()""" % json.dumps(title))
+        got_title = c.ev(sid, "(document.querySelector('#title-textarea #textbox')||{innerText:''}).innerText") or ''
+        if got_title.strip() != title.strip():
+            sys.exit('タイトルを設定できませんでした（Studio の入力欄を確認）')
     log('タイトルと説明を設定しました')
 
     if thumb.exists():
@@ -200,7 +209,16 @@ def main():
         log('!! 1日のアップロード上限に達しています（24時間待つかワンタイム認証が必要）')
         sys.exit(2)
 
-    time.sleep(3)
+    # アップロードと初期チェックが終わるまで「次へ」は押せない（実測）。
+    # 処理中に押すとダイアログが閉じ、ドラフトのまま残る。
+    for _ in range(120):
+        body = c.ev(sid, 'document.body.innerText') or ''
+        if '処理しています' not in body and ('チェックが完了' in body or '問題は検出されませんでした' in body):
+            break
+        time.sleep(3)
+    else:
+        sys.exit('アップロード処理が終わりませんでした（Studio を確認）')
+    time.sleep(2)
     c.click_when_ready(sid, '#next-button', 120, '次へ(詳細)')
     time.sleep(6)
 
