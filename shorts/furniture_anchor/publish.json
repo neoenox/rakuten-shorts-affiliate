@@ -1,0 +1,14 @@
+{
+  "slug": "furniture_anchor",
+  "visibility": "public",
+  "video_id": "T-ERvf5yy2s",
+  "published_at": "2026-11-19",
+  "title": "家具の転倒防止、突っ張り棒だけで大丈夫？",
+  "product": {
+    "name": "家具転倒防止具 L字型金具（L字4個・取付ネジ付き）"
+  },
+  "affiliate_url": "https://hb.afl.rakuten.co.jp/ichiba/59b41f73.c17a9e2f.59b41f74.026bfccb/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fganpon%2F10001270%2F",
+  "legacy_open_items": [],
+  "legacy_check": null,
+  "notes": "2026-11-19に照合・オーナー承認→gate PASS→公開。upload_short.py は Studio の評価呼び出しが詰まって「次へ」を押せず、公開は手順を分けて実行した。ドラフトのまま公開されたため、タイトルと説明欄を編集ページで設定し直した（公開は維持）。固定コメントは投稿済みだが、ピン留めは UI 上で反映されなかった。"
+}

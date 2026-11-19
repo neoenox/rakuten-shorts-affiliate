@@ -66,8 +66,7 @@
 
 ## 未決（次にやる）
 
-1. **次回の公開**: `furniture_anchor` は承認済み・`gate.py` PASS（`out/furniture_anchor.mp4`）。
-   公開週に `upload_short.py furniture_anchor --publish`（アップロード上限の解除を確認してから）。
+1. **次回の公開**: `furniture_anchor` は 2026-11-19 に公開済み（`T-ERvf5yy2s`）。次は新作の制作から。
 2. **`winter_three` の再開**（別の切り口に改稿する場合のみ）。
 3. **レポートの見方**（D30）。楽天のサイト登録画面に「計測IDはリンク毎に設定するとレポートで
    成果件数・報酬を確認できる（上限20個）」と明記がある。hub と動画を分ける気になったら、
