@@ -31,7 +31,7 @@
 ```
 docs/            設計メモと調査（一次資料の引用つき）
 shorts-standard/ 台本の制作標準（JSONスキーマと検査器）
-scripts/         shorts_standard.py（検査・変換）／render_short.py（描画）
+scripts/         shorts_standard.py（検査・変換）／render_short.py（描画）／cdp_client.py（生CDPの共通処理）
 shorts/          作品ごとの台本（brief.yaml / result.json / render.json / art/）
 out/             完成物（下書きは out/draft/。.gitignore 済み）
 ```

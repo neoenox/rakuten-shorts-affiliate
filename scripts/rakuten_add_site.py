@@ -9,42 +9,12 @@ import json
 import sys
 import time
 
-import requests
-import websocket
-
-CDP = 'http://127.0.0.1:9222'
+from cdp_client import Client
 
 
-class C:
+class C(Client):
     def __init__(self):
-        v = requests.get(CDP + '/json/version', timeout=10).json()
-        self.ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=120)
-        self.n = 0
-
-    def call(self, method, params=None, session=None, timeout=90):
-        self.n += 1
-        msg = {'id': self.n, 'method': method, 'params': params or {}}
-        if session:
-            msg['sessionId'] = session
-        self.ws.settimeout(timeout)
-        self.ws.send(json.dumps(msg))
-        while True:
-            r = json.loads(self.ws.recv())
-            if r.get('id') == self.n:
-                return r
-
-    def ev(self, sid, expr, timeout=90):
-        r = self.call('Runtime.evaluate', {'expression': expr, 'returnByValue': True, 'awaitPromise': True},
-                      session=sid, timeout=timeout)
-        return r.get('result', {}).get('result', {}).get('value')
-
-    def open(self, url, match='/user/sites'):
-        pages = [t for t in self.call('Target.getTargets')['result']['targetInfos'] if t.get('type') == 'page']
-        t = [x for x in pages if match in (x.get('url') or '')]
-        tid = t[-1]['targetId'] if t else self.call('Target.createTarget', {'url': url})['result']['targetId']
-        sid = self.call('Target.attachToTarget', {'targetId': tid, 'flatten': True})['result']['sessionId']
-        self.call('Target.activateTarget', {'targetId': tid})
-        return sid
+        super().__init__(ws_timeout=120, call_timeout=90)
 
     def viewport(self, sid, width, height):
         """縦長のビューポートにする。入力欄やボタンが画面外だと実クリックが外れるため。"""
@@ -53,11 +23,6 @@ class C:
 
     def clear_viewport(self, sid):
         self.call('Emulation.clearDeviceMetricsOverride', session=sid)
-
-    def rclick(self, sid, x, y):
-        self.call('Input.dispatchMouseEvent', {'type': 'mouseMoved', 'x': x, 'y': y}, session=sid)
-        self.call('Input.dispatchMouseEvent', {'type': 'mousePressed', 'x': x, 'y': y, 'button': 'left', 'clickCount': 1}, session=sid)
-        self.call('Input.dispatchMouseEvent', {'type': 'mouseReleased', 'x': x, 'y': y, 'button': 'left', 'clickCount': 1}, session=sid)
 
 
 def button_point(c, sid, label):

@@ -7,42 +7,13 @@ Runtime.evaluate を直接使う。usage:
 import argparse
 import json
 import sys
-import time
 
-import requests
-import websocket
-
-CDP = 'http://127.0.0.1:9222'
+from cdp_client import Client
 
 
-class Raw:
+class Raw(Client):
     def __init__(self, port=9222):
-        v = requests.get(f'http://127.0.0.1:{port}/json/version', timeout=10).json()
-        self.ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=90)
-        self.n = 0
-
-    def call(self, method, params=None, session=None, timeout=90):
-        self.n += 1
-        msg = {'id': self.n, 'method': method, 'params': params or {}}
-        if session:
-            msg['sessionId'] = session
-        self.ws.settimeout(timeout)
-        self.ws.send(json.dumps(msg))
-        while True:
-            r = json.loads(self.ws.recv())
-            if r.get('id') == self.n:
-                return r
-
-    def pages(self):
-        tg = self.call('Target.getTargets')['result']['targetInfos']
-        return [t for t in tg if t.get('type') == 'page']
-
-    def page(self, match=''):
-        cands = [t for t in self.pages() if match in (t.get('url') or '')]
-        return cands[-1] if cands else None
-
-    def attach(self, target_id):
-        return self.call('Target.attachToTarget', {'targetId': target_id, 'flatten': True})['result']['sessionId']
+        super().__init__(port=port, ws_timeout=90, call_timeout=90)
 
     def eval(self, session, expr, await_promise=False, timeout=90):
         r = self.call('Runtime.evaluate',
@@ -52,12 +23,6 @@ class Raw:
         if 'exceptionDetails' in res:
             return {'__exc__': json.dumps(res['exceptionDetails'], ensure_ascii=False)[:300]}
         return res.get('result', {}).get('value')
-
-    def close(self):
-        try:
-            self.ws.close()
-        except Exception:
-            pass
 
 
 def main():

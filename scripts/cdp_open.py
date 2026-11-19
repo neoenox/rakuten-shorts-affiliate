@@ -5,33 +5,14 @@ usage:
   python scripts/cdp_open.py <url> --same      # 既存タブを使い回す
 """
 import argparse
-import json
 import time
 
-import requests
-import websocket
-
-CDP = 'http://127.0.0.1:9222'
+from cdp_client import Client
 
 
 def connect():
-    v = requests.get(CDP + '/json/version', timeout=10).json()
-    ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=30)
-    n = [0]
-
-    def call(method, params=None, session=None, timeout=45):
-        n[0] += 1
-        msg = {'id': n[0], 'method': method, 'params': params or {}}
-        if session:
-            msg['sessionId'] = session
-        ws.settimeout(timeout)
-        ws.send(json.dumps(msg))
-        while True:
-            r = json.loads(ws.recv())
-            if r.get('id') == n[0]:
-                return r
-
-    return ws, call
+    c = Client(ws_timeout=30, call_timeout=45)
+    return c.ws, c.call
 
 
 def main():

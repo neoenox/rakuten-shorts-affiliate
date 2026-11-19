@@ -15,8 +15,7 @@ import sys
 import time
 from pathlib import Path
 
-import requests
-import websocket
+from cdp_client import Client
 
 ROOT = Path(__file__).resolve().parents[1]
 MARK = '===ここまでが台本です==='
@@ -43,44 +42,18 @@ TARGETS = {
 }
 
 
-class C:
+class C(Client):
     def __init__(self, port=PORT):
-        v = requests.get(f'http://127.0.0.1:{port}/json/version', timeout=10).json()
-        self.ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=180)
-        self.n = 0
+        super().__init__(port=port, ws_timeout=180, call_timeout=120)
 
-    def call(self, method, params=None, session=None, timeout=120):
-        self.n += 1
-        msg = {'id': self.n, 'method': method, 'params': params or {}}
-        if session:
-            msg['sessionId'] = session
-        self.ws.settimeout(timeout)
-        self.ws.send(json.dumps(msg))
-        while True:
-            r = json.loads(self.ws.recv())
-            if r.get('id') == self.n:
-                return r
-
-    def ev(self, sid, expr, timeout=120):
-        r = self.call('Runtime.evaluate', {'expression': expr, 'returnByValue': True, 'awaitPromise': True},
+    def ev(self, sid, expr, timeout=None):
+        r = self.call('Runtime.evaluate',
+                      {'expression': expr, 'returnByValue': True, 'awaitPromise': True},
                       session=sid, timeout=timeout)
         res = r.get('result', {})
         if 'exceptionDetails' in res:
             return {'__exc__': json.dumps(res['exceptionDetails'], ensure_ascii=False)[:300]}
         return res.get('result', {}).get('value')
-
-    def pages(self):
-        return [t for t in self.call('Target.getTargets')['result']['targetInfos'] if t.get('type') == 'page']
-
-    def open(self, url, match):
-        t = [x for x in self.pages() if match in (x.get('url') or '')]
-        if t:
-            tid = t[-1]['targetId']
-        else:
-            tid = self.call('Target.createTarget', {'url': url})['result']['targetId']
-        sid = self.call('Target.attachToTarget', {'targetId': tid, 'flatten': True})['result']['sessionId']
-        self.call('Target.activateTarget', {'targetId': tid})
-        return sid
 
 
 def build_prompt(slug, data, brief_text=''):

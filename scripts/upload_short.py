@@ -25,7 +25,8 @@ import time
 from pathlib import Path
 
 import requests
-import websocket
+
+from cdp_client import Client
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -59,34 +60,10 @@ def ensure_chrome():
     subprocess.run([sys.executable, str(launcher), 'channel'], check=False, timeout=180)
 
 
-class CDP:
+class CDP(Client):
     def __init__(self):
         ensure_chrome()
-        v = requests.get(CDP_URL + '/json/version', timeout=10).json()
-        self.ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=180)
-        self.n = 0
-
-    def call(self, method, params=None, session=None, timeout=120):
-        self.n += 1
-        msg = {'id': self.n, 'method': method, 'params': params or {}}
-        if session:
-            msg['sessionId'] = session
-        self.ws.settimeout(timeout)
-        self.ws.send(json.dumps(msg))
-        while True:
-            r = json.loads(self.ws.recv())
-            if r.get('id') == self.n:
-                return r
-
-    def ev(self, sid, expr, timeout=120):
-        r = self.call('Runtime.evaluate', {'expression': expr, 'returnByValue': True, 'awaitPromise': True},
-                      session=sid, timeout=timeout)
-        return r.get('result', {}).get('result', {}).get('value')
-
-    def rclick(self, sid, x, y):
-        self.call('Input.dispatchMouseEvent', {'type': 'mouseMoved', 'x': x, 'y': y}, session=sid)
-        self.call('Input.dispatchMouseEvent', {'type': 'mousePressed', 'x': x, 'y': y, 'button': 'left', 'clickCount': 1}, session=sid)
-        self.call('Input.dispatchMouseEvent', {'type': 'mouseReleased', 'x': x, 'y': y, 'button': 'left', 'clickCount': 1}, session=sid)
+        super().__init__(ws_timeout=180, call_timeout=120)
 
     def rect(self, sid, selector):
         return self.ev(sid, """(() => { const e = document.querySelector(%s); if (!e) return null;

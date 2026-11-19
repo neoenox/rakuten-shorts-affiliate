@@ -16,7 +16,8 @@ import time
 from pathlib import Path
 
 import requests
-import websocket
+
+from cdp_client import Client
 
 ROOT = Path(__file__).resolve().parents[1]
 PORT = 9223
@@ -43,37 +44,10 @@ def ensure_chrome():
     subprocess.run([sys.executable, str(launcher), 'review'], check=False, timeout=180)
 
 
-class C:
+class C(Client):
     def __init__(self, port=PORT):
         ensure_chrome()
-        v = requests.get(f'http://127.0.0.1:{port}/json/version', timeout=10).json()
-        self.ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=180)
-        self.n = 0
-
-    def call(self, method, params=None, session=None, timeout=120):
-        self.n += 1
-        msg = {'id': self.n, 'method': method, 'params': params or {}}
-        if session:
-            msg['sessionId'] = session
-        self.ws.settimeout(timeout)
-        self.ws.send(json.dumps(msg))
-        while True:
-            r = json.loads(self.ws.recv())
-            if r.get('id') == self.n:
-                return r
-
-    def ev(self, sid, expr, timeout=120):
-        r = self.call('Runtime.evaluate', {'expression': expr, 'returnByValue': True, 'awaitPromise': True},
-                      session=sid, timeout=timeout)
-        return r.get('result', {}).get('result', {}).get('value')
-
-    def open(self, url, match):
-        pages = [t for t in self.call('Target.getTargets')['result']['targetInfos'] if t.get('type') == 'page']
-        t = [x for x in pages if match in (x.get('url') or '')]
-        tid = t[-1]['targetId'] if t else self.call('Target.createTarget', {'url': url})['result']['targetId']
-        sid = self.call('Target.attachToTarget', {'targetId': tid, 'flatten': True})['result']['sessionId']
-        self.call('Target.activateTarget', {'targetId': tid})
-        return sid
+        super().__init__(port=port, ws_timeout=180, call_timeout=120)
 
     def find_files(self, sid):
         doc = self.call('DOM.getDocument', {'depth': -1, 'pierce': True}, session=sid)['result']['root']

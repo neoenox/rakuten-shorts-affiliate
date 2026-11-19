@@ -14,42 +14,16 @@ import time
 import urllib.parse
 from pathlib import Path
 
-import requests
-import websocket
+from cdp_client import Client
 
-CDP = 'http://127.0.0.1:9222'
 ROOT = Path(__file__).resolve().parents[1]
-
-
-class CDPClient:
-    def __init__(self):
-        v = requests.get(CDP + '/json/version', timeout=10).json()
-        self.ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=120)
-        self.n = 0
-
-    def call(self, method, params=None, session=None, timeout=90):
-        self.n += 1
-        msg = {'id': self.n, 'method': method, 'params': params or {}}
-        if session:
-            msg['sessionId'] = session
-        self.ws.settimeout(timeout)
-        self.ws.send(json.dumps(msg))
-        while True:
-            r = json.loads(self.ws.recv())
-            if r.get('id') == self.n:
-                return r
-
-    def ev(self, sid, expr, timeout=90):
-        r = self.call('Runtime.evaluate', {'expression': expr, 'returnByValue': True, 'awaitPromise': True},
-                      session=sid, timeout=timeout)
-        return r.get('result', {}).get('result', {}).get('value')
 
 
 def make_link(c, product_url):
     """freelink を開いて hb.afl のURLを取り出す。"""
     if c:
         c.ws.close()
-    c = CDPClient()
+    c = Client(ws_timeout=120, call_timeout=90)
     q = urllib.parse.quote(product_url, safe='')
     tid = c.call('Target.createTarget', {'url': f'https://affiliate.rakuten.co.jp/freelink?u={q}'})['result']['targetId']
     sid = c.call('Target.attachToTarget', {'targetId': tid, 'flatten': True})['result']['sessionId']

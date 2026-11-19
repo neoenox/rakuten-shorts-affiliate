@@ -8,34 +8,7 @@ import argparse
 import json
 import sys
 
-import requests
-import websocket
-
-CDP = 'http://127.0.0.1:9222'
-
-
-class Client:
-    def __init__(self):
-        v = requests.get(CDP + '/json/version', timeout=10).json()
-        self.ws = websocket.create_connection(v['webSocketDebuggerUrl'], timeout=30)
-        self.n = 0
-
-    def send(self, method, params=None, session=None):
-        self.n += 1
-        msg = {'id': self.n, 'method': method, 'params': params or {}}
-        if session:
-            msg['sessionId'] = session
-        self.ws.send(json.dumps(msg))
-        while True:
-            r = json.loads(self.ws.recv())
-            if r.get('id') == self.n:
-                return r
-
-    def close(self):
-        try:
-            self.ws.close()
-        except Exception:
-            pass
+from cdp_client import Client
 
 
 def main():
@@ -45,9 +18,9 @@ def main():
     ap.add_argument('--list', action='store_true')
     a = ap.parse_args()
 
-    c = Client()
+    c = Client(ws_timeout=30)
     try:
-        tg = c.send('Target.getTargets')['result']['targetInfos']
+        tg = c.call('Target.getTargets')['result']['targetInfos']
         pages = [t for t in tg if t.get('type') == 'page']
         if a.list or not a.expr:
             for t in pages:
@@ -56,9 +29,9 @@ def main():
 
         cands = [t for t in pages if a.match and a.match in (t.get('url') or '')] or pages
         target = cands[-1]
-        att = c.send('Target.attachToTarget', {'targetId': target['targetId'], 'flatten': True})
+        att = c.call('Target.attachToTarget', {'targetId': target['targetId'], 'flatten': True})
         sid = att['result']['sessionId']
-        res = c.send('Runtime.evaluate', {'expression': a.expr, 'returnByValue': True, 'awaitPromise': True}, session=sid)
+        res = c.call('Runtime.evaluate', {'expression': a.expr, 'returnByValue': True, 'awaitPromise': True}, session=sid)
         r = res.get('result', {})
         if 'exceptionDetails' in r:
             print('EXCEPTION:', json.dumps(r['exceptionDetails'], ensure_ascii=False)[:400])
