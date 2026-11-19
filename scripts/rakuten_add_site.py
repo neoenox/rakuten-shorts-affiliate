@@ -46,10 +46,46 @@ class C:
         self.call('Target.activateTarget', {'targetId': tid})
         return sid
 
+    def viewport(self, sid, width, height):
+        """縦長のビューポートにする。入力欄やボタンが画面外だと実クリックが外れるため。"""
+        self.call('Emulation.setDeviceMetricsOverride',
+                  {'width': width, 'height': height, 'deviceScaleFactor': 1, 'mobile': False}, session=sid)
+
+    def clear_viewport(self, sid):
+        self.call('Emulation.clearDeviceMetricsOverride', session=sid)
+
     def rclick(self, sid, x, y):
         self.call('Input.dispatchMouseEvent', {'type': 'mouseMoved', 'x': x, 'y': y}, session=sid)
         self.call('Input.dispatchMouseEvent', {'type': 'mousePressed', 'x': x, 'y': y, 'button': 'left', 'clickCount': 1}, session=sid)
         self.call('Input.dispatchMouseEvent', {'type': 'mouseReleased', 'x': x, 'y': y, 'button': 'left', 'clickCount': 1}, session=sid)
+
+
+def button_point(c, sid, label):
+    """ラベルの一致するボタンの中心座標を返す。画面外なら縦長にして収める。
+
+    `main` のスクロール領域は window ではないため、scrollIntoView だけでは
+    ビューポート内に入らない（2026-11-19 実測）。
+    """
+    js = """(() => {
+      const b = Array.from(document.querySelectorAll('button'))
+        .find(x => (x.innerText || '').trim() === %s && x.getBoundingClientRect().width > 0);
+      if (!b) return null;
+      b.scrollIntoView({block: 'center'});
+      const r = b.getBoundingClientRect();
+      return {x: Math.round(r.x + r.width/2), y: Math.round(r.y + r.height/2),
+              vw: innerWidth, vh: innerHeight};
+    })()""" % json.dumps(label)
+    pt = c.ev(sid, js)
+    if pt and 0 <= pt['y'] < pt['vh']:
+        return pt
+    if not pt:
+        return None
+    c.viewport(sid, max(1000, pt['vw']), pt['y'] + 120)
+    time.sleep(1)
+    pt = c.ev(sid, js)
+    if not pt or not (0 <= pt['y'] < pt['vh']):
+        return None
+    return pt
 
 
 def main():
@@ -88,18 +124,12 @@ def main():
     print('入力:', json.dumps(filled, ensure_ascii=False))
     time.sleep(2)
 
-    btn = c.ev(sid, """(() => {
-      const b = Array.from(document.querySelectorAll('button'))
-        .find(x => (x.innerText || '').trim() === 'サイト情報を登録する' && x.getBoundingClientRect().width > 0);
-      if (!b) return null;
-      b.scrollIntoView({block: 'center'});
-      const r = b.getBoundingClientRect();
-      return {x: Math.round(r.x + r.width/2), y: Math.round(r.y + r.height/2)};
-    })()""")
+    btn = button_point(c, sid, 'サイト情報を登録する')
     print('登録ボタン:', btn)
     if not btn:
         return 1
     c.rclick(sid, btn['x'], btn['y'])
+    c.clear_viewport(sid)
     time.sleep(8)
 
     out = c.ev(sid, "document.body.innerText") or ''

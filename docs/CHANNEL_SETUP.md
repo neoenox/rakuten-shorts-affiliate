@@ -176,8 +176,8 @@ Target.attachToTarget + Runtime.evaluate / DOM.setFileInputFiles / Page.captureS
 | ジャンル | 住まい・インテリア・雑貨 |
 
 - 既存の「暮らしの判断メモ」（チャンネルURL・2位）はそのまま残した。
-- 登録画面の「サイト情報を登録する」ボタンは `main` のスクロール領域の外にあり、
-  ウィンドウを縦1400pxにしないと実クリックが外れる。
+- 登録画面の「サイト情報を登録する」ボタンは `main` のスクロール領域の外にあり、素の状態では実クリックが外れる。
+  `scripts/rakuten_add_site.py` の `button_point()` が、ボタンが画面外ならビューポートを縦長にして収める。
 
 ## 2026-11-19 プロフィールの外部リンクを hub に差し替え
 
