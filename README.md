@@ -103,7 +103,7 @@ python scripts/upload_short.py <slug> --check-only  # Studioを開かず、公�
 - 未公開は4本（`kettle_heat` → `led_light` → `fridge_habits` → `iphone_battery` の順に週1）。
 - `winter_three` は `ac_heater_saving` と同一出典・同一数値のため**保留**（`visibility: held`）。
 - **1日のアップロード上限**が続いている。次の公開週に1回だけ試し、まだ上限ならワンタイム認証へ切り替える。
-- プロフィールリンクは使わない方針。動画内の案内は「商品名は説明欄に書いています」に統一。
+- プロフィールの外部リンクは**商品一覧ページ（hub）**を指す（2026-11-19）。動画内の案内は「商品名は説明欄に書いています」に統一。
 - ピン留め（固定コメント）は自動化できず、手動 1 クリック。
 
 公開までの順序と承認のルールは [`docs/WORKFLOW.md`](docs/WORKFLOW.md)。
@@ -118,6 +118,23 @@ python scripts/affiliate_link.py "https://item.rakuten.co.jp/<shop>/<item>/"
 - 楽天アフィリエイトにログインした分離Chromeが必要。
 - 返るURLを `shorts/<slug>/render.json` の `affiliate` に入れ、`python scripts/regen_text.py <slug>` で
   説明欄・固定コメントに反映する。公開済みなら Studio の説明欄を差し替える。
+
+## 商品一覧ページ（hub）
+
+公開リポジトリ [`neoenox/kurashi-hantei`](https://github.com/neoenox/kurashi-hantei) の
+<https://neoenox.github.io/kurashi-hantei/>。公開済み動画の商品を1ページにまとめ、チャンネルの
+プロフィールリンクの行き先になる。
+
+```powershell
+gh repo clone neoenox/kurashi-hantei ../kurashi-hantei   # 初回だけ
+python scripts/build_hub.py            # 生成・検査・差分表示（commit しない）
+python scripts/build_hub.py --deploy   # 検査を通ったら commit して push
+python scripts/build_hub.py --verify   # リンクが生きているか確認（書き込みなし）
+```
+
+- 生成物は clone 側の `index.html` だけ。このリポジトリに写しは置かない。
+- カードが減る変更は `--allow-remove` を付けない限り中断する。
+- 詳細は `docs/superpowers/specs/2026-11-19-revenue-path-design.md`。
 
 ## レビュー（台本・動画）
 

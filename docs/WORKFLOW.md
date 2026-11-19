@@ -141,3 +141,16 @@ brief.yaml（事実と出典）
 
 `python scripts/status.py` が `docs/STATUS.md` を生成する。手で編集しない。
 `README.md` の「現在の状態」は `docs/STATUS.md` を参照する。
+
+## 10. 商品一覧ページ（hub）の更新
+
+動画を公開したら、その日のうちに hub を更新する。
+
+1. `shorts/<slug>/publish.json` が `visibility: public` で、`product.name` と `video_id` が入っていることを確認。
+2. `python scripts/build_hub.py --verify` — 全リンクが `item.rakuten.co.jp` に着地するか（警告のみ）。
+3. `python scripts/build_hub.py --deploy` — 検査（PR表記・画像なし・価格なし・リンク・`rel`）と
+   git の停止条件を通ったときだけ commit・push する。
+4. カードが減る変更が必要なときだけ `--allow-remove` を付ける（理由を `PRODUCTION_LOG.md` に書く）。
+
+- 正は公開リポジトリの `index.html`。このリポジトリに `hub/` は置かない。
+- リンク切れは検出だけ。カードの削除やリンク差し替えは人が決める。
