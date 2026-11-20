@@ -9,8 +9,11 @@ usage:
   python scripts/render_yorimichi.py <slug> [--out-dir out]
 """
 import argparse
+import subprocess
 import sys
 from pathlib import Path
+
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -157,6 +160,138 @@ def draw_frame(im, sc, data, conf, scene_i, t, start, dur, kind, caption_alpha=1
     return im
 
 
+def plan(slug, speaker=None, speed=None):
+    """VOICEVOX の実測尺で result.json の start/end/duration を更新する。"""
+    sd = ROOT / 'shorts' / slug
+    result_path = sd / 'result.json'
+    data = load_json(result_path)
+    conf = load_render_conf(sd)
+    sp = speaker or conf.get('speaker', '青山龍星')
+    spd = speed if speed is not None else float(conf.get('speed', 0.95))
+    segs = R.synthesize(sd, data, conf, sp, spd)
+    starts, spans, total = R.plan_timing([s['dur'] for s in segs])
+    R.write_timing(result_path, data, starts, spans, total)
+    print(f'実測 {total:.2f} 秒 / {len(spans)} シーン。次に shorts_standard.py check を実行する')
+    return total
+
+
+def output_paths(slug, status, out_dir='out'):
+    draft = status != 'ready'
+    directory = ROOT / out_dir / ('draft' if draft else '')
+    stem = slug + ('_DRAFT' if draft else '')
+    return (
+        directory, stem,
+        directory / (stem + '.mp4'),
+        directory / (stem + '_thumb.jpg'),
+        directory / (stem + '_description.md'),
+        directory / (stem + '_fixed_comment.md'),
+    )
+
+
+def load_bases(sd, spec):
+    bases = []
+    for s in spec.get('scenes') or []:
+        raw = Path(s.get('art') or spec.get('art') or '')
+        path = raw if raw.is_absolute() else ROOT / raw
+        bases.append(R.cover(Image.open(path).convert('RGB'), R.W, R.H))
+    return bases
+
+
+def apply_timing(data, starts, total):
+    for i, sc in enumerate(data['scenes']):
+        sc['start'] = starts[i]
+        sc['end'] = starts[i + 1] if i + 1 < len(starts) else total
+    data['duration_sec'] = total
+
+
+def scene_at(data, t):
+    for i, sc in enumerate(data['scenes']):
+        if sc['start'] <= t < sc['end']:
+            return i
+    return max(0, len(data['scenes']) - 1)
+
+
+def frame_image(data, bases, clipf, si, t):
+    sc = data['scenes'][si]
+    dur = max(0.01, sc['end'] - sc['start'])
+    k = max(0.0, min(1.0, (t - sc['start']) / dur))
+    if si in clipf:
+        d, n = clipf[si]
+        idx = min(n, max(1, int((t - sc['start']) * R.FPS) + 1))
+        im = Image.open(d / f'f_{idx:05d}.jpg').convert('RGB')
+    else:
+        im = R.kenburns(bases[si], k)
+    im = R.bottom_shade(im)
+    kind = (data.get('_kinds') or ['ai'] * len(data['scenes']))[si]
+    return draw_frame(im, sc, data, data.get('_conf') or {}, si, t, sc['start'], dur,
+                      kind, caption_alpha=R.caption_alpha(t, sc['start']))
+
+
+def render_frames(data, bases, kinds, conf, total, work, out_mp4, ff, clipf):
+    data['_kinds'] = kinds
+    data['_conf'] = conf
+    proc = subprocess.Popen([ff, '-y', '-v', 'warning', '-f', 'rawvideo', '-pix_fmt', 'rgb24',
+                             '-s', f'{R.W}x{R.H}', '-r', str(R.FPS), '-i', 'pipe:0',
+                             '-c:v', 'libx264', '-preset', 'medium', '-crf', '18',
+                             '-pix_fmt', 'yuv420p', str(out_mp4)], stdin=subprocess.PIPE)
+    assert proc.stdin is not None
+    for fi in range(round(total * R.FPS)):
+        t = fi / R.FPS
+        si = scene_at(data, t)
+        proc.stdin.write(frame_image(data, bases, clipf, si, t).tobytes())
+    proc.stdin.close()
+    proc.wait()
+    if proc.returncode:
+        raise SystemExit('ffmpeg の映像エンコードに失敗')
+
+
+def render(slug, out_dir='out', thumb_at=1.2, speaker=None, speed=None):
+    sd = ROOT / 'shorts' / slug
+    spec_path = sd / 'short_spec.json'
+    if not spec_path.is_file():
+        raise SystemExit(f'spec が無い: {spec_path}（先に shorts_standard.py to-spec を実行）')
+    spec = load_spec(sd)
+    result = load_json(sd / 'result.json')
+    conf = load_render_conf(sd)
+    data = spec_to_data(spec)
+    merge_evidence(data, result)
+
+    sp = speaker or conf.get('speaker', '青山龍星')
+    spd = speed if speed is not None else float(conf.get('speed', 0.95))
+    segs = R.synthesize(sd, data, conf, sp, spd)
+    starts, spans, total = R.plan_timing([s['dur'] for s in segs])
+    if abs((result.get('duration_sec') or 0) - total) > 0.2:
+        raise SystemExit('result.json の尺が実測と違う。先に --plan と check を実行する')
+    apply_timing(data, starts, total)
+
+    directory, stem, mp4, thumb, desc_path, comment_path = output_paths(slug, data['status'], out_dir)
+    directory.mkdir(parents=True, exist_ok=True)
+    work = ROOT / 'cache' / ('yorimichi_' + slug)
+    work.mkdir(parents=True, exist_ok=True)
+    ff = R.ffmpeg_bin()
+    clipf = R.prepare_clip_frames(sd, conf, data, work, ff)
+    narration = R.build_audio(segs, starts, total, work)
+    bases = load_bases(sd, spec)
+    kinds = [(conf.get('art_types') or {}).get(str(i), 'ai') for i in range(1, len(data['scenes']) + 1)]
+
+    raw = work / 'raw.mp4'
+    render_frames(data, bases, kinds, conf, total, work, raw, ff, clipf)
+    R.mux(ff, raw, narration, total, mp4, bgm=conf.get('bgm'))
+    R.write_srt(directory / (stem + '_subtitles.srt'), data)
+    desc_path.write_text(description(data, conf), encoding='utf-8')
+    comment_path.write_text(fixed_comment(data, conf), encoding='utf-8')
+
+    thumb_t = min(max(0.0, thumb_at), total - 0.1)
+    data['_kinds'] = kinds
+    data['_conf'] = conf
+    image = frame_image(data, bases, clipf, scene_at(data, thumb_t), thumb_t)
+    image.save(thumb, quality=92)
+    print(f'完成: {mp4}')
+    if data['status'] != 'ready':
+        print(f'【下書き】status={data["status"]}。公開しないこと。')
+    return mp4
+
+
 def description(data, conf):
     """既存の説明欄ジェネレータを再利用し、規約表記を維持する。"""
     return R.description(data, conf)
@@ -169,11 +304,18 @@ def fixed_comment(data, conf):
 def main():
     ap = argparse.ArgumentParser(description='寄り道ラボ方式で Shorts を描画する')
     ap.add_argument('slug')
-    ap.add_argument('--plan', action='store_true')
+    ap.add_argument('--plan', action='store_true', help='実測尺で result.json を更新する')
     ap.add_argument('--out-dir', default='out')
     ap.add_argument('--thumb-at', type=float, default=1.2)
-    ap.parse_args()
-    raise SystemExit('未実装: --plan / 描画は次のステップで追加します')
+    ap.add_argument('--speaker')
+    ap.add_argument('--speed', type=float)
+    args = ap.parse_args()
+
+    if args.plan:
+        plan(args.slug, args.speaker, args.speed)
+        return 0
+    render(args.slug, args.out_dir, args.thumb_at, args.speaker, args.speed)
+    return 0
 
 
 if __name__ == '__main__':

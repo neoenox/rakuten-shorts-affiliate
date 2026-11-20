@@ -1,5 +1,6 @@
 """render_yorimichi.py の回帰テスト（spec変換・描画・説明欄）。"""
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -93,6 +94,40 @@ def test_pr_and_type_label_stay_opaque_during_caption_fade(monkeypatch):
     rects = [c for c in draw_calls if c[0] == 'rect']
     assert any(c[1] == (40, 96, 158, 168) and c[2] and c[2][-1] == 150 for c in rects)
     assert any(c[2] and c[2][-1] == 140 for c in rects)
+
+
+def test_plan_writes_measured_timing(tmp_path, monkeypatch):
+    sd = tmp_path / 'shorts' / 'demo'
+    sd.mkdir(parents=True)
+    (sd / 'result.json').write_text(json.dumps({
+        'title': '題名', 'hook': 'フック', 'duration_sec': 0, 'status': 'needs_review',
+        'scenes': [{'narration': f'文{i}', 'caption': ['a'], 'visual': '', 'claim_ids': []}
+                   for i in range(5)],
+        'claims': [], 'needs_research': [],
+    }), encoding='utf-8')
+    monkeypatch.setattr(Y, 'ROOT', tmp_path)
+    monkeypatch.setattr(Y.R, 'synthesize', lambda *a, **kw: [{'dur': 6.0} for _ in range(5)])
+
+    total = Y.plan('demo')
+
+    result = json.loads((sd / 'result.json').read_text(encoding='utf-8'))
+    assert total >= 30.0
+    assert result['duration_sec'] == total
+    assert result['scenes'][0]['start'] == 0.0
+    assert result['scenes'][-1]['end'] == total
+
+
+def test_output_paths_use_draft_suffix(tmp_path, monkeypatch):
+    monkeypatch.setattr(Y, 'ROOT', tmp_path)
+
+    out_dir, stem, mp4, thumb, desc, comment = Y.output_paths('demo', 'needs_review')
+
+    assert out_dir == tmp_path / 'out' / 'draft'
+    assert stem == 'demo_DRAFT'
+    assert mp4.name == 'demo_DRAFT.mp4'
+    assert thumb.name == 'demo_DRAFT_thumb.jpg'
+    assert desc.name == 'demo_DRAFT_description.md'
+    assert comment.name == 'demo_DRAFT_fixed_comment.md'
 
 
 def test_description_keeps_affiliate_and_pr():
