@@ -209,13 +209,22 @@ def ensure_repo(repo):
         raise RuntimeError(f'clone が無い: {repo}（gh repo clone neoenox/kurashi-hantei {repo}）')
 
 
-def ensure_clean(repo):
-    """index.html 以外に未 commit の変更が無いことを確かめる。
+def ensure_clean(repo, generated_text=None):
+    """未 commit の変更が無いことを確かめる。
 
-    index.html はこれから生成物で上書きするので、dry run の書き込みは許す。
+    index.html は dry run の書き込みを許すが、それ以外の手作業変更は拒否する。
+    dry run の成果物かどうかは、作業ツリーの内容が生成結果と一致するかで判定する。
     """
-    out = [line for line in git(repo, 'status', '--porcelain').stdout.splitlines()
-           if line.strip() and not line.strip().endswith(' index.html')]
+    page = repo / 'index.html'
+    out = []
+    for line in git(repo, 'status', '--porcelain').stdout.splitlines():
+        if not line.strip():
+            continue
+        if line.strip().endswith(' index.html'):
+            current = page.read_text(encoding='utf-8') if page.exists() else ''
+            if generated_text is not None and current == generated_text:
+                continue
+        out.append(line)
     if out:
         raise RuntimeError('clone に未 commit の変更がある:\n' + '\n'.join(out))
 
@@ -301,7 +310,7 @@ def apply(repo, text, items, allow_remove=False, deploy=False):
 
     if deploy:
         try:
-            ensure_clean(repo)
+            ensure_clean(repo, text)
             ensure_synced(repo)
         except RuntimeError as e:
             print('中断:', e)

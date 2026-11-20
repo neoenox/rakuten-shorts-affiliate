@@ -2,6 +2,7 @@
 
 ネットワークと GitHub は使わない。git は一時ディレクトリの bare リポジトリで完結させる。
 """
+import importlib.util
 import subprocess
 import sys
 from datetime import date
@@ -10,8 +11,22 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'scripts'))
-import build_hub  # noqa: E402
+SCRIPTS = ROOT / 'scripts'
+sys.path.insert(0, str(SCRIPTS))
+
+
+def load(name):
+    path = SCRIPTS / f'{name}.py'
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f'load failed: {path}')
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+build_hub = load('build_hub')
 
 AFF = 'https://hb.afl.rakuten.co.jp/ichiba/xxxx.xxxx/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fshop%2Fitem%2F'
 DAY = date(2026, 11, 19)
@@ -235,3 +250,22 @@ def test_apply_deploy_commits_dry_run_artifact(tmp_path):
     assert build_hub.apply(repo, text, new, deploy=True) == 0
     assert git('log', '-1', '--pretty=%s', cwd=repo).strip().startswith('hub: 公開2件を反映（')
     assert git('status', '--porcelain', cwd=repo).strip() == ''
+
+
+def test_apply_blocks_manual_index_edit(tmp_path):
+    """dry run の成果物ではない index.html の手作業変更は commit しない。"""
+    bare = tmp_path / 'origin.git'
+    subprocess.run(['git', 'init', '--bare', '-b', 'main', str(bare)], check=True,
+                   capture_output=True, text=True)
+    git('clone', str(bare), 'repo', cwd=tmp_path)
+    repo = tmp_path / 'repo'
+    git('config', 'user.name', 'test', cwd=repo)
+    git('config', 'user.email', 'test@example.com', cwd=repo)
+    commit_page(repo, [item('a')])
+    git('push', '-u', 'origin', 'main', cwd=repo)
+
+    (repo / 'index.html').write_text('手作業の編集中', encoding='utf-8')
+    new = [item('a'), item('b')]
+    assert build_hub.apply(repo, build_hub.render(new, DAY), new, deploy=True) == 1
+    assert git('log', '-1', '--pretty=%s', cwd=repo).strip() == 'initial'
+    assert (repo / 'index.html').read_text(encoding='utf-8') == '手作業の編集中'
