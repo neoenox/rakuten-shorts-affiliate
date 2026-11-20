@@ -42,6 +42,14 @@ def log(*a):
     print(*a, flush=True)
 
 
+def video_input(files):
+    """アップロードダイアログの動画用 input を選ぶ（無ければ明確に失敗する）。"""
+    candidates = [f for f in files if 'image' not in f['accept']]
+    if not candidates:
+        sys.exit('動画用のファイル入力欄が見つかりません')
+    return candidates[0]
+
+
 def preflight(slug, check_link=True):
     info = gate.evaluate(slug, network=check_link)
     if not info['passed']:
@@ -137,6 +145,7 @@ def main():
             break
         time.sleep(2)
 
+    files = []
     for _ in range(3):
         c.ev(sid, """(() => { for (const b of document.querySelectorAll('#upload-button')) {
           if (b.getBoundingClientRect().width > 0) { b.click(); return; } } })()""")
@@ -146,8 +155,8 @@ def main():
             break
     if not files:
         sys.exit('アップロードダイアログが開きませんでした')
-    vi = [f for f in files if 'image' not in f['accept']]
-    c.call('DOM.setFileInputFiles', {'files': [str(video)], 'nodeId': vi[0]['nodeId']}, session=sid)
+    vi = video_input(files)
+    c.call('DOM.setFileInputFiles', {'files': [str(video)], 'nodeId': vi['nodeId']}, session=sid)
     log('ファイルを設定しました')
 
     for _ in range(60):
