@@ -116,7 +116,7 @@ def build_prompt(slug, data, brief_text=''):
     return '\n'.join(parts)
 
 
-def send(c, target, prompt, timeout=300):
+def send(c, target, prompt, timeout=300, min_chars=20):
     cfg = TARGETS[target]
     sid = c.open(cfg['url'], cfg['match'])
 
@@ -154,7 +154,7 @@ def send(c, target, prompt, timeout=300):
         left = c.ev(sid, """(() => { const el = document.querySelector(%s);
           if (!el) return -1; return (el.value !== undefined ? el.value : el.innerText).trim().length; })()""" % json.dumps(cfg['composer']))
         if left == 0:
-            return wait_reply(c, sid, cfg, timeout)
+            return wait_reply(c, sid, cfg, timeout, min_chars)
     sent = False
     for _ in range(10):
         p = c.ev(sid, """(() => { const b = document.querySelector(%s);
@@ -172,10 +172,15 @@ def send(c, target, prompt, timeout=300):
         c.call('Input.dispatchKeyEvent', {'type': 'keyUp', 'key': 'Enter', 'windowsVirtualKeyCode': 13}, session=sid)
     time.sleep(3)
 
-    return wait_reply(c, sid, cfg, timeout)
+    return wait_reply(c, sid, cfg, timeout, min_chars)
 
 
-def wait_reply(c, sid, cfg, timeout=300):
+def reply_ready(txt, last, stable, busy, min_chars):
+    """返答が安定したと判定できるか（短い返答も受理できるよう下限は設定可能）。"""
+    return bool(txt and txt == last and not busy and stable >= 3 and len(txt) >= min_chars)
+
+
+def wait_reply(c, sid, cfg, timeout=300, min_chars=20):
     t0 = time.time()
     last, stable = '', 0
     while time.time() - t0 < timeout:
@@ -191,7 +196,7 @@ def wait_reply(c, sid, cfg, timeout=300):
         busy = c.ev(sid, f'!!document.querySelector({json.dumps(cfg["busy"])})')
         if txt and txt == last and not busy:
             stable += 1
-            if stable >= 3 and len(txt) > 150:
+            if reply_ready(txt, last, stable, busy, min_chars):
                 return txt, None
         else:
             stable = 0
@@ -206,6 +211,7 @@ def main():
     ap.add_argument('--target', choices=['chatgpt', 'gemini', 'both'], default='both')
     ap.add_argument('--dry-run', action='store_true')
     ap.add_argument('--timeout', type=int, default=360)
+    ap.add_argument('--min-chars', type=int, default=20, help='返答とみなす最小文字数')
     a = ap.parse_args()
 
     slug_dir = ROOT / 'shorts' / a.slug
@@ -226,7 +232,7 @@ def main():
     for tg in targets:
         print(f'[{tg}] 送信')
         try:
-            reply, err = send(c, tg, prompt, a.timeout)
+            reply, err = send(c, tg, prompt, a.timeout, a.min_chars)
         except Exception as e:
             reply, err = None, f'{type(e).__name__}: {e}'
         if err:

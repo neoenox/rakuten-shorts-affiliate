@@ -18,11 +18,11 @@ from pathlib import Path
 import requests
 
 from cdp_client import Client
+from gate import ffmpeg_bin
 
 ROOT = Path(__file__).resolve().parents[1]
 PORT = 9223
 MARK = '問題点は時刻つきで具体的にお願いします。'
-FFMPEG = r'E:\rekishikaisetu-honnoji\tools\ffmpeg\bin\ffmpeg.exe'
 
 TEMPLATE = ('この動画のレビューをお願いします。添付は、{topic}のYouTube Shorts（約{sec}秒・縦1080x1920）です。'
             '映像はAI生成のイメージ・自作イラスト・自作の模式図で、商品画像は使っていません。'
@@ -68,11 +68,16 @@ class C(Client):
         return out
 
 
+def reply_ready(txt, last, stable, busy, min_chars):
+    """返答が安定したと判定できるか（短い返答も受理できるよう下限は設定可能）。"""
+    return bool(txt and txt == last and not busy and stable >= 3 and len(txt) >= min_chars)
+
+
 def compress(src, slug):
     out = ROOT / 'out' / f'muse_{slug}.mp4'
     # レビュー用コピーは低ビットレートAACで符号化overshootが出るため、1.5dB下げて作る。
     # 本編は -14 LUFS / true peak -1.9 dBFS で管理している（Museが見る「0.0dB」はこのコピー側の値）。
-    subprocess.run([FFMPEG, '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=360:-2',
+    subprocess.run([ffmpeg_bin(), '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=360:-2',
                     '-c:v', 'libx264', '-crf', '30', '-preset', 'fast',
                     '-af', 'volume=-1.5dB', '-c:a', 'aac', '-b:a', '96k', str(out)],
                    check=True)
@@ -87,6 +92,7 @@ def main():
     ap.add_argument('--note', default='')
     ap.add_argument('--dry-run', action='store_true')
     ap.add_argument('--timeout', type=int, default=600)
+    ap.add_argument('--min-chars', type=int, default=20, help='返答とみなす最小文字数')
     a = ap.parse_args()
 
     data = json.loads((ROOT / 'shorts' / a.slug / 'result.json').read_text(encoding='utf-8'))
@@ -95,6 +101,10 @@ def main():
         sys.exit(f'動画が見つからない: {src}')
     sec = round(data.get('duration_sec') or 0)
     msg = TEMPLATE.format(topic=a.topic or data.get('title', a.slug), sec=sec, note=(a.note + ' ' if a.note else ''))
+
+    if a.dry_run:
+        print(msg)
+        return 0
 
     clip = compress(src, a.slug)
     print(f'圧縮: {clip.name} ({clip.stat().st_size / 1e6:.1f} MB)')
@@ -128,10 +138,6 @@ def main():
       return el ? (el.value !== undefined ? el.value : el.innerText).length : -1; })()""")
     print(f'入力 {got} 文字 / 依頼 {len(msg)} 文字')
 
-    if a.dry_run:
-        print('--dry-run: 送信しない')
-        return 0
-
     # 送信（Enter → 空にならなければボタン）
     c.call('Input.dispatchKeyEvent', {'type': 'keyDown', 'key': 'Enter', 'windowsVirtualKeyCode': 13, 'text': '\r'}, session=sid)
     c.call('Input.dispatchKeyEvent', {'type': 'keyUp', 'key': 'Enter', 'windowsVirtualKeyCode': 13}, session=sid)
@@ -155,7 +161,7 @@ def main():
         txt = (body[i + len(MARK):] if i >= 0 else '').strip()
         if txt and txt == last:
             stable += 1
-            if stable >= 3 and len(txt) > 200:
+            if reply_ready(txt, last, stable, False, a.min_chars):
                 break
         else:
             stable = 0
