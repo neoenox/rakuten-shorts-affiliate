@@ -175,6 +175,9 @@ def check(path):
     ok, out = run_official(path)
     official_errors = [] if ok else [err(line) for line in out.splitlines() if line and not line.startswith('PASS')]
     issues = official_errors + extra_checks(data, path)
+    # validate.py が非0なのに出力が空だった場合も見逃さない（ok を優先する）
+    if not ok and not official_errors:
+        issues.append(err('validate.py が失敗しました（出力なし）'))
     return ok, issues
 
 
@@ -255,6 +258,8 @@ def to_spec(data, slug, art=None, pron=None, out=None, long_id=None, long_title=
 
 
 def cmd_new(args):
+    if yaml is None:
+        raise SystemExit('PyYAML が必要です: pip install pyyaml')
     slug = args.slug
     d = ROOT / 'shorts' / slug
     if (d / 'brief.yaml').exists():
@@ -287,7 +292,7 @@ def cmd_check(args):
     ok, issues = check(args.result)
     print('meta: %s (%s)' % (args.result, 'validate.py PASS' if ok else 'validate.py FAIL'))
     print_issues(issues)
-    return 0 if not any(lv == 'ERROR' for lv, _ in issues) else 1
+    return 0 if ok and not any(lv == 'ERROR' for lv, _ in issues) else 1
 
 
 def cmd_to_spec(args):
@@ -295,7 +300,7 @@ def cmd_to_spec(args):
     ok, issues = check(args.result)
     print_issues(issues)
     errors = [m for lv, m in issues if lv == 'ERROR']
-    if errors:
+    if not ok or errors:
         print('中止: 形式検査/追加検査に ERROR がある（レンダラへ渡さない）')
         return 1
     if data.get('status') != 'ready':
