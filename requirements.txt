@@ -1,4 +1,17 @@
+# 共通（検査・承認・公開ゲート）
 jsonschema>=4.0
 PyYAML>=6.0
+requests>=2.31
+websocket-client>=1.7
+
+# 描画（render_short.py / make_branding.py）
+numpy>=1.24
+Pillow>=10.0
+
+# 任意: cdp_browser.py（Playwright版のCDP操作。通常は生CDPを使う）
+# playwright>=1.40
+# 任意: approve.py が PDF 一次資料を読むとき
+# pypdf>=4.0
+
 # 開発用（テスト）
 pytest>=8.0
