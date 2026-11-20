@@ -41,6 +41,32 @@ def dump(path, obj):
     gate.dump_json(path, obj)
 
 
+def check_format(path):
+    """shorts_standard.py の形式検査を実行し、(成否, ERROR行) を返す。"""
+    p = subprocess.run([sys.executable, str(ROOT / 'scripts' / 'shorts_standard.py'),
+                        'check', str(path)],
+                       text=True, encoding='utf-8', errors='replace', capture_output=True)
+    errors = [line for line in (p.stdout + p.stderr).splitlines() if line.startswith('ERROR')]
+    return p.returncode == 0, errors
+
+
+def parse_resolves(resolves, needs_count):
+    """--resolve の "N=解決内容" を {N: 解決内容} に変換する。"""
+    by_index = {}
+    for entry in resolves:
+        if '=' not in entry:
+            raise SystemExit('--resolve は "N=解決内容" の形式で指定する: %s' % entry)
+        raw, text = entry.split('=', 1)
+        try:
+            n = int(raw)
+        except ValueError:
+            raise SystemExit(f'--resolve の番号は整数で指定する: {entry}') from None
+        if n < 1 or n > needs_count:
+            raise SystemExit(f'--resolve の番号が範囲外: {n}')
+        by_index[n] = text.strip()
+    return by_index
+
+
 def normalize_numbers(text):
     """全角数字・カンマを正規化し、数値の集合を作る。"""
     table = str.maketrans('０１２３４５６７８９．', '0123456789.')
@@ -97,20 +123,12 @@ def prepare(slug, flags, resolves, limitations):
     # --- 残件の解決記録
     needs = list(data.get('needs_research') or [])
     resolved = []
-    by_index = {}
-    for entry in resolves:
-        if '=' not in entry:
-            raise SystemExit('--resolve は "N=解決内容" の形式で指定する: %s' % entry)
-        n, text = entry.split('=', 1)
-        by_index[int(n)] = text.strip()
+    by_index = parse_resolves(resolves, len(needs))
     for i, item in enumerate(needs, 1):
         if i in by_index:
             resolved.append({'item': item, 'resolution': by_index[i]})
         else:
             failures.append('needs_research[%d] の解決内容が未指定: %s' % (i, item))
-    for n in by_index:
-        if n < 1 or n > len(needs):
-            failures.append('--resolve の番号が範囲外: %d' % n)
 
     # --- draft 成果物
     for path, label in ((draft_mp4, 'draft 動画'), (draft_thumb, 'draft サムネイル'),
@@ -183,11 +201,8 @@ def prepare(slug, flags, resolves, limitations):
         sources.append(rec)
 
     # --- 形式検査
-    p = subprocess.run([sys.executable, str(ROOT / 'scripts' / 'shorts_standard.py'),
-                        'check', str(result_path)],
-                       text=True, encoding='utf-8', errors='replace', capture_output=True)
-    fmt = {'passed': p.returncode == 0,
-           'errors': [l for l in (p.stdout + p.stderr).splitlines() if l.startswith('ERROR')]}
+    fmt_ok, fmt_errors = check_format(result_path)
+    fmt = {'passed': fmt_ok, 'errors': fmt_errors}
     if not fmt['passed']:
         failures.append('形式検査が ERROR: %s' % (' / '.join(fmt['errors'][:3]) or 'check 失敗'))
 
@@ -277,10 +292,22 @@ def sign(slug, by):
     if missing:
         raise SystemExit('承認できません: 解決内容が記録されていない残件がある: ' + ' / '.join(missing))
 
+    # ready に変更した後の台本が標準を満たすか先に確認する（needs_review では通らない規則がある）
+    ready_data = dict(data)
+    ready_data['status'] = 'ready'
+    ready_data['needs_research'] = []
+    ready_check = result_path.with_name(result_path.stem + '.ready-check.json')
+    try:
+        dump(ready_check, ready_data)
+        fmt_ok, fmt_errors = check_format(ready_check)
+    finally:
+        ready_check.unlink(missing_ok=True)
+    if not fmt_ok:
+        raise SystemExit('承認できません: ready 変更後の形式検査に失敗: %s'
+                         % (' / '.join(fmt_errors[:3]) or 'check 失敗'))
+
     # result.json を ready にする（needs_research は解決済みなので空）
-    data['status'] = 'ready'
-    data['needs_research'] = []
-    dump(result_path, data)
+    dump(result_path, ready_data)
 
     approved_at = datetime.now().astimezone()
     ver['status'] = 'approved'
