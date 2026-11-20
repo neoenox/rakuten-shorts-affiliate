@@ -18,7 +18,7 @@ import gate  # noqa: E402
 OUT = ROOT / 'docs' / 'STATUS.md'
 
 
-def approval_state(slug, sd):
+def approval_state(sd):
     vp = sd / 'verification.json'
     if not vp.is_file():
         return '未承認'
@@ -95,7 +95,7 @@ def rows():
         if not sd.is_dir() or not rp.is_file():
             continue
         data = gate.load_json(rp)
-        appr = approval_state(sd.name, sd)
+        appr = approval_state(sd)
         pub, vid = publish_state(sd)
         needs = len(data.get('needs_research') or [])
         resolved = resolved_count(sd)

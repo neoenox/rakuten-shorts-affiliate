@@ -1,8 +1,9 @@
-"""動画を描画せずに、説明欄・固定コメント・SRTだけを書き直す。
+"""動画を描画せずに、説明欄・固定コメントだけを書き直す。
 
 usage: python scripts/regen_text.py <slug>
-描画済みの MP4 はそのまま。説明欄にリンクを足したいときなどに使う。
+描画済みの MP4 と SRT はそのまま。説明欄にリンクを足したいときなどに使う。
 """
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -13,7 +14,10 @@ import render_short as R  # noqa: E402
 
 
 def main():
-    slug = sys.argv[1]
+    ap = argparse.ArgumentParser(description='説明欄と固定コメントのみを再生成する')
+    ap.add_argument('slug')
+    a = ap.parse_args()
+    slug = a.slug
     slug_dir = ROOT / 'shorts' / slug
     data = R.load_json(slug_dir / 'result.json')
     conf = R.load_render_conf(slug_dir)

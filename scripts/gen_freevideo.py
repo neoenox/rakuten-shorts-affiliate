@@ -88,6 +88,16 @@ def video_of(entry, output_root):
     return None
 
 
+def resolve_seed(clip):
+    """spec に seed が無ければ生成して返す（後で spec に保存する）。"""
+    return clip.get('seed') or random.randint(1, 2 ** 48)
+
+
+def save_spec(path, spec):
+    """自動生成した seed を失わないよう clips.json へ書き戻す。"""
+    Path(path).write_text(json.dumps(spec, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+
 def main():
     ap = argparse.ArgumentParser(description='FreeVideo で背景クリップを作る')
     ap.add_argument('spec')
@@ -114,7 +124,7 @@ def main():
         if dest.exists() and not args.force:
             print('[skip] %s は既にある' % dest.name)
             continue
-        seed = clip.get('seed') or random.randint(1, 2 ** 48)
+        seed = resolve_seed(clip)
         body = {'prompt': graph(clip['prompt'], args.width, args.height,
                                 clip.get('seconds', 7.0), seed),
                 'client_id': str(uuid.uuid4())}
@@ -131,7 +141,12 @@ def main():
             print('[failed] %s: 出力mp4が見つからない (%s)' % (name, src))
             continue
         shutil.copy2(src, dest)
-        summary = (entry['outputs'].get('1', {}).get('freevideo_summary') or [{}])[0]
+        clip['seed'] = seed
+        save_spec(args.spec, spec)
+        outputs = (entry or {}).get('outputs') or {}
+        node = outputs.get('1') or {}
+        summaries = node.get('freevideo_summary') or [{}]
+        summary = summaries[0]
         geo = summary.get('geometry', {})
         print('[done] %s  %.2fs / %sx%s / %.0fs で生成 -> %s'
               % (name, geo.get('seconds', 0), geo.get('width'), geo.get('height'),

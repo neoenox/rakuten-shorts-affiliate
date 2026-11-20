@@ -9,10 +9,12 @@ usage:
 - 起動待ちは「CDP のポートが開いたか」で判定する（唯一の確実な合図）。
 """
 import argparse
+import os
 import socket
 import subprocess
 import sys
 import time
+from pathlib import Path
 
 CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 
@@ -30,6 +32,14 @@ PROFILES = {
         'url': 'https://muse.ai/',
     },
 }
+
+
+def expand_user_data_dir(value):
+    """argv で渡すパスの %USERPROFILE% を展開する（PowerShell に依存しない）。"""
+    expanded = os.path.expandvars(value)
+    if expanded == value and value.startswith('%USERPROFILE%'):
+        expanded = str(Path.home()) + value[len('%USERPROFILE%'):]
+    return expanded
 
 
 def port_open(port, timeout=1.0):
@@ -53,9 +63,10 @@ def main():
         print(f'port {port} は既に開いている（起動しない）')
         return 0
 
+    user_data_dir = expand_user_data_dir(conf['user_data_dir'])
     args = [
         CHROME,
-        f"--user-data-dir={conf['user_data_dir']}",
+        f'--user-data-dir={user_data_dir}',
         f'--remote-debugging-port={port}',
         '--no-first-run',
         '--no-default-browser-check',
@@ -77,11 +88,10 @@ def main():
 
     # Chrome は前回のウィンドウ状態（最大化など）を復元するので、起動後に最小化する。
     # セッション復元と競合するため、数回リトライする。
-    total = 0
     for _ in range(5):
         time.sleep(2)
-        pids = _chrome_pids(conf['user_data_dir'])
-        total += _minimize_windows(pids)
+        pids = _chrome_pids(user_data_dir)
+        _minimize_windows(pids)
     print(f'起動した（最小化・CDP {port}）')
     return 0
 
