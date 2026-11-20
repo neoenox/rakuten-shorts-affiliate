@@ -892,3 +892,27 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - `publish.json` に `video_id` / `published_at` を記録。
 - `build_hub.py --verify` は10件すべて OK、`--deploy` で GitHub Pages に反映。
   公開ページでも `peak_hours` と10件を確認（反映に少し時間がかかった）。
+
+### 追記: 全ソースレビューの指摘を修正（2026-11-20）
+
+- `scripts/`・`shorts-standard/`・`tests/`（Python 4,421行）をレビューし、Critical 1件 / Important 10件 / Suggestion 8件を修正した。
+  - 依存不足（`requests` / `websocket-client` / `numpy` / `Pillow`）を `requirements.txt` に追加。
+  - PRバッジは全フレーム不透明にし、フェードはキャプションと出典だけに限定（`render_short.py`）。
+  - FreeVideoのクリップ展開キャッシュに元MP4の mtime・サイズ・フレーム数を入れ、再生成時の古いフレーム再利用を防止。
+  - `approve.py sign` は `status: ready` へ変更した後の台本を再検査し、不合格なら承認しない。
+  - `build_hub.py --deploy` は dry run 成果物ではない `index.html` の手作業変更を拒否。
+  - `upload_short.py` は動画用 file input が無い場合に明確なエラーで停止。
+  - `muse_review.py --dry-run` は圧縮・Chrome起動を行わない。ffprobe/ffmpegの探索は `gate.py` と共通化。
+  - `render.json` の `art_types` に実写がある場合、説明欄の映像表記に「実写」を入れる。
+  - レビュー返答の待機文字数を `--min-chars` で指定可能に（既定20文字）。
+  - `chrome_launch.py` は `%USERPROFILE%` を argv 渡し前に展開。
+  - `gen_freevideo.py` は自動生成した seed を `clips.json` に保存。
+  - 未使用引数・no-op・`regen_text.py` の docstring/引数チェックを整理。
+- 回帰テストを `tests/test_approve.py` / `test_shorts_standard.py` / `test_render_short.py` /
+  `test_upload_short.py` / `test_review_scripts.py` / `test_utility_scripts.py` に追加（69 tests に増加）。
+- 検証: `pytest` 69 passed、`compileall` OK、全11台本の `shorts_standard.py check` PASS、`status.py --check` OK。
+- 既存の完成動画・承認済み証跡は再描画していないため、公開済み動画の指紋・承認状態には影響なし。
+  `render_short.py` の変更は次回以降の描画から適用される。
+- `ffmpeg-skill`（https://github.com/kajisho5/ffmpeg-skill, MIT）は調査したが今回は採用しない。
+  FFmpeg 8.1.1 / Python 3.11 で動作可能だが、`loudness.py` 等で `mux()` を置換すると音声指紋が変わり
+  全作品の再描画とMuse再レビューが必要になるため別タスクとする。ゲートの任意検証としての追加も候補。
