@@ -93,3 +93,25 @@ python scripts/render_short.py <slug>
 
 - Shorts の説明欄 URL はクリックできない。導線は**チャンネルプロフィールのリンク**（商品ページのアフィリエイトリンクを直置き）に限る。ROOM を挟まない。
 - `kaito_plate` の台本は「キッチン時短」＝実写必須と判定されたジャンルの題材で、画像なしの不利を確かめるテストケース。
+
+## 寄り道ラボ方式（新規動画の既定・2026-11-20）
+
+新規動画は `scripts/render_yorimichi.py` を使う。寄り道ラボの `make_short2.py` の考え方
+（VOICEVOX 実測尺 → PIL の Ken Burns／大テロップ／字幕 → FFmpeg → -14 LUFS → SRT）を
+このリポジトリへ取り込み、規約表記を重ねたもの。設計は
+[`docs/superpowers/specs/2026-11-20-yorimichi-render-pipeline-design.md`](superpowers/specs/2026-11-20-yorimichi-render-pipeline-design.md) を参照。
+
+```powershell
+python scripts/render_yorimichi.py <slug> --plan
+python scripts/shorts_standard.py check shorts/<slug>/result.json
+# approve.py prepare → sign の後
+python scripts/shorts_standard.py to-spec shorts/<slug>/result.json --slug <slug>
+python scripts/render_yorimichi.py <slug>
+python scripts/gate.py <slug>
+```
+
+- 入力は `shorts/<slug>/short_spec.json`。`claim_ids` と `visual` は `result.json` から補う。
+- 画面: 上部タイトル・大きなテロップ・データ帯・下部字幕に加え、**PR と種別ラベルを全フレーム不透明**で描画する。
+- `render.json` の `art_types` / `source_labels` / `bgm` / `speaker` / `speed` / `affiliate` は従来どおり効く。
+- 出力名・出力先・説明欄・固定コメント・サムネイルは `render_short.py` と同じ（`gate.py` がそのまま通る）。
+- 旧 `render_short.py` は既存動画の再描画・比較用。既存の承認済み動画を新しい描画で上書きしない。

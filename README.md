@@ -31,7 +31,7 @@
 ```
 docs/            設計メモと調査（一次資料の引用つき）
 shorts-standard/ 台本の制作標準（JSONスキーマと検査器）
-scripts/         shorts_standard.py（検査・変換）／render_short.py（描画）／cdp_client.py（生CDPの共通処理）
+scripts/         shorts_standard.py（検査・変換）／render_yorimichi.py（新規の描画）／render_short.py（旧描画・比較用）／cdp_client.py（生CDPの共通処理）
 shorts/          作品ごとの台本（brief.yaml / result.json / render.json / art/）
 out/             完成物（下書きは out/draft/。.gitignore 済み）
 ```
@@ -58,13 +58,20 @@ python scripts/approve.py sign <slug> --by owner   # 承認（有効期限14日�
 
 ## 動画の作り方（描画）
 
+新規動画は**寄り道ラボ方式**（`render_yorimichi.py`）で描画する。旧 `render_short.py` は既存動画の再描画・比較用に残す。
+
 ```powershell
-python scripts/render_short.py <slug> --plan   # 音声を合成し、実測尺を result.json に書き戻す
+python scripts/render_yorimichi.py <slug> --plan   # 音声を合成し、実測尺を result.json に書き戻す
 python scripts/shorts_standard.py check shorts/<slug>/result.json   # 尺が変わったので検査し直す
-python scripts/render_short.py <slug>          # MP4・SRT・説明欄・固定コメント・サムネを作る
-python scripts/gate.py <slug>                  # 承認の有効性・成果物・指紋・リンクを公開前に検査
+# 承認（approve.py prepare → sign）の後で spec を作る
+python scripts/shorts_standard.py to-spec shorts/<slug>/result.json --slug <slug>
+python scripts/render_yorimichi.py <slug>          # MP4・SRT・説明欄・固定コメント・サムネを作る
+python scripts/gate.py <slug>                      # 承認・成果物・指紋・リンクを公開前に検査
 ```
 
+- `render_yorimichi.py` は `shorts/<slug>/short_spec.json` を直接読む。`data/` には自動コピーしない。
+- 画面は寄り道ラボの `make_short2.py` 風（タイトル・大テロップ・Ken Burns・字幕・BGM）に、
+  **PR・種別ラベル・出典**を全編で重ねる（このプロジェクトの規約を維持）。
 - `status` が `ready` 以外なら **`out/draft/` にしか書かない**（公開用の `out/` には出さない）。
 - 「PR」・「イメージ（AI生成）」・「模式図」・出典は描画時に焼き込む。詳しくは [`docs/RENDER_PIPELINE.md`](docs/RENDER_PIPELINE.md)。
 - 背景の動画クリップは FreeVideo（ローカル ComfyUI）で作る: `python scripts/gen_freevideo.py shorts/<slug>/clips.json --slug <slug>`。

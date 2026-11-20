@@ -916,3 +916,18 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - `ffmpeg-skill`（https://github.com/kajisho5/ffmpeg-skill, MIT）は調査したが今回は採用しない。
   FFmpeg 8.1.1 / Python 3.11 で動作可能だが、`loudness.py` 等で `mux()` を置換すると音声指紋が変わり
   全作品の再描画とMuse再レビューが必要になるため別タスクとする。ゲートの任意検証としての追加も候補。
+
+### 追記: 寄り道ラボ方式の描画を追加（2026-11-20）
+
+- オーナー指示で、新規動画の描画を寄り道ラボの `make_short2.py` 方式に寄せた。設計書は
+  `docs/superpowers/specs/2026-11-20-yorimichi-render-pipeline-design.md`。
+- `scripts/render_yorimichi.py` を追加。`shorts_standard.py to-spec` の `short_spec.json` を読み、
+  `claim_ids` / `visual` は `result.json` から補う。音声・尺・mux・SRT・説明欄・固定コメント・サムネイルは
+  既存 `render_short.py` のヘルパを再利用し、`gate.py` を変更せずに通る出力形式を維持した。
+- 画面は寄り道ラボ風のタイトル／大テロップ／データ帯／下部字幕に加え、PR・種別ラベル・出典を焼き込む。
+  PR と種別ラベルはシーン頭でもフェードしない（`AGENTS.md` の全編表示を維持）。
+- `cta: false`、商品画像なし、レビュー本文なし、一次資料確認済みの数値のみ、という規約は変更していない。
+- レビュー（Muse）・公開（CDP Studio）・既存11本の成果物・承認・`shorts-standard/` は触っていない。
+- テスト `tests/test_render_yorimichi.py` を追加（6件）。全テスト 75 passed、compileall OK。
+- 実動確認は VOICEVOX を要するため未実施。次回の新規 slug で `--plan → check → to-spec → render → gate`
+  を通し、旧 `render_short.py` と並べて画質・テロップ位置・PR表示を目視確認してから標準化する。
