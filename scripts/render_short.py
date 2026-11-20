@@ -26,6 +26,7 @@ usage:
   ・任意: shorts/<slug>/render.json（話者・話速・映像種別・出典ラベル）
 """
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -212,7 +213,7 @@ def write_timing(path, data, starts, spans, total):
 
 def cover(im, w, h):
     s = max(w / im.width, h / im.height)
-    im2 = im.resize((max(1, round(im.width * s)), max(1, round(im.height * s))), Image.LANCZOS)
+    im2 = im.resize((max(1, round(im.width * s)), max(1, round(im.height * s))), Image.Resampling.LANCZOS)
     x = (im2.width - w) // 2
     y = (im2.height - h) // 2
     return im2.crop((x, y, x + w, y + h))
@@ -223,13 +224,14 @@ def kenburns(base, k):
     z = 1.0 + 0.06 * k
     cw, ch = W / z, H / z
     cx, cy = base.width / 2, base.height / 2
-    return base.crop((round(cx - cw / 2), round(cy - ch / 2), round(cx + cw / 2), round(cy + ch / 2))).resize((W, H), Image.BILINEAR)
+    return base.crop((round(cx - cw / 2), round(cy - ch / 2), round(cx + cw / 2), round(cy + ch / 2))).resize((W, H), Image.Resampling.BILINEAR)
 
 
 def bottom_shade(im):
     """上下を暗くする（上はタイトル、下はキャプションを写真の上でも読めるように）。"""
     ov = Image.new('L', (1, H), 0)
     px = ov.load()
+    assert px is not None
     for y in range(H):
         if y < H * 0.016:
             px[0, y] = 70
@@ -251,10 +253,26 @@ def type_label(kind):
             'illustration': 'イラスト'}.get(kind, 'イメージ')
 
 
-def draw_chrome(im, data, sc, conf, scene_i, kind, alpha=1.0):
-    """タイトル・PR・種別ラベル・キャプション・出典を焼き込む。"""
+def caption_alpha(t, scene_start, fade=0.22):
+    """シーン頭だけキャプションをフェードインさせる（PRなどには適用しない）。"""
+    if fade <= 0:
+        return 1.0
+    return max(0.0, min(1.0, (t - scene_start) / fade))
+
+
+def draw_chrome(im, data, sc, conf, scene_i, kind, caption_alpha=1.0):
+    """タイトル・PR・種別ラベル・キャプション・出典を焼き込む。
+
+    PR・タイトル・種別ラベルは全フレームで完全一致させる（ステマ告示）。
+    フェードするのはキャプションと出典ラベルだけ。
+    """
     d = ImageDraw.Draw(im, 'RGBA')
-    a = lambda c, al=255: c + (int(al * alpha),)
+
+    def a(c, al=255):
+        return c + (al,)
+
+    def ca(c, al=255):
+        return c + (int(al * caption_alpha),)
 
     # 見出し（上。種別ラベルの下に置き、重ならないようにする）
     lines = wrap(d, data['title'], font(44, 700), 900)[:2]
@@ -280,20 +298,20 @@ def draw_chrome(im, data, sc, conf, scene_i, kind, alpha=1.0):
     caps = [c for c in (sc.get('caption') or []) if c]
     if caps:
         box = (44, 1252, W - 44, 1252 + 96 * len(caps) + 76)
-        d.rounded_rectangle(box, 22, fill=a((8, 12, 18), 215))
-        d.rounded_rectangle((box[0], box[1], box[2], box[1] + 8), 4, fill=a(GOLD, 230))
+        d.rounded_rectangle(box, 22, fill=ca((8, 12, 18), 215))
+        d.rounded_rectangle((box[0], box[1], box[2], box[1] + 8), 4, fill=ca(GOLD, 230))
         cy = box[1] + 20 + (96 * len(caps) + 56) / 2
         fnt = font(66, 700)
         step = 92
         y0 = cy - step * (len(caps) - 1) / 2
         for j, ln in enumerate(caps):
-            d.text((540, y0 + step * j), ln, font=fnt, fill=a((255, 253, 246), 255), anchor='mm',
-                   stroke_width=4, stroke_fill=a((0, 0, 0), 120))
+            d.text((540, y0 + step * j), ln, font=fnt, fill=ca((255, 253, 246), 255), anchor='mm',
+                   stroke_width=4, stroke_fill=ca((0, 0, 0), 120))
 
         # 出典（数値を出したシーンだけ。説明欄にも同じ内容を書く）
         src = source_label(sc, conf)
         if src:
-            d.text((540, box[3] - 26), src, font=font(24, 500), fill=a(DIM, 220), anchor='mm')
+            d.text((540, box[3] - 26), src, font=font(24, 500), fill=ca(DIM, 220), anchor='mm')
     return im
 
 
@@ -325,6 +343,13 @@ def build_audio(segs, starts, total, work):
     return p
 
 
+def clip_cache_dir(work, name, src, nfast):
+    """クリップの内容（mtime・サイズ）とフレーム数で展開先を分ける。"""
+    st = src.stat()
+    key = hashlib.sha256(f'{name}|{st.st_mtime_ns}|{st.st_size}|{nfast}'.encode()).hexdigest()[:12]
+    return work / 'clipframes' / f'{name}_{key}'
+
+
 def prepare_clip_frames(slug_dir, conf, data, work, ff):
     """シーン背景の動画（art/clip_*.mp4）を、シーン尺ぶんの連番JPEGに展開する。
 
@@ -343,7 +368,7 @@ def prepare_clip_frames(slug_dir, conf, data, work, ff):
             continue
         dur = sc['end'] - sc['start']
         nfast = max(1, int(round(dur * FPS)))
-        d = work / 'clipframes' / name
+        d = clip_cache_dir(work, name, src, nfast)
         if d.exists() and len(list(d.glob('f_*.jpg'))) == nfast:
             out[i] = (d, nfast)
             continue
@@ -372,6 +397,7 @@ def render_frames(data, bases, kinds, conf, total, work, out_mp4, ff, clipf=None
                              '-s', '%dx%d' % (W, H), '-r', str(FPS), '-i', 'pipe:0',
                              '-c:v', 'libx264', '-preset', 'medium', '-crf', '18',
                              '-pix_fmt', 'yuv420p', str(out_mp4)], stdin=subprocess.PIPE)
+    assert proc.stdin is not None
     nframes = int(round(total * FPS))
     for fi in range(nframes):
         t = fi / FPS
@@ -389,9 +415,9 @@ def render_frames(data, bases, kinds, conf, total, work, out_mp4, ff, clipf=None
         else:
             im = kenburns(bases[si], k)
         im = bottom_shade(im)
-        # シーン頭の 0.22 秒でキャプションをフェードイン
-        alpha = min(1.0, (t - sc['start']) / 0.22)
-        im = draw_chrome(im, data, sc, conf, si, kinds[si], alpha=alpha)
+        # シーン頭の 0.22 秒でキャプションをフェードイン（PRは常に不透明）
+        cap_alpha = caption_alpha(t, sc['start'])
+        im = draw_chrome(im, data, sc, conf, si, kinds[si], caption_alpha=cap_alpha)
         proc.stdin.write(im.tobytes())
     proc.stdin.close()
     proc.wait()
@@ -504,6 +530,18 @@ def write_srt(path, data):
     path.write_text('\n\n'.join(rows) + '\n', encoding='utf-8')
 
 
+def visual_disclosure(data, conf):
+    """実際に使った映像種別に合わせた説明欄の一文を返す。"""
+    art_types = conf.get('art_types') or {}
+    kinds = {art_types.get(str(i), 'ai') for i in range(1, len(data.get('scenes') or []) + 1)}
+    base = '・映像はAI生成のイメージ、自作のイラスト・模式図です。実在の商品・店舗・ロゴではありません。'
+    if kinds == {'photo'}:
+        return '・映像は実写です。実在の商品・店舗・ロゴではありません。'
+    if 'photo' in kinds:
+        return base + ' 一部に実写を使用しています。'
+    return base
+
+
 def description(data, conf):
     claims = data.get('claims') or []
     refs = '\n'.join('・%s\n  %s' % (c['statement'], c.get('source_url') or '（AIアシスタントの回答）')
@@ -538,7 +576,7 @@ def description(data, conf):
 {refs}
 {note_block}
 ■ 映像と音声について
-・映像はAI生成のイメージ、自作のイラスト・模式図です。実在の商品・店舗・ロゴではありません。
+{visual_disclosure(data, conf)}
 ・音声：VOICEVOX:{conf.get('speaker', '青山龍星')}{music}
 ・商品名・価格・仕様は、必ず販売元の商品ページでご確認ください。
 ・リンクは広告（アフィリエイト）です。購入により当チャンネルに報酬が発生します。
@@ -552,8 +590,6 @@ def fixed_comment(data, conf):
     aff_url = (aff.get('url') or '').strip()
     link_line = ('商品ページ：%s\n' % aff_url) if aff_url else ''
     product_name = (conf.get('product_name') or '').strip()
-    if not product_name and aff_url:
-        product_name = ''
     name_line = ('商品名：%s\n' % product_name) if product_name else ''
     return f"""【PR】この動画はアフィリエイト広告を含みます。
 {data['title']}
