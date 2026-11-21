@@ -105,11 +105,13 @@ python scripts/upload_short.py <slug> --check-only  # Studioを開かず、公�
 **状態の一覧は [`docs/STATUS.md`](docs/STATUS.md) を見る。** これは `python scripts/status.py` が
 `result.json` / `verification.json` / `publish.json` から生成する（手で編集しない）。
 
-- 公開済み3本（`yFXNYLgMzmY` / `aVawDx0PiVg` / `zVQ7UoER4xM`）は**レビュー体制より前の旧フロー**。
-  承認を捏造しないため `status` は `needs_review` のままにし、公開の事実は `publish.json` に残している。
-- 未公開は4本（`kettle_heat` → `led_light` → `fridge_habits` → `iphone_battery` の順に週1）。
+- 公開済み10本／保留1本／未公開0本。1本ごとの状態・ID・承認期限は [`docs/STATUS.md`](docs/STATUS.md) を見る
+  （`scripts/status.py` が生成するため、ここには写さない）。
+- 旧フローで公開した3本（`yFXNYLgMzmY` / `aVawDx0PiVg` / `zVQ7UoER4xM`）は承認を捏造せず、
+  `status` は `needs_review` のまま、公開の事実だけを `publish.json` に残している。
 - `winter_three` は `ac_heater_saving` と同一出典・同一数値のため**保留**（`visibility: held`）。
-- **1日のアップロード上限**が続いている。次の公開週に1回だけ試し、まだ上限ならワンタイム認証へ切り替える。
+  次回候補からは外している（[`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) E3）。
+- **次回の題材**は11/21以降に全10本の48時間値を取得してから決める（同 E1〜E9）。数字なしで決めない。
 - プロフィールの外部リンクは**商品一覧ページ（hub）**を指す（2026-11-19）。動画内の案内は「商品名は説明欄に書いています」に統一。
 - ピン留め（固定コメント）は自動化できず、手動 1 クリック。
 
