@@ -929,5 +929,21 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - `cta: false`、商品画像なし、レビュー本文なし、一次資料確認済みの数値のみ、という規約は変更していない。
 - レビュー（Muse）・公開（CDP Studio）・既存11本の成果物・承認・`shorts-standard/` は触っていない。
 - テスト `tests/test_render_yorimichi.py` を追加（6件）。全テスト 75 passed、compileall OK。
-- 実動確認は VOICEVOX を要するため未実施。次回の新規 slug で `--plan → check → to-spec → render → gate`
-  を通し、旧 `render_short.py` と並べて画質・テロップ位置・PR表示を目視確認してから標準化する。
+- 実動確認は VOICEVOX を要するため未実施としていたが、2026-11-21 に実施した（下記）。
+
+### 追記: `render_yorimichi.py` の実動確認（2026-11-21）
+
+- VOICEVOX ENGINE は `E:\rekishikaisetu-honnoji\tools\voicevox\windows-cpu\run.exe` で起動（`127.0.0.1:50021`）。
+- 既存の `peak_hours` を`short_spec.json` 経由で描画。**出力は `yorimichi_check/` に分離**し、
+  公開用 `out/peak_hours.mp4` とその承認・指紋は触っていない。
+- 結果: 1080x1920 / 30fps / 39.44秒 / H.264 + AAC / 9.77MB。全編デコードエラーなし。
+  実測ラウドネス -15.33 LUFS / True Peak -1.98 dBFS（`render_short.py` の `mux()` と同じ挙動）。
+- 代表フレーム（0.05 / 8.0 秒）を目視: PR と種別ラベル（イメージ（AI生成）／模式図）は
+  シーン頭でも不透明。出典「資源エネルギー庁『エネこれ』」、大テロップ、字幕も表示された。
+- 軽微な点: この作品のタイトル（24文字）は2行になり、右上の種別ラベルと近接する。
+  重なりではなく可読だが、新規作品ではタイトルを13〜18文字程度に収めると安全
+  （寄り道ラボの実測ノウハウと同じ）。
+- 検証用に作った `shorts/peak_hours/short_spec.json`・`cache/peak_hours_artmap.json`・
+  `yorimichi_check/` は削除し、リポジトリをクリーンに戻した。
+- 次回の新規 slug で `--plan → check → approve → to-spec → render_yorimichi → gate` を通せば、
+  そのまま配信可能。Museレビューと公開は従来どおり。
