@@ -1,23 +1,23 @@
 {
   "slug": "tv_eco_mode",
-  "status": "pending",
-  "checked_at": "2026-11-22T13:57:17+09:00",
-  "approved_at": null,
-  "approved_by": null,
-  "expires_at": null,
-  "result_sha256": "b4c398978bd6d7e84825a69b2b2d13cdaf415231e42484f43b5d856cb34fbe8f",
+  "status": "approved",
+  "checked_at": "2026-11-22T14:03:30+09:00",
+  "approved_at": "2026-11-22T14:03:30+09:00",
+  "approved_by": "owner",
+  "expires_at": "2026-12-06",
+  "result_sha256": "bce501a5cf8947be2b85e8e39131a3cdb7a2a486c4b6e6e89da45bc616d20dd5",
   "review": {
     "file": "review_muse.md",
     "exists": true,
-    "passed": false,
-    "mtime": "2026-11-22T13:56:49+09:00",
-    "verdict": null,
+    "passed": true,
+    "mtime": "2026-11-22T14:03:22+09:00",
+    "verdict": "- 判定: 公開可。長さ 37.4 秒で基準内。",
     "newer_than_draft": true
   },
   "artifacts": {
     "file": "out\\draft\\tv_eco_mode_DRAFT.mp4",
-    "video_framemd5_sha256": "cd5ebd7f303aa1beacb8272815d35968ae9e233ad1b58fcd3349459e77172601",
-    "audio_md5": "d6a982e504d39b921b0cd58c97fdede9"
+    "video_framemd5_sha256": "931509e87553ca9cf16e457921198f90e927ceb9b9fc11d59578ecf83971b097",
+    "audio_md5": "454679ed13d4e5eb1845e5b65e610c5a"
   },
   "checks": {
     "sources": [
@@ -73,9 +73,7 @@
       "passed": true
     }
   },
-  "failures": [
-    "Muse レビュー: review_muse.md が無い／draft より古い／「公開可」が無い"
-  ],
+  "failures": [],
   "resolved_needs": [],
   "limitations": []
 }
