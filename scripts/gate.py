@@ -27,6 +27,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 import requests
+from safe_http import safe_get
 
 ROOT = Path(__file__).resolve().parents[1]
 PR_MARKER = '【PR】'
@@ -119,10 +120,9 @@ def resolve_affiliate_link(url, timeout=20):
     bad = check_link_url(url)
     if bad:
         raise ValueError(bad)
-    with requests.get(url, headers={'User-Agent': UA}, allow_redirects=True,
-                      stream=True, timeout=timeout) as response:
-        final = response.url
-        status = response.status_code
+    response = safe_get(url, headers={'User-Agent': UA}, timeout=timeout, max_bytes=1_000_000)
+    final = response.url
+    status = response.status_code
     if status < 200 or status >= 300:
         raise ValueError('アフィリエイトリンクの最終応答が失敗: HTTP %s' % status)
     parsed = urlparse(final)
@@ -135,7 +135,9 @@ def resolve_affiliate_link(url, timeout=20):
 
 def fetch_item_page(url, timeout=25):
     """商品ページのタイトルと価格を取得する（監査用。判定は人が行う）。"""
-    r = requests.get(url, headers={'User-Agent': UA}, timeout=timeout)
+    r = safe_get(url, headers={'User-Agent': UA}, timeout=timeout, max_bytes=2_000_000)
+    if urlparse(r.url).hostname != ITEM_HOST:
+        raise ValueError('商品ページの最終URLが商品ページではありません')
     title = None
     m = re.search(r'<title>(.*?)</title>', r.text, re.S)
     if m:
