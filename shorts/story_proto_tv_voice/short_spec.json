@@ -13,37 +13,37 @@
       "text": "テレビの省エネモード、効くの？",
       "big": "省エネモードは効く？",
       "sub": "",
-      "art": "shorts/tv_eco_mode/art/scene_01.png"
+      "art": "cache/story_proto_tv_voice_bases/base_01.png"
     },
     {
       "text": "資源エネルギー庁は、見る時は省エネモード、見ない時は電源オフ、と書いています。",
       "big": "見る時は省エネモード",
       "sub": "見ない時は電源オフ",
-      "art": "shorts/tv_eco_mode/art/scene_02.png"
+      "art": "cache/story_proto_tv_voice_bases/base_02.png"
     },
     {
       "text": "省エネモードで画面の明るさを下げると、消費電力が下がります。",
       "big": "明るさを下げる",
       "sub": "消費電力も下がる",
-      "art": "shorts/tv_eco_mode/art/scene_03.png"
+      "art": "cache/story_proto_tv_voice_bases/base_03.png"
     },
     {
       "text": "見ていない時は電源オフ。つけたままより、確実に電気を使いません。",
       "big": "つけたままは無駄",
       "sub": "電源オフ",
-      "art": "shorts/tv_eco_mode/art/scene_04.png"
+      "art": "cache/story_proto_tv_voice_bases/base_04.png"
     },
     {
       "text": "効果は1.8〜3.0%。19時ごろの家庭の使用量が基準。地域や時間帯で変わります。",
       "big": "1.8〜3.0%",
       "sub": "19時ごろ・概算・地域差",
-      "art": "shorts/tv_eco_mode/art/scene_05.png"
+      "art": "cache/story_proto_tv_voice_bases/base_05.png"
     },
     {
       "text": "見ない時も電気を使う。ワットモニター付き電源タップで、その無駄が見えます。",
       "big": "設定を確認",
       "sub": "無駄な電力を見える化",
-      "art": "shorts/tv_eco_mode/art/scene_06.png"
+      "art": "cache/story_proto_tv_voice_bases/base_06.png"
     }
   ],
   "cta": false,
