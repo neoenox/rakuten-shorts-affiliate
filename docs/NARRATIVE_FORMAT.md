@@ -74,11 +74,20 @@ The same adult character in every clip: short dark hair, mustard-yellow cardigan
 4. 比較変数は「人物中心かどうか」だけ。尺・BGM・CTA・タイトル型は
    `docs/STRATEGY.md` §3-B に従って固定する。
 
-### 実施済みの検証
+### 実施済みの検証（2026-11-22）
 
 - `python scripts/story_person.py --demo` で1080x1920の見本を生成し目視。
-  4ポーズで輪郭・配色・髪型が一致していることを確認（2026-11-22）。
-- 実動画への組み込み、FreeVideoでの同一人物再現は未実施・未検証。
+  4ポーズで輪郭・配色・髪型が一致していることを確認。
+- **試作動画を作成**: 公開済み `tv_eco_mode` の台本・音声（ナレーション＋BGM）を流用し、
+  人物を中央の安全帯に置いた6シーンを再描画。
+  成果物は `out/prototype/story_proto_tv.mp4`（1080x1920 / 30fps / 37.37秒 / H.264＋AAC、
+  2.6MB）。`cache/story_proto_tv/build_prototype.py` が生成スクリプト（再現用・Git管理外）。
+- 代表フレーム4点（1.5 / 12 / 24 / 35秒）を目視: PR・「イラスト」ラベル・タイトル・
+  大テロップ・出典・字幕がすべて可読。人物は毎シーン同じ服装・髪型で、
+  表情とポーズだけが変わる。見本は `docs/assets/story_proto_tv_frame.jpg`。
+- VOICEVOX stopped のため音声は公開版から抽出して流用。したがって**新しいナレーションの
+  実測・承認・公開ゲートは未実施**。この試作は比較用の下書きであり公開しない。
+- FreeVideoでの同一人物再現は未検証（静止イラストで代替）。
 
 ## 参照
 
