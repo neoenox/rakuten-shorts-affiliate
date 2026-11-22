@@ -76,6 +76,7 @@ python scripts/gate.py <slug>                      # 承認・成果物・指紋
 - 「PR」・「イメージ（AI生成）」・「模式図」・出典は描画時に焼き込む。詳しくは [`docs/RENDER_PIPELINE.md`](docs/RENDER_PIPELINE.md)。
 - 背景の動画クリップは FreeVideo（ローカル ComfyUI）で作る: `python scripts/gen_freevideo.py shorts/<slug>/clips.json --slug <slug>`。
 - BGM は `shorts/<slug>/render.json` の `bgm` で指定（クレジットは説明欄に自動で入る）。
+- 人物中心のストーリー形式は試作中: [`docs/NARRATIVE_FORMAT.md`](docs/NARRATIVE_FORMAT.md)（共通キャラは `scripts/story_person.py`）。
 
 ## アップロード（YouTube Studio）
 
