@@ -24,6 +24,19 @@ ROOT = Path(__file__).resolve().parents[1]
 PORT = 9223
 MARK = '問題点は時刻つきで具体的にお願いします。'
 
+# 返答はチャットログ([role=log])だけから読む。body.innerText だと右サイドバーの
+# 会話一覧に同じマーカーが出てしまい、そちら以降を拾う誤抽出が起きる。
+LOG_JS = (
+    "(() => { const l = document.querySelector('[role=log]'); "
+    "return l ? (l.innerText || '') : (document.body.innerText || ''); })()"
+)
+TRAILING_UI = (
+    'このパーソナリティは気に入りましたか',
+    'ChatGPT は間違えることがあります',
+    'Gemini は不正確な情報を表示することがあるため',
+    '最新の応答',
+)
+
 TEMPLATE = ('この動画のレビューをお願いします。添付は、{topic}のYouTube Shorts（約{sec}秒・縦1080x1920）です。'
             '映像はAI生成のイメージ・自作イラスト・自作の模式図で、商品画像は使っていません。'
             '楽天アフィリエイトの広告を含み、PR表記を全編に入れています。{note}'
@@ -72,6 +85,25 @@ def reply_ready(txt, last, stable, busy, min_chars):
     """返答が安定したと判定できるか（短い返答も受理できるよう下限は設定可能）。"""
     return bool(txt and txt == last and not busy and stable >= 3 and len(txt) >= min_chars)
 
+
+
+def extract_reply(log_text, mark=MARK):
+    """チャットログから最後の依頼マーカー以降だけを返答として切り出す。
+
+    マーカーより前に出るサイドバー／過去のやり取りは無視する。
+    末尾の UI 文言（再生成ボタンのラベル等）は落とす。
+    """
+    if not log_text:
+        return ''
+    i = log_text.rfind(mark)
+    if i < 0:
+        return ''
+    txt = log_text[i + len(mark):]
+    for cut in TRAILING_UI:
+        j = txt.find(cut)
+        if j > 0:
+            txt = txt[:j]
+    return txt.strip()
 
 def compress(src, slug):
     out = ROOT / 'out' / f'muse_{slug}.mp4'
@@ -156,9 +188,8 @@ def main():
     t0 = time.time()
     last, stable = '', 0
     while time.time() - t0 < a.timeout:
-        body = c.ev(sid, 'document.body.innerText') or ''
-        i = body.rfind(MARK)
-        txt = (body[i + len(MARK):] if i >= 0 else '').strip()
+        log_text = c.ev(sid, LOG_JS) or ''
+        txt = extract_reply(log_text)
         if txt and txt == last:
             stable += 1
             if reply_ready(txt, last, stable, False, a.min_chars):

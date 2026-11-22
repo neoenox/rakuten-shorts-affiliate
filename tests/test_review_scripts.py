@@ -44,6 +44,27 @@ def test_muse_reply_can_be_short():
     assert not muse.reply_ready('短い', '短い', 3, False, 5)
 
 
+
+def test_muse_extract_reply_takes_only_last_exchange():
+    log = (
+        '過去の会話一覧（サイドバー）\n'
+        f'{muse.MARK}\n古い依頼への返答\n'
+        '== 現在のスレッド ==\n'
+        f'{muse.MARK}\n'
+        'これが正しい返答です。\n二行目。'
+    )
+    assert muse.extract_reply(log) == 'これが正しい返答です。\n二行目。'
+
+
+def test_muse_extract_reply_drops_trailing_ui():
+    log = f'{muse.MARK}\n公開可です。\n最新の応答\nこのパーソナリティは気に入りましたか'
+    assert muse.extract_reply(log) == '公開可です。'
+
+
+def test_muse_extract_reply_without_log_is_empty():
+    assert muse.extract_reply('') == ''
+    assert muse.extract_reply('マーカーが無い本文') == ''
+
 def test_script_reply_can_be_short():
     assert review.reply_ready('短いが完成した返答', '短いが完成した返答', 3, False, 5)
     assert not review.reply_ready('短い', '短い', 3, False, 5)
