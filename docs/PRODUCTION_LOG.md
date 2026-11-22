@@ -1092,3 +1092,21 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - **判定**: I2VA でもクリップ間の同一人物は保てない。人物中心の比較実験は静止イラスト版
   （`out/prototype/story_proto_tv.mp4`）をベースにする。AI版は比較用の下書きで公開しない。
 - 公開物・承認・指紋・hub は変更していない。VOICEVOX は停止中のため音声は流用のまま。
+
+### 追記（2026-11-22 22:12）: 写実寄りの人物で作り直し
+
+- オーナーの方針で人物を写実寄りに変更。scene1 クリップから写実フレームを切り出し
+  （`shorts/story_proto_tv_real/art/ref_real.png`）、全6クリップの I2VA 参照に使用。
+- プロンプトは先頭を `Photorealistic live-action film still shot on 35mm, natural skin texture...`、
+  末尾を `no illustration, no anime, no cartoon, no 3D render, no CGI, no doll...` で統一。
+  全文と seed は `docs/assets/story_proto_real_prompts.json`。
+- 最初に scene4 だけで検証（seed 2026112301、7.3秒）。フレーム4点で同一人物・同一部屋、
+  文字・ロゴなしを確認してから残り5本を生成。scene4 は検証済みクリップを流用。
+- 成果物: `out/prototype/story_proto_tv_real.mp4`（1080x1920 / 30fps / 37.37秒 /
+  H.264＋AAC / 25.1MB）。音声は公開版から抽出したナレーション＋BGMを再mux。
+- 代表フレーム4点（1.5 / 12 / 24 / 35秒、`docs/assets/story_proto_real_frames.jpg`）を目視:
+  同一の成人・黒髪・からし色カーディガン・白シャツ、同じ部屋と小道具で画風のブレなし。
+  PR・「イメージ（AI生成）」・タイトル・大テロップ・出典・字幕は可読。
+  文字・ロゴ・商品・実在人物として特定できる人物はなし。
+- 比較実験のベースは写実版に変更してよい（オーナー方針）。ただし公開物・承認・指紋・hub は
+  変更せず、この動画も比較用の下書きで公開しない。

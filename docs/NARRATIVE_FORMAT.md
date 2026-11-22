@@ -111,6 +111,13 @@ AI生成でも出典ラベルは全編で維持する。
 - **AI版の完成物**: `out/prototype/story_proto_tv_ai.mp4`（37.37秒／30fps／1080x1920／15MB）。
   フレーム4点は `docs/assets/story_proto_ai_frames.jpg`。PR・「イメージ（AI生成）」・
   大テロップ・出典・字幕は可読。文字・ロゴ・商品・実在人物はなし。
+- **写実版（オーナー方針）**: 写実寄りの人物に統一するため、scene1 の実写フレームを全クリップの
+  参照に使い、プロンプト先頭に「photorealistic / 35mm / 自然な肌」、末尾に
+  「イラスト・アニメ・3DCG・人形・文字・ロゴは禁止」を固定。6クリップを再生成し、
+  `out/prototype/story_proto_tv_real.mp4`（37.37秒／30fps／1080x1920／25MB）を描画。
+  フレーム4点（`docs/assets/story_proto_real_frames.jpg`）で同一人物・同一部屋・配色が保たれ、
+  PR・「イメージ（AI生成）」・大テロップ・出典・字幕は可読。画風のブレは解消した。
+  プロンプト全文は `docs/assets/story_proto_real_prompts.json`。比較用の下書きで公開しない。
 
 ## 参照
 

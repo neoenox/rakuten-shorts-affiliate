@@ -1,0 +1,46 @@
+{
+  "clips": [
+    {
+      "name": "scene1",
+      "seconds": 4.0,
+      "seed": 2026112311,
+      "ref": "ref_real.png",
+      "prompt": "Photorealistic live-action film still shot on 35mm, natural skin texture and real fabric, the same adult person as the supplied first frame: short black hair, mustard-yellow cardigan over an off-white shirt, understated natural face. The same small Japanese living room with warm lamp light, a plain white mug, folded blank white paper and an unbranded thin television with a blank soft-blue screen. Preserve the supplied first frame's realistic photographic style, palette, clothing and props exactly. The character sits on the floor beside the mug facing the television at blue hour, then slowly turns their head toward the folded blank paper on the low table and pauses with a faintly furrowed brow, as if noticing something. Camera: gentle push-in from a slightly high angle, shallow depth of field, subtle parallax between mug and television. Slow continuous motion, no cuts. Absolutely no illustration, no anime, no cartoon, no cel shading, no 3D render, no CGI, no doll, no figurine, no plastic skin, no text, no captions, no subtitles, no logos, no brands, no product packaging, no real product replica, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music."
+    },
+    {
+      "name": "scene2",
+      "seconds": 8.0,
+      "seed": 2026112312,
+      "ref": "ref_real.png",
+      "prompt": "Photorealistic live-action film still shot on 35mm, natural skin texture and real fabric, the same adult person as the supplied first frame: short black hair, mustard-yellow cardigan over an off-white shirt, understated natural face. The same small Japanese living room with warm lamp light, a plain white mug, folded blank white paper and an unbranded thin television. Preserve the supplied first frame's realistic photographic style, palette, clothing and props exactly. The character leans forward toward the television, eyes fixed on the blank glowing screen, one hand holding a plain black remote control with no buttons or logo. The expression shifts from uncertainty to quiet realization and they give a small nod. The screen pulses gently brighter and dimmer as if a setting is being adjusted. Camera: slow arc from over the shoulder to a three-quarter view, warm lamp glow with cool blue rim light. Slow continuous motion, no cuts. Absolutely no illustration, no anime, no cartoon, no cel shading, no 3D render, no CGI, no doll, no figurine, no plastic skin, no text, no captions, no subtitles, no logos, no brands, no product packaging, no real product replica, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music."
+    },
+    {
+      "name": "scene3",
+      "seconds": 6.0,
+      "seed": 2026112313,
+      "ref": "ref_real.png",
+      "prompt": "Photorealistic live-action film still shot on 35mm, natural skin texture and real fabric, the same adult person as the supplied first frame: short black hair, mustard-yellow cardigan over an off-white shirt, understated natural face. The same small Japanese living room with warm lamp light, a plain white mug, folded blank white paper and an unbranded thin television. Preserve the supplied first frame's realistic photographic style, palette, clothing and props exactly. Close-up of the character's hand in the mustard cardigan sleeve raising a plain black remote control and pressing one unlabeled button. The television screen dims smoothly from bright blue to deep navy. The hand lowers slightly and the character's face enters the edge of frame, watching the result. Camera: very slow push-in on the hand and the edge of the screen, shallow focus, soft highlight travelling along the sleeve. Slow continuous motion, no cuts. Absolutely no illustration, no anime, no cartoon, no cel shading, no 3D render, no CGI, no doll, no figurine, no plastic skin, no text, no captions, no subtitles, no logos, no brands, no product packaging, no real product replica, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music."
+    },
+    {
+      "name": "scene4",
+      "seconds": 7.0,
+      "seed": 2026112301,
+      "ref": "ref_real.png",
+      "prompt": "Photorealistic live-action film still shot on 35mm, natural skin texture and real fabric, the same adult person as the supplied first frame: short black hair, mustard-yellow cardigan over an off-white shirt, understated natural face. The same small Japanese living room with warm lamp light, a plain white mug, folded blank white paper and an unbranded thin television showing only abstract blue and gold light, no numbers and no writing. Preserve the supplied first frame's realistic photographic style, palette, clothing and props exactly. The character stands beside the low table watching the television, then glances down at the folded paper. Camera: slow lateral dolly with a gentle rack focus from the television to the character's calm attentive expression. Slow continuous motion, no cuts. Absolutely no illustration, no anime, no cartoon, no cel shading, no 3D render, no CGI, no doll, no figurine, no plastic skin, no text, no captions, no subtitles, no logos, no brands, no product packaging, no real product replica, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music."
+    },
+    {
+      "name": "scene5",
+      "seconds": 9.0,
+      "seed": 2026112315,
+      "ref": "ref_real.png",
+      "prompt": "Photorealistic live-action film still shot on 35mm, natural skin texture and real fabric, the same adult person as the supplied first frame: short black hair, mustard-yellow cardigan over an off-white shirt, understated natural face. The same small Japanese living room with warm lamp light, a plain white mug, folded blank white paper and an unbranded thin television. Preserve the supplied first frame's realistic photographic style, palette, clothing and props exactly. The character stands beside the low table, looking from the bright television to the plain white mug. The screen darkens completely as if switched off, leaving a soft reflection on the glass. Their shoulders relax and they give a small satisfied nod. Camera: slow pull-back revealing more of the quiet room, the warm lamp gradually becoming the dominant light. Slow continuous motion, no cuts. Absolutely no illustration, no anime, no cartoon, no cel shading, no 3D render, no CGI, no doll, no figurine, no plastic skin, no text, no captions, no subtitles, no logos, no brands, no product packaging, no real product replica, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music."
+    },
+    {
+      "name": "scene6",
+      "seconds": 7.0,
+      "seed": 2026112316,
+      "ref": "ref_real.png",
+      "prompt": "Photorealistic live-action film still shot on 35mm, natural skin texture and real fabric, the same adult person as the supplied first frame: short black hair, mustard-yellow cardigan over an off-white shirt, understated natural face. The same small Japanese living room with warm lamp light, a plain white mug, folded blank white paper and an unbranded thin television, now dark. Preserve the supplied first frame's realistic photographic style, palette, clothing and props exactly. The character settles onto a simple sofa holding the plain white mug with both hands, shoulders relaxed and a faint relieved smile. Camera: slow gentle push-back, warm lamp light, calm still air, subtle highlight on the mug; the framing widens to a quiet composition that matches the first frame's room, character and palette. Slow continuous motion, no cuts. Absolutely no illustration, no anime, no cartoon, no cel shading, no 3D render, no CGI, no doll, no figurine, no plastic skin, no text, no captions, no subtitles, no logos, no brands, no product packaging, no real product replica, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music."
+    }
+  ]
+}
