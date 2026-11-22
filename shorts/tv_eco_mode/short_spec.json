@@ -1,0 +1,68 @@
+{
+ "title": "テレビの省エネモードは効く？",
+ "hook": "テレビの省エネモード、ほんとに効くの？",
+ "notes": "・資源エネルギー庁の節電Tips（テレビ）は、見ている時は『省エネモード』に設定して輝度（画面の明るさ）を下げれば節電になり、見ていない時は電源をオフにすることで、合わせて1.8％〜3.0％の節電になると記載している。\n・同ページは、節電効果（消費電力の削減率）が19時ごろの家庭の電力使用量に対する概算値で、地域・時間帯によって変動すると明記している。",
+ "refs": [
+  "資源エネルギー庁の節電Tips（テレビ）は、見ている時は『省エネモード』に設定して輝度（画面の明るさ）を下げれば節電になり、見ていない時は電源をオフにすることで、合わせて1.8％〜3.0％の節電になると記載している。 — https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+  "同ページは、節電効果（消費電力の削減率）が19時ごろの家庭の電力使用量に対する概算値で、地域・時間帯によって変動すると明記している。 — https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html"
+ ],
+ "pron": "shorts/tv_eco_mode/pron.json",
+ "art": "assets/tv_eco_mode/art.png",
+ "scenes": [
+  {
+   "text": "テレビの省エネモード、効くの？",
+   "big": "省エネモードは効く？",
+   "sub": "",
+   "art": "shorts/tv_eco_mode/art/scene_01.png"
+  },
+  {
+   "text": "資源エネルギー庁は、見る時は省エネモード、見ない時は電源オフ、と書いています。",
+   "big": "見る時は省エネモード",
+   "sub": "見ない時は電源オフ",
+   "art": "shorts/tv_eco_mode/art/scene_02.png"
+  },
+  {
+   "text": "省エネモードで画面の明るさを下げると、消費電力が下がります。",
+   "big": "明るさを下げる",
+   "sub": "消費電力も下がる",
+   "art": "shorts/tv_eco_mode/art/scene_03.png"
+  },
+  {
+   "text": "見ていない時は電源オフ。つけたままより、確実に電気を使いません。",
+   "big": "つけたままは無駄",
+   "sub": "電源オフ",
+   "art": "shorts/tv_eco_mode/art/scene_04.png"
+  },
+  {
+   "text": "効果は1.8〜3.0%。19時ごろの家庭の使用量が基準。地域や時間帯で変わります。",
+   "big": "1.8〜3.0%",
+   "sub": "19時ごろ・概算・地域差",
+   "art": "shorts/tv_eco_mode/art/scene_05.png"
+  },
+  {
+   "text": "まず設定を確認。見ない時はオフ。節電は明るさと電源の両方です。",
+   "big": "設定を確認",
+   "sub": "明るさと電源の両方",
+   "art": "shorts/tv_eco_mode/art/scene_06.png"
+  }
+ ],
+ "cta": false,
+ "status": "needs_review",
+ "claims": [
+  {
+   "id": "c1",
+   "statement": "資源エネルギー庁の節電Tips（テレビ）は、見ている時は『省エネモード』に設定して輝度（画面の明るさ）を下げれば節電になり、見ていない時は電源をオフにすることで、合わせて1.8％〜3.0％の節電になると記載している。",
+   "source_type": "primary",
+   "source_url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+   "evidence_note": "2026-11-22にChromeで開いて確認。「知っておきたい、節電・省エネTips」の「テレビ」の項に記載あり。"
+  },
+  {
+   "id": "c2",
+   "statement": "同ページは、節電効果（消費電力の削減率）が19時ごろの家庭の電力使用量に対する概算値で、地域・時間帯によって変動すると明記している。",
+   "source_type": "primary",
+   "source_url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+   "evidence_note": "2026-11-22にChromeで開いて確認。「知っておきたい、節電・省エネTips」冒頭の注記。"
+  }
+ ],
+ "needs_research": []
+}

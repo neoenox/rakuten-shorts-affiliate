@@ -1,0 +1,81 @@
+{
+  "slug": "tv_eco_mode",
+  "status": "pending",
+  "checked_at": "2026-11-22T13:57:17+09:00",
+  "approved_at": null,
+  "approved_by": null,
+  "expires_at": null,
+  "result_sha256": "b4c398978bd6d7e84825a69b2b2d13cdaf415231e42484f43b5d856cb34fbe8f",
+  "review": {
+    "file": "review_muse.md",
+    "exists": true,
+    "passed": false,
+    "mtime": "2026-11-22T13:56:49+09:00",
+    "verdict": null,
+    "newer_than_draft": true
+  },
+  "artifacts": {
+    "file": "out\\draft\\tv_eco_mode_DRAFT.mp4",
+    "video_framemd5_sha256": "cd5ebd7f303aa1beacb8272815d35968ae9e233ad1b58fcd3349459e77172601",
+    "audio_md5": "d6a982e504d39b921b0cd58c97fdede9"
+  },
+  "checks": {
+    "sources": [
+      {
+        "claim_id": "c1",
+        "url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+        "http_status": 200,
+        "numbers_total": 2,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+        "http_status": 200,
+        "numbers_total": 1,
+        "numbers_missing": [],
+        "numbers_found": true
+      }
+    ],
+    "product": {
+      "name_in_config": "ワットモニター付き電源タップ 6個口 1.5m（サンワダイレクト 700-TAP071）",
+      "manual": true,
+      "passed": true,
+      "http_status": 200,
+      "title": "【楽天市場】【TVで紹介されました】【楽天1位受賞】電源タップ 個別 スイッチ ワットモニター ワットメーター ワットチェッカー 節電 消費電力計 検電器 6個口 1.5m 個別スイッチ 雷ガード マグネット 延長コード コンセント タップ 1m：サンワダイレクト楽天市場店",
+      "price": 5280
+    },
+    "link": {
+      "final": "https://item.rakuten.co.jp/sanwadirect/700-tap071/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "passed": true
+    },
+    "presentation": {
+      "failures": []
+    },
+    "format": {
+      "passed": true,
+      "errors": []
+    },
+    "frames": {
+      "manual": true,
+      "label": "フレーム3点の目視",
+      "passed": true
+    },
+    "conditions": {
+      "manual": true,
+      "label": "試算条件の一致",
+      "passed": true
+    },
+    "expressions": {
+      "manual": true,
+      "label": "断定・効能表現の排除",
+      "passed": true
+    }
+  },
+  "failures": [
+    "Muse レビュー: review_muse.md が無い／draft より古い／「公開可」が無い"
+  ],
+  "resolved_needs": [],
+  "limitations": []
+}
