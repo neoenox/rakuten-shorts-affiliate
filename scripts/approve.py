@@ -20,6 +20,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 import requests
+from safe_http import safe_get
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -82,7 +83,7 @@ def normalize_numbers(text):
 
 
 def fetch_source(url, timeout=25):
-    r = requests.get(url, headers={'User-Agent': gate.UA}, timeout=timeout)
+    r = safe_get(url, headers={'User-Agent': gate.UA}, timeout=timeout, max_bytes=5_000_000)
     if r.content[:4] == b'%PDF':
         # ハンドブックのような一次資料は PDF のまま配布される。本文を抽出して数値を照合する
         try:
