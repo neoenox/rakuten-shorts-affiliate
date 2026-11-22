@@ -46,17 +46,26 @@
 
 ## 4. FreeVideo を使う場合
 
-1シーン1クリップ（`clips.json`）のプロンプト先頭に、人物の固定記述を毎回そのまま入れる。
+1シーン1クリップ。プロンプト全文（6本分）は `docs/assets/story_proto_prompts.json` に残す。
+共通の型は次のとおり。
 
-```
-The same adult character in every clip: short dark hair, mustard-yellow cardigan over a white shirt, dark blue trousers, no brand, no logo, minimal facial features. The same small Japanese room with one window and one warm lamp. Scene: <そのシーンの行動>. Slow camera push-in, cinematic, soft light. No text, no letters, no labels, no logos, no product packaging, no real product replica, no other people.
-```
+- **先頭フレーム指定（I2VA）**: 自作イラストを ComfyUI の入力に置き、`FreeVideoGenerate` の
+  `first` に接続する。作画の出発点を固定し、衣装・髪型・部屋の色を保つ。
+- **人物の固定記述**: 毎プロンプトの先頭に「同じ成人、短い黒髪、からし色のカーディガン、
+  白いシャツ、顔は記号のみ」と入れる。
+- **部屋の固定記述**: 同じ部屋、暖色のランプ、白いマグカップ、折り目のある白紙、
+  ロゴのない薄型テレビ。
+- **ショット設計**: `[Shot 1]` / `[Shot 2]` と時刻（例 00:05.000）を書き、カメラ移動
+  （push-in / arc / dolly / pull-back）、照明、感情の変化を指定する。
+- **禁止事項**: 文字・字幕・ロゴ・ブランド・商品パッケージ・実在商品の再現・追加人物・
+  崩れた手や顔・台詞・BGM。数字やテロップは描画側が重ねるため映像には入れない。
+- **音声**: 生成クリップに音が付いても最終動画では捨て、公開版の音声を mux する。
 
-- seed は `clips.json` に保存して全クリップで固定する（`gen_freevideo.py` が自動保存する）。
-- 別生成のクリップ間で同一人物が保てるかは**未検証**。8188が停止している間は
-  `AGENTS.md` §2 の静止フォールバックを使い、`PRODUCTION_LOG.md` に理由を残す。
-- 表記は素材に合わせる: 自作イラストなら `art_types: "illustration"` → 画面は「イラスト」、
-  AI生成クリップなら `"ai"` → 「イメージ（AI生成）」。両方とも全編でフェードさせない。
+seed はクリップごとに固定し `clips.json` に保存する。実測では参照フレームを渡しても
+構図そのものは再現されず、人物の配色と小道具だけが引き継がれた（下記の検証を参照）。
+8188 が停止している場合のみ `AGENTS.md` §2 の静止フォールバックを使い、理由を
+`PRODUCTION_LOG.md` に残す。表記は `art_types: "ai"` → 画面は「イメージ（AI生成）」。
+AI生成でも出典ラベルは全編で維持する。
 
 ## 5. やらないこと
 
@@ -87,7 +96,16 @@ The same adult character in every clip: short dark hair, mustard-yellow cardigan
   表情とポーズだけが変わる。見本は `docs/assets/story_proto_tv_frame.jpg`。
 - VOICEVOX stopped のため音声は公開版から抽出して流用。したがって**新しいナレーションの
   実測・承認・公開ゲートは未実施**。この試作は比較用の下書きであり公開しない。
-- FreeVideoでの同一人物再現は未検証（静止イラストで代替）。
+- **FreeVideo の I2VA（先頭フレーム指定）を scene1 だけ実測**: 自作 `art/ref_01.png` を
+  `LoadImage` → `FreeVideoGenerate.first`（`first_frame_reference: true`）に渡して生成
+  （seed 2026112201、544x960／24fps／4.46秒、`art/clip_scene1.mp4`）。プロンプト全文は
+  `docs/assets/story_proto_prompts.json`。フレーム4点（0.5 / 1.5 / 2.5 / 3.5秒）を目視し、
+  からし色のカーディガン・白いマグカップ・白紙・テレビ・暖色のランプという配色と小道具は
+  引き継がれたが、参照のフラットな記号表現と構図は再現されず写実的な別構図になった。
+  確認した4フレームに文字・ロゴ・追加人物・崩れた手は見当たらない（生成音声は最終動画では使わない）。
+- **判定**: 参照フレームは配色と小道具の固定には使えるが、構図とキャラの再現には使えない。
+  前述の静止イラスト版を比較用の試作として使い、AIクリップは検証用サンプルとして残す
+  （公開しない）。全6クリップの生成とAIクリップ版の動画描画は未実施。
 
 ## 参照
 

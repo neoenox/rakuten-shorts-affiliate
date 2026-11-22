@@ -1,0 +1,46 @@
+{
+  "clips": [
+    {
+      "name": "scene1",
+      "seconds": 4.0,
+      "seed": 2026112201,
+      "ref": "ref_01.png",
+      "prompt": "Use the supplied first frame as the exact design reference: the same adult character with short dark hair, a mustard-yellow cardigan over an off-white shirt, minimal facial features, and the same small Japanese living room with one plain wall-mounted television, one plain white mug and warm lamp light. Preserve clothing, hair, room layout and colour palette exactly. No text, no letters, no captions, no subtitles, no logos, no watermarks, no brands, no recognizable products, no product packaging, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music. integrated_multimodal_description: [Shot 1] A quiet Japanese living room at blue hour. The same adult character sits on the floor beside the plain white mug, facing the television with a blank soft-blue screen. Warm lamp light from the right, cool window light from the left. The character slowly turns their head toward a folded blank sheet of paper on the low table and pauses with a faintly furrowed brow, as if noticing something. Camera: gentle push-in from a slightly high angle, shallow depth of field, subtle parallax between the mug and the television. Slow continuous motion, no cuts."
+    },
+    {
+      "name": "scene2",
+      "seconds": 8.0,
+      "seed": 2026112202,
+      "ref": "ref_02.png",
+      "prompt": "Use the supplied first frame as the exact design reference: the same adult character with short dark hair, a mustard-yellow cardigan over an off-white shirt, minimal facial features, and the same small Japanese living room with one plain wall-mounted television, one plain white mug and warm lamp light. Preserve clothing, hair, room layout and colour palette exactly. No text, no letters, no captions, no subtitles, no logos, no watermarks, no brands, no recognizable products, no product packaging, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music. integrated_multimodal_description: [Shot 1] The same adult character leans forward toward the television, eyes fixed on the blank glowing screen. A plain black remote control with no buttons or logo rests in one hand. Camera: slow arc from over the shoulder to a three-quarter view, warm lamp glow with a cool blue rim light, a few dust motes drifting through the beam. [Shot 2] At 00:05.000 the character's expression shifts from uncertainty to quiet realization and they give a small nod. The screen pulses gently brighter and dimmer as if a setting is being adjusted. Slow continuous motion, no cuts."
+    },
+    {
+      "name": "scene3",
+      "seconds": 6.0,
+      "seed": 2026112203,
+      "ref": "ref_03.png",
+      "prompt": "Use the supplied first frame as the exact design reference: the same adult character with short dark hair, a mustard-yellow cardigan over an off-white shirt, minimal facial features, and the same small Japanese living room with one plain wall-mounted television, one plain white mug and warm lamp light. Preserve clothing, hair, room layout and colour palette exactly. No text, no letters, no captions, no subtitles, no logos, no watermarks, no brands, no recognizable products, no product packaging, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music. integrated_multimodal_description: [Shot 1] Close-up of the character's hand in the mustard cardigan sleeve raising a plain black remote control and pressing one unlabeled button. The television screen dims smoothly from bright blue to deep navy. Camera: very slow push-in on the hand and the edge of the screen, shallow focus, a soft highlight travelling along the sleeve. [Shot 2] At 00:04.000 the hand lowers slightly and the character's face enters the edge of frame, watching the result. Slow continuous motion, no cuts."
+    },
+    {
+      "name": "scene4",
+      "seconds": 7.0,
+      "seed": 2026112204,
+      "ref": "ref_04.png",
+      "prompt": "Use the supplied first frame as the exact design reference: the same adult character with short dark hair, a mustard-yellow cardigan over an off-white shirt, minimal facial features, and the same small Japanese living room with one plain wall-mounted television, one plain white mug and warm lamp light. Preserve clothing, hair, room layout and colour palette exactly. No text, no letters, no captions, no subtitles, no logos, no watermarks, no brands, no recognizable products, no product packaging, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music. integrated_multimodal_description: [Shot 1] The character watches the television. The screen shows only abstract bands of blue and gold light, with no numbers and no writing. A plain power strip lies on the floor, unbranded. The character follows the shifting light with their eyes, then glances down at the folded blank paper on the table. Camera: slow lateral dolly with a gentle rack focus from the television to the character's calm, attentive expression. Warm lamp light stays constant, slow continuous motion, no cuts."
+    },
+    {
+      "name": "scene5",
+      "seconds": 9.0,
+      "seed": 2026112205,
+      "ref": "ref_05.png",
+      "prompt": "Use the supplied first frame as the exact design reference: the same adult character with short dark hair, a mustard-yellow cardigan over an off-white shirt, minimal facial features, and the same small Japanese living room with one plain wall-mounted television, one plain white mug and warm lamp light. Preserve clothing, hair, room layout and colour palette exactly. No text, no letters, no captions, no subtitles, no logos, no watermarks, no brands, no recognizable products, no product packaging, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music. integrated_multimodal_description: [Shot 1] The character stands beside the low table in the same room and same clothing, looking from the bright television to the plain white mug. Camera: slow pull-back revealing more of the quiet room, the warm lamp gradually becoming the dominant light. [Shot 2] At 00:04.000 the screen darkens completely as if switched off, leaving a soft reflection on the glass. The character's shoulders relax and they give a small satisfied nod. Slow continuous motion, no cuts."
+    },
+    {
+      "name": "scene6",
+      "seconds": 7.0,
+      "seed": 2026112206,
+      "ref": "ref_06.png",
+      "prompt": "Use the supplied first frame as the exact design reference: the same adult character with short dark hair, a mustard-yellow cardigan over an off-white shirt, minimal facial features, and the same small Japanese living room with one plain wall-mounted television, one plain white mug and warm lamp light. Preserve clothing, hair, room layout and colour palette exactly. No text, no letters, no captions, no subtitles, no logos, no watermarks, no brands, no recognizable products, no product packaging, no extra people, no distorted hands or faces. Quiet room tone, no dialogue, no music. integrated_multimodal_description: [Shot 1] The character settles onto a simple sofa in the same room, holding the plain white mug with both hands, shoulders relaxed and a faint relieved smile. The television is dark. Camera: slow gentle push-back, warm lamp light, calm still air, a subtle highlight on the mug. [Shot 2] At 00:04.000 the framing widens to a quiet composition that matches the first frame's room, character and palette. Slow continuous motion, no cuts."
+    }
+  ]
+}
