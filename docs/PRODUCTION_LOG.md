@@ -1125,3 +1125,14 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
   重ならず可読であることを確認（`docs/assets/story_proto_real_product_frame.jpg`）。
 - 説明欄・固定コメントのアフィリンクと hub のカードは既存のまま。新規リンクは作っていない。
   公開物・承認・指紋・hub は変更せず、比較用の下書きとして扱う。
+
+### 追記（2026-11-22 23:17）: VOICEVOX を再導入しナレーションを修正
+
+- VOICEVOX Engine 0.26.2 (windows-cpu) をダウンロード・展開し、50021 で起動（`/version` で確認）。
+- `shorts/story_proto_tv_voice/` に台本をコピーし、最終シーンのナレーションを
+  「まず設定を確認。見ない時はオフ。ワットモニター付き電源タップで電力を見る。」に変更。
+  キャプションは 14文字制限に合わせ「ワットモニターで電力を確認」。
+- `shorts_standard.py to-spec` → `render_yorimichi.py --plan`（37.99秒／6シーン、ERROR なし）
+  → 描画。`out/story_proto_tv_voice.mp4`（38.0秒／25MB）に新規音声をmux。
+- 36秒のフレームを目視: 字幕・キャプション・PR・出典・種別ラベルは可読で、
+  ナレーションが商品名に触れていることを確認。公開はしない。
