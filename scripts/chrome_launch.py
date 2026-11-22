@@ -2,7 +2,7 @@
 
 usage:
   python scripts/chrome_launch.py channel   # 9222 / .chrome-gemienox / Profile 3 （YouTube Studio・楽天）
-  python scripts/chrome_launch.py review    # 9223 / .chrome-automation      （ChatGPT・Gemini・Muse）
+  python scripts/chrome_launch.py review    # 9223 / .chrome-automation      （ChatGPT・Gemini・Google AI モード）
 
 - すでにそのポートが開いていれば何もしない（二重起動しない）。
 - 起動は最小化。ウィンドウを前に出したくないときも、CDP 経由の操作はそのまま動く。
@@ -29,7 +29,7 @@ PROFILES = {
         'port': 9223,
         'user_data_dir': r'C:\Users\neoen\.chrome-automation',
         'profile_directory': None,
-        'url': 'https://muse.ai/',
+        'url': 'https://www.google.com/ai/',
     },
 }
 

@@ -20,50 +20,55 @@ def load(name):
     return module
 
 
-muse = load('muse_review')
+ai = load('google_ai_review')
 review = load('script_review')
 
 
-def test_muse_dry_run_does_not_compress_or_open_browser(tmp_path, monkeypatch):
+def test_ai_dry_run_does_not_compress_or_open_browser(tmp_path, monkeypatch):
     sd = tmp_path / 'shorts' / 'demo'
     sd.mkdir(parents=True)
     (sd / 'result.json').write_text(json.dumps({'title': '題名', 'duration_sec': 35}), encoding='utf-8')
     draft = tmp_path / 'out' / 'draft' / 'demo_DRAFT.mp4'
     draft.parent.mkdir(parents=True)
     draft.write_bytes(b'video')
-    monkeypatch.setattr(muse, 'ROOT', tmp_path)
-    monkeypatch.setattr(muse, 'compress', lambda *a, **kw: (_ for _ in ()).throw(AssertionError('compress called')))
-    monkeypatch.setattr(muse, 'C', lambda *a, **kw: (_ for _ in ()).throw(AssertionError('browser opened')))
-    monkeypatch.setattr(sys, 'argv', ['muse_review.py', 'demo', '--dry-run'])
+    monkeypatch.setattr(ai, 'ROOT', tmp_path)
+    monkeypatch.setattr(ai, 'compress', lambda *a, **kw: (_ for _ in ()).throw(AssertionError('compress called')))
+    monkeypatch.setattr(ai, 'C', lambda *a, **kw: (_ for _ in ()).throw(AssertionError('browser opened')))
+    monkeypatch.setattr(sys, 'argv', ['google_ai_review.py', 'demo', '--dry-run'])
 
-    assert muse.main() == 0
-
-
-def test_muse_reply_can_be_short():
-    assert muse.reply_ready('短いが完成した返答', '短いが完成した返答', 3, False, 5)
-    assert not muse.reply_ready('短い', '短い', 3, False, 5)
+    assert ai.main() == 0
 
 
+def test_ai_reply_can_be_short():
+    assert ai.reply_ready('短いが完成した返答', '短いが完成した返答', 3, 5)
+    assert not ai.reply_ready('短い', '短い', 3, 5)
 
-def test_muse_extract_reply_takes_only_last_exchange():
+
+
+def test_ai_extract_reply_takes_only_last_exchange():
     log = (
         '過去の会話一覧（サイドバー）\n'
-        f'{muse.MARK}\n古い依頼への返答\n'
+        f'{ai.MARK}\n古い依頼への返答\n'
         '== 現在のスレッド ==\n'
-        f'{muse.MARK}\n'
+        f'{ai.MARK}\n'
         'これが正しい返答です。\n二行目。'
     )
-    assert muse.extract_reply(log) == 'これが正しい返答です。\n二行目。'
+    assert ai.extract_reply(log) == 'これが正しい返答です。\n二行目。'
 
 
-def test_muse_extract_reply_drops_trailing_ui():
-    log = f'{muse.MARK}\n公開可です。\n最新の応答\nこのパーソナリティは気に入りましたか'
-    assert muse.extract_reply(log) == '公開可です。'
+def test_ai_extract_reply_drops_trailing_ui():
+    log = f'{ai.MARK}\n公開可です。\nAI は不正確な情報を表示することがあるため\nパーソナライズなしで試す'
+    assert ai.extract_reply(log) == '公開可です。'
 
 
-def test_muse_extract_reply_without_log_is_empty():
-    assert muse.extract_reply('') == ''
-    assert muse.extract_reply('マーカーが無い本文') == ''
+def test_ai_extract_reply_while_thinking_is_empty():
+    body = f'{ai.MARK}\nAI モードが質問について考えています\n詳細'
+    assert ai.extract_reply(body) == ''
+
+
+def test_ai_extract_reply_without_body_is_empty():
+    assert ai.extract_reply('') == ''
+    assert ai.extract_reply('マーカーが無い本文') == ''
 
 def test_script_reply_can_be_short():
     assert review.reply_ready('短いが完成した返答', '短いが完成した返答', 3, False, 5)

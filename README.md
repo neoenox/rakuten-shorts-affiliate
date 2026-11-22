@@ -149,11 +149,11 @@ python scripts/build_hub.py --verify   # リンクが生きているか確認（
 
 ```powershell
 python scripts/script_review.py <slug>     # 台本を ChatGPT と Gemini が査読
-python scripts/muse_review.py <slug>       # 完成動画を Muse がレビュー（音声も聴ける）
+python scripts/google_ai_review.py <slug>  # 完成動画を Google AI モードがレビュー
 ```
 
 - レビュー用Chrome（--remote-debugging-port=9223、プロファイル .chrome-automation）が必要。
-- 返答は `shorts/<slug>/review_chatgpt.md` / `review_gemini.md` / `review_muse.md` に残す。
+- 返答は `shorts/<slug>/review_chatgpt.md` / `review_gemini.md` / `review_ai.md` に残す。
 - 指摘は出典を確かめてから反映する。手順と実例は [docs/REVIEWS.md](docs/REVIEWS.md)。
 
 ## 数字の見方
@@ -165,10 +165,10 @@ python scripts/muse_review.py <slug>       # 完成動画を Muse がレビュ�
 
 ```powershell
 python scripts/chrome_launch.py channel   # YouTube Studio・楽天（9222 / .chrome-gemienox）
-python scripts/chrome_launch.py review    # ChatGPT・Gemini・Muse（9223 / .chrome-automation）
+python scripts/chrome_launch.py review    # ChatGPT・Gemini・Google AI モード（9223 / .chrome-automation）
 ```
 
 - **最小化で開く**（2026-11-19 オーナー指示）。Chrome がセッション復元で最大化に戻る場合も、
   起動後に数回リトライして最小化する。
-- 既にそのポートが開いていれば何もしない。`upload_short.py` / `muse_review.py` / `script_review.py` は
+- 既にそのポートが開いていれば何もしない。`upload_short.py` / `google_ai_review.py` / `script_review.py` は
   ポートが閉じていれば自動でこのランチャーを呼ぶ。

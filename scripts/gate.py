@@ -274,9 +274,9 @@ def evaluate(slug, root=None, network=True, fingerprints=True, run_format=True):
                 failures.append(str(exc))
             else:
                 if want.get('video_framemd5_sha256') and got['video_framemd5_sha256'] != want['video_framemd5_sha256']:
-                    failures.append('映像の指紋が承認時と一致しません（Muse の再レビューが必要）')
+                    failures.append('映像の指紋が承認時と一致しません（Google AI モードの再レビューが必要）')
                 if want.get('audio_md5') and got['audio_md5'] != want['audio_md5']:
-                    failures.append('音声の指紋が承認時と一致しません（Muse の再レビューが必要）')
+                    failures.append('音声の指紋が承認時と一致しません（Google AI モードの再レビューが必要）')
         else:
             warnings.append('verification.json に指紋がありません（approve.py prepare で作成）')
 

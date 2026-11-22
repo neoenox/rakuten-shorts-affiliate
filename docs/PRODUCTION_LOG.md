@@ -1023,3 +1023,24 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
 - `publish.json` に `video_id` / `published_at` を記録。`status.py` で `docs/STATUS.md` を更新（11本公開・保留1本）。
 - `build_hub.py --verify` は11件すべて OK、`--deploy` で GitHub Pages に反映（commit: `hub: 公開11件を反映（2026-11-22）`）。
 - 本日の3作業はすべて実施済み。残件は楽天アフィリエイトの再ログイン（新規リンクを作る場合）のみ。
+
+### 追記（2026-11-22 15:10）: レビューを Google AI モードに変更（オーナー方針）
+
+- オーナー指示で **Muse レビューは行わない方針**に変更。`https://www.google.com/ai/`（AI モード）を採用。
+- 実動確認: 公開済み `tv_eco_mode` の MP4 を AI モードに添付してレビュー依頼を送信。
+  書き起こし・時刻つき指摘・出典リンク付きの回答が返った（生テキストは `out/ai_reply_tv_eco_mode.txt`）。
+- **AI モードの指摘**: 00:22〜00:30 で出典ラベルと素材側の文字「省エネモード＋電源オフの効果」が重なる（要修正）。
+  字幕位置（Shorts UI 被り）・冒頭の動き・「1.8〜3.0%」の読みは推奨事項。出典との整合と字幕一致は問題なし。
+  新旧レビューの差分として `docs/REVIEWS.md` に記録した。公開済み動画の修正方針はオーナー判断のため、今回は動画を触らない。
+- 実装: `scripts/google_ai_review.py` を追加し、`approve.py` のレビュー確認を `review_ai.md` に変更。
+  `muse_review.py` は削除。chrome_launch.py / gate.py / AGENTS.md / WORKFLOW.md / README.md / REVIEWS.md /
+  CHANNEL_SETUP.md / DECISIONS_PENDING.md / テストを更新（旧 review_muse.md は履歴として残す）。
+
+### 追記（2026-11-22 15:35）: Google AI モードの実装を検証
+
+- `scripts/google_ai_review.py` の実動: 動画添付→依頼文送信→返答抽出まで2回成功（返答 928〜1,993文字）。
+  生テキストは `out/ai_reply_tv_eco_mode.txt`、判定と指摘は `shorts/tv_eco_mode/review_ai.md` に保存。
+- その後の再実行では Google 側のファイルアップロードが 0% のまま進まず、送信ボタンが出ない状態になった。
+  Chrome 再起動・新規スレッドでも再現したため、**アップロードが始まらない場合は60秒で明示的に失敗する**ガードを追加。
+  レビュー自体は先の2回で確認済み。備考: 再実行時にまた 0% で止まるなら時間をおいて試す。
+- 現在の AI モードの指摘（要修正）は公開済み動画に対するもの。差し替えるかはオーナー判断のため、動画は触っていない。
