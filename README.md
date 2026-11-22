@@ -173,3 +173,11 @@ python scripts/chrome_launch.py review    # ChatGPT・Gemini・Google AI モー�
   起動後に数回リトライして最小化する。
 - 既にそのポートが開いていれば何もしない。`upload_short.py` / `google_ai_review.py` / `script_review.py` は
   ポートが閉じていれば自動でこのランチャーを呼ぶ。
+
+## 共通部品(yt-shorts-kit)— 版を固定している
+`scripts/render_short.py` と `scripts/gen_freevideo.py` は、ffmpeg探索・loudnorm・VOICEVOX・FreeVideo API を、共通部品 `yt-shorts-kit`(`ytkit`)から使う。公開リポジトリ: https://github.com/neoenox/yt-shorts-kit
+
+- **版は `requirements.txt` で `v0.2.0` に固定**している。理由: 音量や声の処理が変わると、承認した動画の映像・音声の指紋が変わり、承認が無効になるため。kit のフォルダー(`E:\yt-shorts-kit`)を直しても、このリポジトリには**反映されない**。
+- **専用の環境**: このリポジトリの `.venv` に、固定した版が入っている。実行は `.venv\Scripts\python.exe scripts/...`。新しい環境は、`uv venv --python 3.12 .venv` のあと `uv pip install --python .venv\Scripts\python.exe -r requirements.txt`。
+- **kit を更新するとき**: ①kit に新しいタグ(例 `v0.2.1`)を付けて push、②一時的な環境に新しい版を入れ、このリポジトリのテスト(`pytest`)を回す、③音の指紋が変わらないか(承認済みの動画を再描画して `gate.py` の指紋を比べる)を確かめる、④`requirements.txt` の版を書き換えて、`.venv` に入れ直す。
+- 規約ゲート(`gate.py`、`approve.py`)と描画は共通化していない。`gate.py` の `ffmpeg_bin()` は、ゲートに触れないため従来のまま残している。

@@ -29,17 +29,15 @@ import argparse
 import hashlib
 import json
 import math
-import os
 import re
-import shutil
 import subprocess
 import sys
 import wave
 from pathlib import Path
 
 import numpy as np
-import requests
 from PIL import Image, ImageDraw, ImageFont
+from ytkit import ffmpeg_tools as _ff, loudness as _ln, voicevox as _vv   # 共通部品（E:\yt-shorts-kit）
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 'http://127.0.0.1:50021'
@@ -75,20 +73,14 @@ def font(size, weight=600):
 
 
 def ffprobe_bin(ff):
-    if Path(ff).name.lower() == 'ffmpeg.exe':
-        p = Path(ff).with_name('ffprobe.exe')
-        if p.exists():
-            return str(p)
-    return shutil.which('ffprobe') or ff
+    return _ff.find_ffprobe(ff, default=ff)
 
 
 def ffmpeg_bin():
-    cands = [os.environ.get('FFMPEG'), shutil.which('ffmpeg'),
-             r'E:\rekishikaisetu-honnoji\tools\ffmpeg\bin\ffmpeg.exe']
-    for c in cands:
-        if c and Path(c).exists():
-            return str(c)
-    raise SystemExit('ffmpeg が見つからない。PATH か環境変数 FFMPEG で指定する')
+    try:
+        return _ff.find_ffmpeg(fallback=[r'E:\rekishikaisetu-honnoji\tools\ffmpeg\bin\ffmpeg.exe'])
+    except _ff.FFmpegNotFound:
+        raise SystemExit('ffmpeg が見つからない。PATH か環境変数 FFMPEG で指定する')
 
 
 def wrap(draw, text, f, maxw):
@@ -122,14 +114,10 @@ def load_render_conf(slug_dir):
 # ---------------------------------------------------------------- 音声
 
 def speaker_id(name, style='ノーマル'):
-    sp = requests.get(BASE + '/speakers', timeout=30).json()
-    for s in sp:
-        if s['name'] == name:
-            for st in s['styles']:
-                if st['name'] == style:
-                    return st['id']
-            return s['styles'][0]['id']
-    raise SystemExit('VOICEVOX に話者が居ない: %s（--speaker で指定）' % name)
+    try:
+        return _vv.speaker_id(name, style, base=BASE)
+    except _vv.SpeakerNotFound:
+        raise SystemExit('VOICEVOX に話者が居ない: %s（--speaker で指定）' % name)
 
 
 def synthesize(slug_dir, data, conf, speaker, speed):
@@ -143,21 +131,15 @@ def synthesize(slug_dir, data, conf, speaker, speed):
         pron = load_json(pp)
     out = []
     for i, sc in enumerate(data['scenes']):
-        text = sc['narration']
-        for k, v in sorted(pron.items(), key=lambda z: -len(z[0])):
-            text = text.replace(k, v)
-        q = requests.post(BASE + '/audio_query', params={'text': text, 'speaker': sid}, timeout=120).json()
-        q.update(speedScale=speed, intonationScale=1.0, prePhonemeLength=0.1, postPhonemeLength=0.3,
-                 outputSamplingRate=24000)
-        r = requests.post(BASE + '/synthesis', params={'speaker': sid}, json=q, timeout=180)
-        r.raise_for_status()
+        text = _vv.apply_pron(sc['narration'], pron)
+        wav_bytes, kana = _vv.synth(text, sid, speed, intonation=1.0, base=BASE)
         p = work / ('n_%02d.wav' % (i + 1))
-        p.write_bytes(r.content)
+        p.write_bytes(wav_bytes)
         with wave.open(str(p)) as w:
             dur = w.getnframes() / w.getframerate()
             rate = w.getframerate()
             pcm = np.frombuffer(w.readframes(w.getnframes()), np.int16)
-        out.append(dict(path=p, dur=dur, kana=q.get('kana', ''), rate=rate, pcm=pcm))
+        out.append(dict(path=p, dur=dur, kana=kana, rate=rate, pcm=pcm))
     return out
 
 
@@ -427,16 +409,7 @@ def render_frames(data, bases, kinds, conf, total, work, out_mp4, ff, clipf=None
 
 def measure_lufs(ff, path):
     """loudnorm の1パス目で、integrated loudness などの実測値を取り出す。"""
-    p = subprocess.run([ff, '-hide_banner', '-nostats', '-i', str(path), '-af',
-                        'loudnorm=I=-14:TP=-1.5:LRA=7:print_format=json', '-f', 'null', '-'],
-                       capture_output=True, text=True, errors='replace')
-    m = re.search(r'\{[^{}]*"input_i"[^{}]*\}', p.stderr, re.S)
-    if not m:
-        return None
-    try:
-        return json.loads(m.group(0))
-    except json.JSONDecodeError:
-        return None
+    return _ln.measure_loudnorm(path, ff, i=-14, tp=-1.5, lra=7)
 
 
 def mux(ff, raw_mp4, narration, total, final, bgm=None):
@@ -481,12 +454,7 @@ def mux(ff, raw_mp4, narration, total, final, bgm=None):
                        check=True)
 
     m = measure_lufs(ff, tmp)
-    if m:
-        af = ('loudnorm=I=-14:TP=-1.5:LRA=7:measured_I=%s:measured_TP=%s:measured_LRA=%s'
-              ':measured_thresh=%s:offset=%s:linear=true,alimiter=limit=0.79:level=disabled'
-              % (m['input_i'], m['input_tp'], m['input_lra'], m['input_thresh'], m['target_offset']))
-    else:
-        af = 'loudnorm=I=-14:TP=-1.5:LRA=7,alimiter=limit=0.79:level=disabled'
+    af = _ln.loudnorm_filter(m, -14, -1.5, 7, limiter='alimiter=limit=0.79:level=disabled')
     subprocess.run([ff, '-y', '-v', 'warning', '-i', str(raw_mp4), '-i', str(tmp), '-af', af,
                     '-map', '0:v', '-map', '1:a', '-t', '%.2f' % total,
                     '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',

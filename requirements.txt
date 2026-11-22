@@ -4,6 +4,10 @@ PyYAML>=6.0
 requests>=2.31
 websocket-client>=1.7
 
+# 共通部品 yt-shorts-kit（ffmpeg探索・loudnorm・VOICEVOX・FreeVideo）。**版を固定**している（音と声の処理が変わると、承認した動画の指紋が変わるため）。
+# 更新するときは、kit に新しいタグを付け、このリポジトリのテストを回してから、下の @v0.2.0 を書き換える。
+yt-shorts-kit @ git+https://github.com/neoenox/yt-shorts-kit@v0.2.0
+
 # 描画（render_short.py / make_branding.py）
 numpy>=1.24
 Pillow>=10.0

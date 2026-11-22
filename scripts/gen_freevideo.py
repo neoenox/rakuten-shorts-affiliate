@@ -21,71 +21,39 @@ import json
 import random
 import shutil
 import sys
-import time
-import urllib.request
 import uuid
 from pathlib import Path
 
-BASE = 'http://127.0.0.1:8188'
-DEFAULT_OUTPUT_ROOT = Path('E:/FreeVideo/runtime/ComfyUI/output')
+from ytkit import freevideo as _fv   # 共通部品（E:\yt-shorts-kit）
+
+BASE = _fv.DEFAULT_BASE
+DEFAULT_OUTPUT_ROOT = _fv.DEFAULT_OUTPUT_ROOT
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def post(path, body):
-    req = urllib.request.Request(BASE + path, data=json.dumps(body).encode(),
-                                 headers={'Content-Type': 'application/json'})
-    raw = urllib.request.urlopen(req, timeout=60).read()
-    return json.loads(raw) if raw.strip() else {}
+    return _fv.post(path, body, BASE)
 
 
 def get(path):
-    return json.loads(urllib.request.urlopen(BASE + path, timeout=30).read())
+    return _fv.get(path, BASE)
 
 
 def graph(text, w, h, seconds, seed):
-    """FreeVideo アプリが実行したのと同じ2ノード構成（/history の prompt で確認）。"""
-    return {
-        '1': {'class_type': 'FreeVideoGenerate', 'inputs': dict(
-            text=text, width=w, height=h, seconds=float(seconds), seed=seed,
-            two_pass=True, base_steps=8, refine_steps=3,
-            force_regenerate=False, preview=False,
-            refine_from='', continue_from='', frames=0,
-            first_frame_reference=False, voice_reference=False, hide_tail=False,
-            step_cache='none', upscale_factor='2', allow_empty_prompt=False,
-            media=['2', 0])},
-        '2': {'class_type': 'FreeVideoMedia', 'inputs': {'assets': '[]', 'audio_use': 'reference'}},
-    }
+    """FreeVideo アプリが実行したのと同じ2ノード構成（実装は ytkit.freevideo）。"""
+    return _fv.graph(text, w, h, seconds, seed)
 
 
 def queue_state():
-    q = get('/queue')
-    return len(q['queue_running']), len(q['queue_pending'])
+    return _fv.queue_state(BASE)
 
 
 def wait(pid, limit=3600, poll=15):
-    t0 = time.time()
-    while time.time() - t0 < limit:
-        try:
-            h = get('/history/' + pid)
-        except Exception:
-            h = {}
-        if pid in h:
-            st = h[pid].get('status', {}).get('status_str')
-            return h[pid], st
-        try:
-            get('/queue')
-        except Exception:
-            return None, 'server_down'
-        time.sleep(poll)
-    return None, 'timeout'
+    return _fv.wait(pid, BASE, limit, poll)
 
 
 def video_of(entry, output_root):
-    for node in entry.get('outputs', {}).values():
-        for item in node.get('images', []):
-            if str(item.get('filename', '')).endswith('.mp4'):
-                return output_root / item.get('subfolder', '') / item['filename']
-    return None
+    return _fv.video_of(entry, output_root)
 
 
 def resolve_seed(clip):
