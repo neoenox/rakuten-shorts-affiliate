@@ -1074,3 +1074,21 @@ YouTube のチャンネル画面を確認したところ、`kettle_heat` は **`
   全6クリップ生成・AI版動画の描画・公開は未実施。
 - 検証後、8188 は停止（HTTP 応答なし）。残りのクリップ生成は再起動後に要判断。
 - 公開物・承認・指紋・hub は変更していない。
+
+### 追記（2026-11-22 20:52）: AI版の試作動画を最後まで作成
+
+- 19:41 の検証後、ComfyUI のバックエンドを直接起動（launcher の GUI は使わず、
+  `launch.json` 記載のコマンドを再利用）。8188 の応答を確認した。
+- `cache/story_proto_tv/gen_ai_clips.py` で残り scene2〜6 を生成（各 6.58〜9.43秒、
+  シードは `docs/assets/story_proto_prompts.json` の固定値）。6クリップすべて
+  `shorts/story_proto_tv/art/clip_scene*.mp4` に保存。
+- `cache/story_proto_tv/build_prototype_ai.py` で6シーンを描画し、公開版から抽出した
+  ナレーション＋BGMを再mux。`out/prototype/story_proto_tv_ai.mp4`
+  （1080x1920 / 30fps / 37.37秒 / H.264＋AAC / 15.0MB）が完成。
+- フレーム4点（1.5 / 12 / 24 / 35秒）を目視（`docs/assets/story_proto_ai_frames.jpg`）:
+  PR・「イメージ（AI生成）」・タイトル・大テロップ・出典・字幕は可読。一方、人物の画風は
+  シーンごとに写実→3D風→フラットと変化し、参照イラストが壁の額として描き込まれる
+  シーンもあった（文字・ロゴ・商品・実在人物はなし）。
+- **判定**: I2VA でもクリップ間の同一人物は保てない。人物中心の比較実験は静止イラスト版
+  （`out/prototype/story_proto_tv.mp4`）をベースにする。AI版は比較用の下書きで公開しない。
+- 公開物・承認・指紋・hub は変更していない。VOICEVOX は停止中のため音声は流用のまま。
