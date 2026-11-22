@@ -118,6 +118,12 @@ AI生成でも出典ラベルは全編で維持する。
   フレーム4点（`docs/assets/story_proto_real_frames.jpg`）で同一人物・同一部屋・配色が保たれ、
   PR・「イメージ（AI生成）」・大テロップ・出典・字幕は可読。画風のブレは解消した。
   プロンプト全文は `docs/assets/story_proto_real_prompts.json`。比較用の下書きで公開しない。
+- **商品テロップ版（オーナー指摘）**: 写実版の最終シーンに商品名・価格・理由を追加した。
+  価格は商品ページの structured data で 5,280円（2026-11-22確認、出典:
+  `https://item.rakuten.co.jp/sanwadirect/700-tap071/`）。画面には商品画像を使わず、
+  「ワットモニター付き電源タップ／5,280円／消費電力を表示・個別スイッチで電源オフを確認」を
+  テロップで出す。成果物は `out/prototype/story_proto_tv_real_product.mp4`、
+  確認フレームは `docs/assets/story_proto_real_product_frame.jpg`。PR・種別ラベル・出典・字幕は維持。
 
 ## 参照
 
