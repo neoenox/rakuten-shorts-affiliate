@@ -83,8 +83,9 @@ def test_merge_evidence_keeps_claim_ids_from_result():
 
 def test_pr_and_type_label_stay_opaque_during_caption_fade(monkeypatch):
     draw_calls.clear()
-    monkeypatch.setattr(R.ImageDraw, 'Draw', FakeDraw)
-    monkeypatch.setattr(R, 'font', lambda size, weight=600: object())
+    # Y imported render_short before the test reloads R, so patch Y.R.
+    monkeypatch.setattr(Y.R.ImageDraw, 'Draw', FakeDraw)
+    monkeypatch.setattr(Y.R, 'font', lambda size, weight=600: object())
     data = Y.spec_to_data(spec())
     Y.merge_evidence(data, {'scenes': [{'claim_ids': [], 'visual': ''}]})
 
