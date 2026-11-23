@@ -6,8 +6,8 @@
     "資源エネルギー庁の節電Tips（テレビ）は、見ている時は『省エネモード』に設定して輝度（画面の明るさ）を下げれば節電になり、見ていない時は電源をオフにすることで、合わせて1.8％〜3.0％の節電になると記載している。 — https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
     "同ページは、節電効果（消費電力の削減率）が19時ごろの家庭の電力使用量に対する概算値で、地域・時間帯によって変動すると明記している。 — https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html"
   ],
-  "pron": "shorts/story_proto_tv_voice/pron.json",
-  "art": "assets/story_proto_tv_voice/art.png",
+  "pron": "shorts/story_proto_tv_fresh/pron.json",
+  "art": "assets/story_proto_tv_fresh/art.png",
   "scenes": [
     {
       "text": "テレビの省エネモード、効くの？",
@@ -40,9 +40,9 @@
       "art": "cache/story_proto_tv_voice_bases/blank_05.png"
     },
     {
-      "text": "見ない時も電気を使う。ワットモニター付き電源タップで、その無駄が見えます。",
+      "text": "見ない時も電気を使う。ワットモニター付き電源タップで無駄が見えます。詳しくは説明欄に。",
       "big": "設定を確認",
-      "sub": "無駄な電力を見える化",
+      "sub": "",
       "art": "cache/story_proto_tv_voice_bases/blank_06.png"
     }
   ],
