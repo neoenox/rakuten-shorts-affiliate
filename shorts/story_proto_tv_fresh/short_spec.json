@@ -13,7 +13,10 @@
       "text": "テレビの省エネモード、効くの？",
       "big": "省エネモードは効く？",
       "sub": "",
-      "art": "cache/story_proto_tv_voice_bases/blank_01.png"
+      "art": "cache/story_proto_tv_voice_bases/blank_01.png",
+      "caption": [
+        "電気代、本当に下がる？"
+      ]
     },
     {
       "text": "資源エネルギー庁は、見る時は省エネモード、見ない時は電源オフ、と書いています。",
@@ -31,19 +34,28 @@
       "text": "見ていない時は電源オフ。つけたままより、確実に電気を使いません。",
       "big": "つけたままは無駄",
       "sub": "電源オフ",
-      "art": "cache/story_proto_tv_voice_bases/blank_04.png"
+      "art": "cache/story_proto_tv_voice_bases/blank_04.png",
+      "caption": [
+        "見ていない時は電源オフ",
+        "つけたままは無駄"
+      ]
     },
     {
-      "text": "効果は1.8〜3.0%。19時ごろの家庭の使用量が基準。地域や時間帯で変わります。",
+      "text": "省エネモードと電源オフで1.8から3.0パーセント。19時ごろの家庭使用量が基準。",
       "big": "1.8〜3.0%",
       "sub": "19時ごろ・概算・地域差",
-      "art": "cache/story_proto_tv_voice_bases/blank_05.png"
+      "art": "cache/story_proto_tv_voice_bases/blank_05.png",
+      "caption": [
+        "家庭使用量の1.8〜3.0%",
+        "19時ごろ・地域差"
+      ]
     },
     {
       "text": "見ない時も電気を使う。ワットモニター付き電源タップで無駄が見えます。詳しくは説明欄に。",
       "big": "設定を確認",
       "sub": "",
-      "art": "cache/story_proto_tv_voice_bases/blank_06.png"
+      "art": "cache/story_proto_tv_voice_bases/blank_06.png",
+      "claim_ids": []
     }
   ],
   "cta": false,

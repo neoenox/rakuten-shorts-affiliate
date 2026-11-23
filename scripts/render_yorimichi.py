@@ -151,8 +151,8 @@ def draw_frame(im, sc, data, conf, scene_i, t, start, dur, kind, caption_alpha=1
             lines = R.wrap(d, cap, fcap, 880)
         lh = int(fcap.size * 1.35)
         h = len(lines) * lh + 42
-        y0 = 1540 - h
-        d.rounded_rectangle((50, y0, 960, 1540), 16, fill=faded((7, 24, 36), 225))
+        y0 = 1410 - h
+        d.rounded_rectangle((50, y0, 960, 1410), 16, fill=faded((7, 24, 36), 225))
         y = y0 + 21 + lh // 2
         for line in lines:
             d.text((505, y), line, font=fcap, fill=faded((255, 252, 239), 255), anchor='mm')

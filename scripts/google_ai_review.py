@@ -26,7 +26,7 @@ MARK = '問題点は時刻つきで具体的にお願いします。'
 
 TEMPLATE = (
     'この動画のレビューをお願いします。添付は、{topic}のYouTube Shorts（約{sec}秒・縦1080x1920）です。'
-    '映像は自作のイラスト・模式図で、商品画像は使っていません。'
+    '映像はAI生成の写実風イメージ（共通キャラクター）で、商品画像や模式図は使っていません。'
     '楽天アフィリエイトの広告を含み、PR表記を全編に入れています。{note}'
     'まず、ナレーションを文字に起こしてください（台本と照合します）。'
     '見てほしい点は、(1)字幕と音声の一致、(2)読み間違い・音割れ・無音、(3)文字の重なり・はみ出し・見切れ、'
@@ -169,6 +169,8 @@ def main():
     # 直前の添付が残ることがある）。
     c.call('Page.navigate', {'url': AI_URL}, session=sid)
     time.sleep(6)
+    c.click_aria(sid, '新しいスレッド')
+    time.sleep(3)
     if not c.click_aria(sid, TOOLS):
         sys.exit('ファイルとツールのボタンが見つからない（ログインを確認）')
     time.sleep(1)
@@ -189,14 +191,11 @@ def main():
         time.sleep(2)
     # アップロードが 0% のまま進まないことがある（Google 側の一時的な不調）。
     # このまま待つと送信ボタンが出ないため、早めに失敗を返す。
-    for _ in range(30):
-        progress = c.ev(sid, """(() => { const e = document.querySelector('[data-progressvalue]');
-          return e ? e.getAttribute('data-progressvalue') : null; })()""")
-        if progress is None or progress != '0':
-            break
-        time.sleep(2)
-    else:
-        sys.exit('ファイルのアップロードが開始されませんでした（Google AI モードを再読み込みして再実行）')
+    # 添付チップが出ていれば取り込み済み。progress=0 の要素が残っていても
+    # チップが表示されている場合は送信できるため、チップの有無を優先する。
+    chip = clip.stem[:8] in (c.ev(sid, 'document.body.innerText') or '')
+    if not chip:
+        sys.exit('ファイルが添付されませんでした')
     time.sleep(3)
 
     p = c.composer_point(sid)
@@ -210,12 +209,19 @@ def main():
     if not got:
         sys.exit('質問が入力されなかった')
     # 実マウス相当で押す（JS の .click() では送信されないことがある）
-    sp = c.ev(sid, """(() => { const b = [...document.querySelectorAll('button')]
-      .find(x => x.getAttribute('aria-label') === '送信' && x.getBoundingClientRect().width > 0);
-      if (!b) return null; const r = b.getBoundingClientRect();
-      return {x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2),
-              d: b.hasAttribute('disabled')}; })()""")
-    if not sp or sp.get('d'):
+    for _ in range(120):
+        sp = c.ev(sid, """(() => { const b = [...document.querySelectorAll('button')]
+          .find(x => x.getBoundingClientRect().width > 0 &&
+            (x.getAttribute('aria-label') === '送信' ||
+             /(^|\\s)OEueve(\\s|$)/.test((x.className||'').toString()) ||
+             getComputedStyle(x).backgroundColor === 'rgb(51, 110, 243)'));
+          if (!b) return null; const r = b.getBoundingClientRect();
+          return {x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2),
+                  d: b.disabled || b.getAttribute('aria-disabled') === 'true'}; })()""")
+        if sp and not sp.get('d'):
+            break
+        time.sleep(2)
+    else:
         sys.exit('送信ボタンが押せない')
     c.rclick(sid, sp['x'], sp['y'])
     print('送信した。返答を待つ')
