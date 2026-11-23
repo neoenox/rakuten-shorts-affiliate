@@ -3,6 +3,7 @@ import importlib.util
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 from PIL import Image
 
@@ -85,7 +86,7 @@ def test_pr_and_type_label_stay_opaque_during_caption_fade(monkeypatch):
     draw_calls.clear()
     # Y imported render_short before the test reloads R, so patch Y.R.
     monkeypatch.setattr(Y.R.ImageDraw, 'Draw', FakeDraw)
-    monkeypatch.setattr(Y.R, 'font', lambda size, weight=600: object())
+    monkeypatch.setattr(Y.R, 'font', lambda size, weight=600: SimpleNamespace(size=size))
     data = Y.spec_to_data(spec())
     Y.merge_evidence(data, {'scenes': [{'claim_ids': [], 'visual': ''}]})
 
