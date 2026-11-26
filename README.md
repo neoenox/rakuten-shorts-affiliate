@@ -76,6 +76,7 @@ python scripts/gate.py <slug>                      # 承認・成果物・指紋
 - 「PR」・「イメージ（AI生成）」・「模式図」・出典は描画時に焼き込む。詳しくは [`docs/RENDER_PIPELINE.md`](docs/RENDER_PIPELINE.md)。
 - 背景の動画クリップは FreeVideo（ローカル ComfyUI）で作る: `python scripts/gen_freevideo.py shorts/<slug>/clips.json --slug <slug>`。
 - BGM は `shorts/<slug>/render.json` の `bgm` で指定（クレジットは説明欄に自動で入る）。
+- 人物中心のストーリー形式は試作中: [`docs/NARRATIVE_FORMAT.md`](docs/NARRATIVE_FORMAT.md)（共通キャラは `scripts/story_person.py`）。
 
 ## アップロード（YouTube Studio）
 
@@ -149,12 +150,36 @@ python scripts/build_hub.py --verify   # リンクが生きているか確認（
 
 ```powershell
 python scripts/script_review.py <slug>     # 台本を ChatGPT と Gemini が査読
-python scripts/muse_review.py <slug>       # 完成動画を Muse がレビュー（音声も聴ける）
+python scripts/google_ai_review.py <slug>  # 完成動画を Google AI モードがレビュー
 ```
 
 - レビュー用Chrome（--remote-debugging-port=9223、プロファイル .chrome-automation）が必要。
-- 返答は `shorts/<slug>/review_chatgpt.md` / `review_gemini.md` / `review_muse.md` に残す。
+- 返答は `shorts/<slug>/review_chatgpt.md` / `review_gemini.md` / `review_ai.md` に残す。
 - 指摘は出典を確かめてから反映する。手順と実例は [docs/REVIEWS.md](docs/REVIEWS.md)。
+
+### 共通部品を使うレビュー（ChatGPT ＋ Google AI）
+
+`shorts/<slug>/result.json` を `ytkit.review` の共通部品で査読する。既存の `script_review.py`（Gemini）とは別の入口で、ChatGPT と Google AI に同時に送る。
+
+```powershell
+python scripts/script_review_common.py <slug>                 # 両方に並列送信
+python scripts/script_review_common.py <slug> --target chatgpt
+python scripts/script_review_common.py <slug> --dry-run       # 依頼文だけ表示
+```
+
+- 接続先は `REVIEW_CDP_PORT`（既定 9222）。このプロジェクトの既存レビューは 9223 を使うので、同じ Chrome を使うなら `REVIEW_CDP_PORT=9223` を設定する。
+- 返答は `shorts/<slug>/review_chatgpt_<slug>.md` / `review_google_<slug>.md` に保存される。
+- レビュー用 Chrome で両サイトにログイン済みであること。Google AI は完了まで1〜3分かかる。
+- 全プロジェクトの成果物をまとめるコマンドは [yt-shorts-kit の README](https://github.com/neoenox/yt-shorts-kit) の「台本レビュー」を参照。
+
+完成動画を Google AI でレビューする場合は次を使う。
+
+```powershell
+python scripts/script_review_video_common.py out/short_x.mp4 --slug x
+python scripts/script_review_video_common.py out/short_x.mp4 --dry-run
+```
+
+返答は `out/review_google_video_<slug>.md` に保存される。
 
 ## 数字の見方
 
@@ -165,10 +190,18 @@ python scripts/muse_review.py <slug>       # 完成動画を Muse がレビュ�
 
 ```powershell
 python scripts/chrome_launch.py channel   # YouTube Studio・楽天（9222 / .chrome-gemienox）
-python scripts/chrome_launch.py review    # ChatGPT・Gemini・Muse（9223 / .chrome-automation）
+python scripts/chrome_launch.py review    # ChatGPT・Gemini・Google AI モード（9223 / .chrome-automation）
 ```
 
 - **最小化で開く**（2026-11-19 オーナー指示）。Chrome がセッション復元で最大化に戻る場合も、
   起動後に数回リトライして最小化する。
-- 既にそのポートが開いていれば何もしない。`upload_short.py` / `muse_review.py` / `script_review.py` は
+- 既にそのポートが開いていれば何もしない。`upload_short.py` / `google_ai_review.py` / `script_review.py` は
   ポートが閉じていれば自動でこのランチャーを呼ぶ。
+
+## 共通部品(yt-shorts-kit)— 版を固定している
+`scripts/render_short.py` と `scripts/gen_freevideo.py` は、ffmpeg探索・loudnorm・VOICEVOX・FreeVideo API を、共通部品 `yt-shorts-kit`(`ytkit`)から使う。公開リポジトリ: https://github.com/neoenox/yt-shorts-kit
+
+- **版は `requirements.txt` で `v0.2.0` に固定**している。理由: 音量や声の処理が変わると、承認した動画の映像・音声の指紋が変わり、承認が無効になるため。kit のフォルダー(`E:\yt-shorts-kit`)を直しても、このリポジトリには**反映されない**。
+- **専用の環境**: このリポジトリの `.venv` に、固定した版が入っている。実行は `.venv\Scripts\python.exe scripts/...`。新しい環境は、`uv venv --python 3.12 .venv` のあと `uv pip install --python .venv\Scripts\python.exe -r requirements.txt`。
+- **kit を更新するとき**: ①kit に新しいタグ(例 `v0.2.1`)を付けて push、②一時的な環境に新しい版を入れ、このリポジトリのテスト(`pytest`)を回す、③音の指紋が変わらないか(承認済みの動画を再描画して `gate.py` の指紋を比べる)を確かめる、④`requirements.txt` の版を書き換えて、`.venv` に入れ直す。
+- 規約ゲート(`gate.py`、`approve.py`)と描画は共通化していない。`gate.py` の `ffmpeg_bin()` は、ゲートに触れないため従来のまま残している。

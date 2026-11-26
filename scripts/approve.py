@@ -109,7 +109,7 @@ def prepare(slug, flags, resolves, limitations):
     draft_thumb = draft_dir / (stem + '_thumb.jpg')
     draft_desc = draft_dir / (stem + '_description.md')
     draft_comment = draft_dir / (stem + '_fixed_comment.md')
-    review_path = sd / 'review_muse.md'
+    review_path = sd / 'review_ai.md'
 
     failures = []
     data = load(result_path)
@@ -207,7 +207,7 @@ def prepare(slug, flags, resolves, limitations):
     if not fmt['passed']:
         failures.append('形式検査が ERROR: %s' % (' / '.join(fmt['errors'][:3]) or 'check 失敗'))
 
-    # --- Muse レビュー
+    # --- Google AI モードのレビュー
     review = {'file': review_path.name, 'exists': review_path.is_file(), 'passed': False}
     if review_path.is_file():
         review['mtime'] = datetime.fromtimestamp(review_path.stat().st_mtime).astimezone().isoformat(timespec='seconds')
@@ -219,7 +219,7 @@ def prepare(slug, flags, resolves, limitations):
             review['newer_than_draft'] = False
         review['passed'] = bool(review['verdict']) and review['newer_than_draft']
     if not review['passed']:
-        failures.append('Muse レビュー: review_muse.md が無い／draft より古い／「公開可」が無い')
+        failures.append('Google AI モード: review_ai.md が無い／draft より古い／「公開可」が無い')
 
     # --- 人の判断
     manual = {}

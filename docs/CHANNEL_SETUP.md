@@ -33,7 +33,7 @@ python scripts/chrome_launch.py channel
 
 - **Chrome は最小化で起動する**（2026-11-19 オーナー指示）。`chrome_launch.py` は
   `cmd /c start "" /min` で起動したあと、セッション復元で最大化に戻るのを数回リトライして最小化する。
-- `upload_short.py` と `muse_review.py` は、ポートが閉じていれば自分でこのランチャーを呼ぶ。
+- `upload_short.py` と `google_ai_review.py` は、ポートが閉じていれば自分でこのランチャーを呼ぶ。
 - 手で起動する場合（トラブル時のみ）:
 
 ```powershell

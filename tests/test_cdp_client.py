@@ -156,7 +156,7 @@ def test_open_creates_tab_when_no_match(fake_cdp):
     ('cdp_page', lambda m: m.Client(), 30, None),
     ('cdp_raw', lambda m: m.Raw(), 90, 90),
     ('rakuten_add_site', lambda m: m.C(), 120, 90),
-    ('muse_review', lambda m: m.C(), 180, 120),
+    ('google_ai_review', lambda m: m.C(), 180, 120),
     ('script_review', lambda m: m.C(), 180, 120),
     ('upload_short', lambda m: m.CDP(), 180, 120),
 ])

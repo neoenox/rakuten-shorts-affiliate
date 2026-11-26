@@ -62,7 +62,7 @@ brief.yaml（事実と出典）
 | 5 | 商品の一致 | `product_name` と商品ページの名称・型番が対応（人が確認） |
 | 6 | リンクの生存 | 301 → `item.rakuten.co.jp`、`scid=af_pc_etc` 付き |
 | 7 | 表記 | 全編PR、AI／イラスト／模式図ラベル、説明欄冒頭PR、固定コメントPR |
-| 8 | レビュー | `review_muse.md` が draft MP4 より新しく、「公開可」がある |
+| 8 | レビュー | `review_ai.md`（Google AI モード）が draft MP4 より新しく、「公開可」がある |
 | 9 | 形式 | `shorts_standard.py check` が ERROR 0 |
 | 10 | 残件 | `needs_research` が空。留保は `limitations` に記録 |
 
@@ -79,7 +79,7 @@ brief.yaml（事実と出典）
   "approved_by": "owner",
   "expires_at": "2026-12-03",
   "result_sha256": "…",
-  "review": {"file": "review_muse.md", "mtime": "…", "verdict": "このまま公開可"},
+  "review": {"file": "review_ai.md", "mtime": "…", "verdict": "このまま公開可"},
   "artifacts": {"file": "out/draft/<slug>_DRAFT.mp4", "video_framemd5_sha256": "…", "audio_md5": "…"},
   "checks": {"sources": [ … ], "product": { … }, "link": { … }, "presentation": { … },
              "format": { … }, "frames": { … }},
@@ -89,7 +89,7 @@ brief.yaml（事実と出典）
 }
 ```
 
-- `artifacts` は **Muse が見た draft** の指紋。再描画後の `out/` と一致しなければ公開を止める（メタデータ差を無視するため、映像は framemd5 レポートの SHA-256、音声は md5）。
+- `artifacts` は **Google AI モードが見た draft** の指紋。再描画後の `out/` と一致しなければ公開を止める（メタデータ差を無視するため、映像は framemd5 レポートの SHA-256、音声は md5）。
 - `prepare` は公開週ごとに実行し直す（出典は変わり得るため）。承認だけを先にまとめて取らない。
 - 人が判断した項目は `checks` に `manual: true` と確認内容を残す。
 

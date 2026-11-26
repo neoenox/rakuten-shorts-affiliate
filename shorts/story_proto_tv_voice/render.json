@@ -1,0 +1,32 @@
+{
+  "speaker": "青山龍星",
+  "style": "ノーマル",
+  "speed": 0.96,
+  "art_types": {
+    "1": "ai",
+    "2": "ai",
+    "3": "ai",
+    "4": "ai",
+    "5": "ai",
+    "6": "ai"
+  },
+  "source_labels": {
+    "c1": "資源エネルギー庁「エネこれ」",
+    "c2": "資源エネルギー庁「エネこれ」"
+  },
+  "product_name": "ワットモニター付き電源タップ 6個口 1.5m（サンワダイレクト 700-TAP071）",
+  "affiliate": {
+    "label": "ワットモニター付き電源タップ（楽天市場・PR）",
+    "url": "https://hb.afl.rakuten.co.jp/ichiba/59b85384.a4bc37ea.59b85385.fcc78faf/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fsanwadirect%2F700-tap071%2F"
+  },
+  "hashtags": "#Shorts #節電 #電気代 #テレビ #暮らし",
+  "description_note": "出典は資源エネルギー庁『エネこれ』。節電効果は19時ごろの家庭の電力使用量に対する概算で、地域・時間帯によって変わります。動画内では商品を映していません。",
+  "clips": {
+    "1": "scene1",
+    "2": "scene2",
+    "3": "scene3",
+    "4": "scene4",
+    "5": "scene5",
+    "6": "scene6"
+  }
+}

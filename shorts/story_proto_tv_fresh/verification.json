@@ -1,0 +1,79 @@
+{
+  "slug": "story_proto_tv_fresh",
+  "status": "approved",
+  "checked_at": "2026-11-23T13:15:21+09:00",
+  "approved_at": "2026-11-23T13:15:23+09:00",
+  "approved_by": "owner",
+  "expires_at": "2026-12-07",
+  "result_sha256": "d31598f0b358dbeef2a9488605239b641e903a5e9a5686cc599fc935d81dbea7",
+  "review": {
+    "file": "review_ai.md",
+    "exists": true,
+    "passed": true,
+    "mtime": "2026-11-23T13:15:07+09:00",
+    "verdict": "- 判定: 公開可",
+    "newer_than_draft": true
+  },
+  "artifacts": {
+    "file": "out\\draft\\story_proto_tv_fresh_DRAFT.mp4",
+    "video_framemd5_sha256": "5d57b5cf94dfaba355aea71e5a28c99b5c767a1c5b7b0ff0e8c2de28ea690426",
+    "audio_md5": "48ffe320358fed993431af318a6e7297"
+  },
+  "checks": {
+    "sources": [
+      {
+        "claim_id": "c1",
+        "url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+        "http_status": 200,
+        "numbers_total": 2,
+        "numbers_missing": [],
+        "numbers_found": true
+      },
+      {
+        "claim_id": "c2",
+        "url": "https://www.enecho.meti.go.jp/about/special/johoteikyo/setsuden_tips.html",
+        "http_status": 200,
+        "numbers_total": 1,
+        "numbers_missing": [],
+        "numbers_found": true
+      }
+    ],
+    "product": {
+      "name_in_config": "ワットモニター付き電源タップ 6個口 1.5m（サンワダイレクト 700-TAP071）",
+      "manual": true,
+      "passed": true,
+      "http_status": 200,
+      "title": "【楽天市場】【TVで紹介されました】【楽天1位受賞】電源タップ 個別 スイッチ ワットモニター ワットメーター ワットチェッカー 節電 消費電力計 検電器 6個口 1.5m 個別スイッチ 雷ガード マグネット 延長コード コンセント タップ 1m：サンワダイレクト楽天市場店",
+      "price": 5280
+    },
+    "link": {
+      "final": "https://item.rakuten.co.jp/sanwadirect/700-tap071/?scid=af_pc_etc&sc2id=af_101_0_0",
+      "passed": true
+    },
+    "presentation": {
+      "failures": []
+    },
+    "format": {
+      "passed": true,
+      "errors": []
+    },
+    "frames": {
+      "manual": true,
+      "label": "フレーム3点の目視",
+      "passed": true
+    },
+    "conditions": {
+      "manual": true,
+      "label": "試算条件の一致",
+      "passed": true
+    },
+    "expressions": {
+      "manual": true,
+      "label": "断定・効能表現の排除",
+      "passed": true
+    }
+  },
+  "failures": [],
+  "resolved_needs": [],
+  "limitations": []
+}
