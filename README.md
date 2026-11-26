@@ -172,6 +172,15 @@ python scripts/script_review_common.py <slug> --dry-run       # 依頼文だけ�
 - レビュー用 Chrome で両サイトにログイン済みであること。Google AI は完了まで1〜3分かかる。
 - 全プロジェクトの成果物をまとめるコマンドは [yt-shorts-kit の README](https://github.com/neoenox/yt-shorts-kit) の「台本レビュー」を参照。
 
+完成動画を Google AI でレビューする場合は次を使う。
+
+```powershell
+python scripts/script_review_video_common.py out/short_x.mp4 --slug x
+python scripts/script_review_video_common.py out/short_x.mp4 --dry-run
+```
+
+返答は `out/review_google_video_<slug>.md` に保存される。
+
 ## 数字の見方
 
 - チャンネルの実測は [docs/ANALYTICS.md](docs/ANALYTICS.md) に日付つきで追記する。
