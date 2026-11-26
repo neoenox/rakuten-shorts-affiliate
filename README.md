@@ -157,6 +157,21 @@ python scripts/google_ai_review.py <slug>  # 完成動画を Google AI モード
 - 返答は `shorts/<slug>/review_chatgpt.md` / `review_gemini.md` / `review_ai.md` に残す。
 - 指摘は出典を確かめてから反映する。手順と実例は [docs/REVIEWS.md](docs/REVIEWS.md)。
 
+### 共通部品を使うレビュー（ChatGPT ＋ Google AI）
+
+`shorts/<slug>/result.json` を `ytkit.review` の共通部品で査読する。既存の `script_review.py`（Gemini）とは別の入口で、ChatGPT と Google AI に同時に送る。
+
+```powershell
+python scripts/script_review_common.py <slug>                 # 両方に並列送信
+python scripts/script_review_common.py <slug> --target chatgpt
+python scripts/script_review_common.py <slug> --dry-run       # 依頼文だけ表示
+```
+
+- 接続先は `REVIEW_CDP_PORT`（既定 9222）。このプロジェクトの既存レビューは 9223 を使うので、同じ Chrome を使うなら `REVIEW_CDP_PORT=9223` を設定する。
+- 返答は `shorts/<slug>/review_chatgpt_<slug>.md` / `review_google_<slug>.md` に保存される。
+- レビュー用 Chrome で両サイトにログイン済みであること。Google AI は完了まで1〜3分かかる。
+- 全プロジェクトの成果物をまとめるコマンドは [yt-shorts-kit の README](https://github.com/neoenox/yt-shorts-kit) の「台本レビュー」を参照。
+
 ## 数字の見方
 
 - チャンネルの実測は [docs/ANALYTICS.md](docs/ANALYTICS.md) に日付つきで追記する。
