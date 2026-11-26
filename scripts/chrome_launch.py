@@ -9,6 +9,7 @@ usage:
 - 起動待ちは「CDP のポートが開いたか」で判定する（唯一の確実な合図）。
 """
 import argparse
+import ntpath
 import os
 import socket
 import subprocess
@@ -35,8 +36,8 @@ PROFILES = {
 
 
 def expand_user_data_dir(value):
-    """argv で渡すパスの %USERPROFILE% を展開する（PowerShell に依存しない）。"""
-    expanded = os.path.expandvars(value)
+    """argv で渡す Windows パスの環境変数を展開する（PowerShell に依存しない）。"""
+    expanded = ntpath.expandvars(value)
     if expanded == value and value.startswith('%USERPROFILE%'):
         expanded = str(Path.home()) + value[len('%USERPROFILE%'):]
     return expanded
