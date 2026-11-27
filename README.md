@@ -181,6 +181,14 @@ python scripts/script_review_video_common.py out/short_x.mp4 --dry-run
 
 返答は `out/review_google_video_<slug>.md` に保存される。
 
+Ask Studio に質問する場合は次を使う。
+
+```powershell
+python scripts/ask_studio_common.py "今月の傾向を教えて" --slug growth
+```
+
+返答は `out/ask_studio_<slug>.md` に保存される。
+
 ## 数字の見方
 
 - チャンネルの実測は [docs/ANALYTICS.md](docs/ANALYTICS.md) に日付つきで追記する。
